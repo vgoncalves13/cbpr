@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Victor Hugo Alves">
 
     <title>CBPR - @yield('title')</title>
 
@@ -28,6 +28,19 @@
             }
         }
     </style>
+
+    <!-- Scripts -->
+
+    <script src="{{ asset('js/jquery.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/InputMask/jquery.inputmask.bundle.min.js') }}" defer></script>
+    <script src="{{ asset('js/InputMask/inputmask/inputmask.min.js') }}" defer></script>
+    <script src="{{ asset('js/InputMask/inputmask/inputmask.extensions.min.js') }}" defer></script>
+    <script src="{{ asset('js/InputMask/inputmask/inputmask.numeric.extensions.min.js') }}" defer></script>
+    <script src="{{ asset('js/InputMask/inputmask/inputmask.date.extensions.min.js') }}" defer></script>
+    <script src="{{ asset('js/InputMask/inputmask/inputmask.phone.extensions.min.js') }}" defer></script>
+    <script src="{{ asset('js/InputMask/inputmask/jquery.inputmask.min.js') }}" defer></script>
+    <script src="{{ asset('js/InputMask/inputmask/phone-codes/phone.min.js') }}" defer></script>
 
 </head>
 
@@ -94,13 +107,14 @@
                 </div>
             @endif
             @yield('content')
+            @yield('scripts')
         </div>
     </div>
 </div>
 
 
-<!-- Scripts -->
-<script src="{{ asset('js/app.js') }}" defer></script>
+
+
 
 </body>
 

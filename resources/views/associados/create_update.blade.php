@@ -13,12 +13,42 @@
 @section('title', 'Editando usuário')
 @endif
 @section('content')
-        <form action="
+        <form novalidate action="
                     @if(    Route::currentRouteName()==='associados.create'){{route('associados.store')}}
                     @elseif(Route::currentRouteName()==='associados.edit'){{route('associados.update',$associado->id)}}
                     @endif"
               method="POST">
             {{csrf_field()}}
+
+
+            <script type="text/javascript">
+                window.onload = function() {
+
+                    $("#cpf").inputmask({
+                        mask: "999.999.999-99",
+                        removeMaskOnSubmit: true
+                    });  // cpf"
+
+                    $("#data_nascimento").inputmask("datetime", { "inputFormat": "dd/mm/yyyy" });
+                    $("#admissao").inputmask("datetime", { "inputFormat": "dd/mm/yyyy" });
+
+                    $("#telefone_casa").inputmask({
+                        mask:"(99)9999-9999",
+                        removeMaskOnSubmit:true});  //telefone casa
+                    $("#telefone_trabalho").inputmask({
+                        mask:"(99)9999-9999",
+                        removeMaskOnSubmit:true});  //telefone trabalho
+                    $("#telefone_celular").inputmask({
+                        mask:"(99)9999[9]-9999",
+                        removeMaskOnSubmit:true
+                    });
+
+                    $('#dependente_cpf').inputmask('999.999.999-99', { removeMaskOnSubmit : true});
+
+                }
+            </script>
+
+
             @if(isset($associado->id))<input name="_method" type="hidden" value="PUT">@endif
             <div class="form-group"> <!-- Matrícula -->
                 <label for="matricula" class="control-label">Matrícula/Registro</label>
@@ -64,7 +94,7 @@
                 </div>
                 <div class="form-group col-md-4"> <!-- Admissão -->
                     <label for="admissao" class="control-label">Admissão</label>
-                    <input type="text" class="form-control" id="admissao" name="admissao" placeholder=""
+                    <input type="text" class="form-control" id="admissao"  name="admissao" placeholder="Apenas números"
                            value="@if(isset($associado->admissao)){{/*\Carbon\Carbon::parse($associado->admissao)->format('d/m/Y')*/$associado->admissao}}@else{{old('admissao')}}@endif">
                 </div>
             </div>
@@ -115,7 +145,7 @@
                 </div>
                 <div class="form-group col-md-3"> <!-- Data Nascimento -->
                     <label for="data_nascimento" class="control-label">Data Nascimento</label>
-                    <input type="text" class="form-control" data-date-format="dd/mm/yyyy" id="data_nascimento" name="data_nascimento" placeholder="DD/MM/AAAA"
+                    <input type="text" class="form-control" id="data_nascimento" name="data_nascimento" placeholder="Apenas números"
                            value="@if(isset($associado->data_nascimento)){{$associado->data_nascimento}}@else{{old('data_nascimento')}}@endif">
                 </div>
                 <div class="form-group col-md-3"> <!-- CPF -->
@@ -178,62 +208,63 @@
 
                 @foreach($associado->dependente as $dependente)
                 <div class="form-group col-md-5"> <!-- Dependentes campos com valores do banco, caso precise alterar -->
-                    <label for="zip_id" class="control-label">Nome Dependente</label>
-                    <input type="text" class="form-control" id="dependentes" name="dependentes[nome_dependente][]"
+                    <label for="dependente_nome" class="control-label">Nome Dependente</label>
+                    <input type="text" class="form-control" id="dependente_nome" name="dependentes[nome_dependente][]"
                            value="@if(isset($dependente)){{$dependente->nome_dependente}}@else{{old('dependentes.nome_dependente')}}@endif">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="zip_id" class="control-label">CPF</label>
-                    <input type="text" class="form-control" id="dependentes" name="dependentes[cpf][]"
+                    <label for="dependente_cpf" class="control-label">CPF</label>
+                    <input type="text" class="form-control" id="dependente_cpf" name="dependentes[cpf][]"
                            value="@if(isset($dependente)){{$dependente->cpf}}@else{{old('dependentes.cpf')}}@endif">
                 </div>
+
                 <div class="form-group col-md-2">
-                    <label for="grau_parentesco" class="control-label">Grau parentesco</label>
-                    <input type="text" class="form-control" id="grau_parentesco" name="dependentes[grau_parentesco][]"
+                    <label for="dependente_parentesco" class="control-label">Grau parentesco</label>
+                    <input type="text" class="form-control" id="dependente_parentesco" name="dependentes[grau_parentesco][]"
                            value="@if(isset($dependente)){{$dependente->grau_parentesco}}@else{{old('dependentes.grau_parentesco')}}@endif">
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="zip_id" class="control-label">Data de nascimento</label>
-                    <input type="text" class="form-control" id="dependentes" name="dependentes[data_nascimento][]"
+                    <label for="dependente_nascimento" class="control-label">Data de nascimento</label>
+                    <input type="text" class="form-control" id="dependente_nascimento" name="dependentes[data_nascimento][]"
                            value="@if(isset($dependente)){{\Carbon\Carbon::parse($dependente->data_nascimento)->format('d/m/Y')}}@else{{old('dependentes.data_nascimento')}}@endif">
                 </div>
 
                 @endforeach
                 @for($i = 0; $i <= (9 - count($associado->dependente));$i++)
-                    <div class="form-group col-md-5"><!-- Campos vazio para serem editados -->
-                        <label for="zip_id" class="control-label">Nome Dependente</label>
-                        <input type="text" class="form-control" id="dependentes" name="dependentes[nome_dependente][]">
+                    <div class="form-group col-md-5"><!-- Campos vazios para serem editados -->
+                        <label for="dependente_nome" class="control-label">Nome Dependente</label>
+                        <input type="text" class="form-control" id="dependente_nome" name="dependentes[nome_dependente][]">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="zip_id" class="control-label">CPF</label>
-                        <input type="text" class="form-control" id="dependentes" name="dependentes[cpf][]">
+                        <label for="dependente_cpf" class="control-label">CPF</label>
+                        <input type="text" class="form-control" id="dependente_cpf" name="dependentes[cpf][]">
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="zip_id" class="control-label">Grau parentesco</label>
-                        <input type="text" class="form-control" id="dependentes" name="dependentes[grau_parentesco][]">
+                        <label for="dependente_parentesco" class="control-label">Grau parentesco</label>
+                        <input type="text" class="form-control" id="dependente_parentesco" name="dependentes[grau_parentesco][]">
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="zip_id" class="control-label">Data de nascimento</label>
-                        <input type="text" class="form-control" id="dependentes" name="dependentes[data_nascimento][]">
+                        <label for="dependente_nascimento" class="control-label">Data de nascimento</label>
+                        <input type="text" class="form-control" id="dependente_nascimento" name="dependentes[data_nascimento][]">
                     </div>
                 @endfor
                 @else
                     @for($i=0;$i<=9;$i++)
                         <div class="form-group col-md-5"><!-- Dependentes 2 -->
-                            <label for="zip_id" class="control-label">Nome Dependente</label>
-                            <input type="text" class="form-control" id="dependentes" name="dependentes[nome_dependente][]">
+                            <label for="dependente_nome" class="control-label">Nome Dependente</label>
+                            <input type="text" class="form-control" id="dependente_nome" name="dependentes[nome_dependente][]">
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="zip_id" class="control-label">CPF</label>
-                            <input type="text" class="form-control" id="dependentes" name="dependentes[cpf][]">
+                            <label for="dependente_cpf" class="control-label">CPF</label>
+                            <input type="text" class="form-control" id="dependente_cpf" name="dependentes[cpf][]">
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="zip_id" class="control-label">Grau parentesco</label>
-                            <input type="text" class="form-control" id="dependentes" name="dependentes[grau_parentesco][]">
+                            <label for="dependente_parentesco" class="control-label">Grau parentesco</label>
+                            <input type="text" class="form-control" id="dependente_parentesco" name="dependentes[grau_parentesco][]">
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="zip_id" class="control-label">Data de nascimento</label>
-                            <input type="text" class="form-control" id="dependentes" name="dependentes[data_nascimento][]">
+                            <label for="dependente_nascimento" class="control-label">Data de nascimento</label>
+                            <input type="text" class="form-control" id="dependente_nascimento" name="dependentes[data_nascimento][]">
                         </div>
                     @endfor
                 @endif

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b49cf6e47f5906ccb1c95017dc9507b7",
+    "content-hash": "77b2771192ec416deb0acff0c6f004f8",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1265,6 +1265,42 @@
                 "uuid"
             ],
             "time": "2018-01-20T00:28:24+00:00"
+        },
+        {
+            "name": "robinherbots/jquery.inputmask",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RobinHerbots/Inputmask.git",
+                "reference": "4e1a2ad72da48ff0efdc183cbdce231b71119b79"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RobinHerbots/Inputmask/zipball/4e1a2ad72da48ff0efdc183cbdce231b71119b79",
+                "reference": "4e1a2ad72da48ff0efdc183cbdce231b71119b79",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robin Herbots"
+                }
+            ],
+            "description": "Inputmask is a javascript library which creates an input mask.  Inputmask can run against vanilla javascript, jQuery and jqlite.",
+            "homepage": "http://robinherbots.github.io/Inputmask",
+            "keywords": [
+                "form",
+                "input",
+                "inputmask",
+                "jquery",
+                "mask",
+                "plugins"
+            ],
+            "time": "2018-05-26T19:50:35+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
