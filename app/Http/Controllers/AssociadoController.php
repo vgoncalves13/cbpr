@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Associado;
 use App\Dependente;
 use App\Endereco;
+use App\Http\Requests\StoreAssociadoRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Http\Controllers\Auth;
 
 class AssociadoController extends Controller
 {
@@ -38,17 +40,8 @@ class AssociadoController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAssociadoRequest $request)
     {
-
-        $rules = [
-            'nome_completo' => 'required',
-            'nome_mae' => 'required',
-            'email' => 'email|required'
-        ];
-        $mensagemCustomizada = ['required' => 'O campo :attribute é obrigatório.'];
-        $this->validate($request, $rules, $mensagemCustomizada);
-
         $input = $request->all();
 
         $dependente_nascimento_carbon = [];
@@ -62,6 +55,11 @@ class AssociadoController extends Controller
             }
         }
 
+
+        $foto[] = null;
+        $foto['foto'] = $this->saveProfilePhoto($request);
+
+
         $datas = [
             'data_nascimento' => Carbon::now()
                 ->createFromFormat('d/m/Y', $request->get('data_nascimento'))
@@ -71,7 +69,8 @@ class AssociadoController extends Controller
                 ->toDateString(),
         ];
 
-        $associado = Associado::create(array_merge($request->all(), $datas));
+        $associado = Associado::create(array_merge($request->all(), $datas, $foto));
+
 
         if ($associado) {
             $tamanho_array = count(array_filter($request['dependentes']['nome_dependente']));
@@ -241,6 +240,17 @@ class AssociadoController extends Controller
         } else {
             return redirect()->back();
         }
+
+    }
+
+    public function saveProfilePhoto(Request $request)
+    {
+        $file = $request->file('foto');
+        $ext = $file->guessClientExtension();
+
+        $path = $file->storeAs('fotos',"{$request->cpf}.{$ext}");
+
+        return $path;
 
     }
 }

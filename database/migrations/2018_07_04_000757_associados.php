@@ -33,7 +33,7 @@ class Associados extends Migration
             $table->string('telefone_celular')->nullable($value = true);
             $table->string('email')->nullable($value = true);
             $table->text('observacoes')->nullable($value = true);
-            $table->binary('foto')->nullable($value = true);
+            $table->string('foto')->nullable($value = true);
 
 
             $table->timestamps();

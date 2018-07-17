@@ -17,13 +17,19 @@
                     @if(    Route::currentRouteName()==='associados.create'){{route('associados.store')}}
                     @elseif(Route::currentRouteName()==='associados.edit'){{route('associados.update',$associado->id)}}
                     @endif"
-              method="POST">
+              method="POST"
+              enctype="multipart/form-data">
             {{csrf_field()}}
             @if(isset($associado->id))<input name="_method" type="hidden" value="PUT">@endif
             <div class="form-group"> <!-- Matrícula -->
                 <label for="matricula" class="control-label">Matrícula/Registro</label>
                 <input type="text" class="form-control" id="matricula" name="matricula" placeholder=""
                        value="@if(isset($associado->matricula)){{$associado->matricula}}@else{{old('matricula')}}@endif">
+            </div>
+            <div class="form-group"> <!-- Foto -->
+                <label for="Foto" class="control-label">Foto</label>
+                <input type="file" class="form-control" id="foto" name="foto" placeholder=""
+                       value="@if(isset($associado->foto)){{$associado->foto}}@else{{old('foto')}}@endif">
             </div>
             <div class="form-row">
                 <div class="form-check form-check-inline">
