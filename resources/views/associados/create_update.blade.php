@@ -43,8 +43,12 @@
                         mask:"(99)9999[9]-9999",
                         removeMaskOnSubmit:true
                     });
+                    $("#cep").inputmask({
+                        mask:"99999-999",
+                        removeMaskOnSubmit:true
+                    });
 
-                    $('#dependente_cpf').inputmask('999.999.999-99', { removeMaskOnSubmit : true});
+                    $("input[name*='cpf']").inputmask('999.999.999-99', { removeMaskOnSubmit : true});
 
                 }
             </script>
@@ -209,72 +213,7 @@
                 </div>
             </div>
 
-            <div class="form-row"> <!-- Dependentes -->
-            @if(isset($associado) && Route::currentRouteName()==='associados.edit')
 
-                @foreach($associado->dependente as $dependente)
-                <div class="form-group col-md-5"> <!-- Dependentes campos com valores do banco, caso precise alterar -->
-                    <label for="dependente_nome" class="control-label">Nome Dependente</label>
-                    <input type="text" class="form-control" id="dependente_nome" name="dependentes[nome_dependente][]"
-                           value="@if(isset($dependente)){{$dependente->nome_dependente}}@else{{old('dependentes.nome_dependente')}}@endif">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="dependente_cpf" class="control-label">CPF</label>
-                    <input type="text" class="form-control" id="dependente_cpf" name="dependentes[cpf][]"
-                           value="@if(isset($dependente)){{$dependente->cpf}}@else{{old('dependentes.cpf')}}@endif">
-                </div>
-
-                <div class="form-group col-md-2">
-                    <label for="dependente_parentesco" class="control-label">Grau parentesco</label>
-                    <input type="text" class="form-control" id="dependente_parentesco" name="dependentes[grau_parentesco][]"
-                           value="@if(isset($dependente)){{$dependente->grau_parentesco}}@else{{old('dependentes.grau_parentesco')}}@endif">
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="dependente_nascimento" class="control-label">Data de nascimento</label>
-                    <input type="text" class="form-control" id="dependente_nascimento" name="dependentes[data_nascimento][]"
-                           value="@if(isset($dependente)){{\Carbon\Carbon::parse($dependente->data_nascimento)->format('d/m/Y')}}@else{{old('dependentes.data_nascimento')}}@endif">
-                </div>
-
-                @endforeach
-                @for($i = 0; $i <= (9 - count($associado->dependente));$i++)
-                    <div class="form-group col-md-5"><!-- Campos vazios para serem editados -->
-                        <label for="dependente_nome" class="control-label">Nome Dependente</label>
-                        <input type="text" class="form-control" id="dependente_nome" name="dependentes[nome_dependente][]">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="dependente_cpf" class="control-label">CPF</label>
-                        <input type="text" class="form-control" id="dependente_cpf" name="dependentes[cpf][]">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="dependente_parentesco" class="control-label">Grau parentesco</label>
-                        <input type="text" class="form-control" id="dependente_parentesco" name="dependentes[grau_parentesco][]">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="dependente_nascimento" class="control-label">Data de nascimento</label>
-                        <input type="text" class="form-control" id="dependente_nascimento" name="dependentes[data_nascimento][]">
-                    </div>
-                @endfor
-                @else
-                    @for($i=0;$i<=9;$i++)
-                        <div class="form-group col-md-5"><!-- Dependentes 2 -->
-                            <label for="dependente_nome" class="control-label">Nome Dependente</label>
-                            <input type="text" class="form-control" id="dependente_nome" name="dependentes[nome_dependente][]">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="dependente_cpf" class="control-label">CPF</label>
-                            <input type="text" class="form-control" id="dependente_cpf" name="dependentes[cpf][]">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="dependente_parentesco" class="control-label">Grau parentesco</label>
-                            <input type="text" class="form-control" id="dependente_parentesco" name="dependentes[grau_parentesco][]">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="dependente_nascimento" class="control-label">Data de nascimento</label>
-                            <input type="text" class="form-control" id="dependente_nascimento" name="dependentes[data_nascimento][]">
-                        </div>
-                    @endfor
-                @endif
-            </div>
             <div class="form-row">
                 <div class="form-group col-md-12"> <!-- Observação-->
                     <label for="observacoes" class="control-label">Observações</label>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dependente;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class DependenteController extends Controller
 {
@@ -22,9 +23,9 @@ class DependenteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        return view('dependentes.create')->with('associado_id',$id);
     }
 
     /**
@@ -35,7 +36,31 @@ class DependenteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+
+        $dependente_nascimento_carbon = [];
+        if (is_array($input['dependentes']['data_nascimento'])) {
+            $dependente_nascimento = $input['dependentes']['data_nascimento'];
+            foreach (array_filter($dependente_nascimento) as $data => $value) {
+                $data = Carbon::now()
+                    ->createFromFormat('d/m/Y', $value)
+                    ->toDateString();
+                $dependente_nascimento_carbon[] = $data;
+            }
+        }
+
+        $tamanho_array = count(array_filter($request['dependentes']['nome_dependente']));
+        for ($i = 0; $i < $tamanho_array; $i++) {
+            $dependente = new Dependente();
+            $dependente->associado_id = $request->associado_id;
+            $dependente->nome_dependente = $input['dependentes']['nome_dependente'][$i];
+            $dependente->cpf = $input['dependentes']['cpf'][$i];
+            $dependente->grau_parentesco = $input['dependentes']['grau_parentesco'][$i];
+            $dependente->data_nascimento = $dependente_nascimento_carbon[$i];
+            $dependente->save();
+        }
+        return redirect()->route('associados.show', ['id' => $request->associado_id])->with(
+            'message', 'Associado cadastrado com sucesso.');
     }
 
     /**

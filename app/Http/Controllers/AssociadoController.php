@@ -44,18 +44,6 @@ class AssociadoController extends Controller
     {
         $input = $request->all();
 
-        $dependente_nascimento_carbon = [];
-        if (is_array($input['dependentes']['data_nascimento'])) {
-            $dependente_nascimento = $input['dependentes']['data_nascimento'];
-            foreach (array_filter($dependente_nascimento) as $data => $value) {
-                $data = Carbon::now()
-                    ->createFromFormat('d/m/Y', $value)
-                    ->toDateString();
-                $dependente_nascimento_carbon[] = $data;
-            }
-        }
-
-
         $foto[] = null;
         $foto['foto'] = $this->saveProfilePhoto($request);
 
@@ -69,20 +57,9 @@ class AssociadoController extends Controller
                 ->toDateString(),
         ];
 
-        $associado = Associado::create(array_merge($request->all(), $datas, $foto));
+        if($associado = Associado::create(array_merge($request->all(), $datas, $foto))){
 
 
-        if ($associado) {
-            $tamanho_array = count(array_filter($request['dependentes']['nome_dependente']));
-            for ($i = 0; $i < $tamanho_array; $i++) {
-                $dependente = new Dependente();
-                $dependente->associado_id = $associado->id;
-                $dependente->nome_dependente = $input['dependentes']['nome_dependente'][$i];
-                $dependente->cpf = $input['dependentes']['cpf'][$i];
-                $dependente->grau_parentesco = $input['dependentes']['grau_parentesco'][$i];
-                $dependente->data_nascimento = $dependente_nascimento_carbon[$i];
-                $dependente->save();
-            }
             $endereco = new Endereco();
             $endereco->associado_id = $associado->id;
             $endereco->logradouro = $request->logradouro;

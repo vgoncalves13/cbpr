@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::resource('associados','AssociadoController')->middleware('auth');
 Route::get('procurar','AssociadoController@procurar')->name('associados.procurar')->middleware('auth');
 Route::get('associados/','AssociadoController@index')->name('associados.index')->middleware('auth');
@@ -21,3 +20,7 @@ Route::get('/','AssociadoController@index')->name('associados.index')->middlewar
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//Associados
+Route::get('dependentes/{id}','DependenteController@create')->name('dependentes.create')->middleware('auth');
+Route::post('dependentes','DependenteController@store')->name('dependentes.store')->middleware('auth');
