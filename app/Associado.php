@@ -10,7 +10,7 @@ class Associado extends Model
 
     protected $dates = ['data_nascimento','admissao','created_at','updated_at'];
 
-    protected $dateFormat = 'Y-m-d';
+    protected $dateFormat = 'Y-m-d H:m:s';
 
     protected $table = 'associados';
 

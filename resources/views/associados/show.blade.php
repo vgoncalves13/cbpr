@@ -45,7 +45,9 @@
                             </tr>
                             <tr>
                                 <td>Endereço:</td>
-                                <td>{{$associado->endereco->logradouro}},{{$associado->endereco->bairro}}</td>
+                                <td>{{$associado->endereco->logradouro}}, {{$associado->endereco->numero}}
+                                    - {{$associado->endereco->bairro}} / CEP: {{$associado->endereco->cep}}
+                                </td>
                             </tr>
                             <tr>
                                 <td>Email:</td>
@@ -68,7 +70,10 @@
                                 @if(isset($associado->telefone_celular)){{$associado->telefone_celular}} (Móvel)<br><br>@endif
                                 @if(isset($associado->telefone_trabalho)){{$associado->telefone_trabalho}} (Trabalho)<br><br>@endif
                             </td>
-
+                            <tr>
+                                <td>Observações</td>
+                                <td>@if(isset($associado->observacoes)){{$associado->observacoes}}@endif</td>
+                            </tr>
 
                             </tbody>
                         </table>
