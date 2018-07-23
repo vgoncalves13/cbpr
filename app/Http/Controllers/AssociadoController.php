@@ -42,8 +42,6 @@ class AssociadoController extends Controller
      */
     public function store(StoreAssociadoRequest $request)
     {
-        $input = $request->all();
-
         $foto[] = null;
         $foto['foto'] = $this->saveProfilePhoto($request);
 
@@ -94,7 +92,7 @@ class AssociadoController extends Controller
      */
     public function edit($id)
     {
-        $associado = Associado::with('dependente')->find($id);
+        $associado = Associado::find($id);
         return view('associados.create_update')->with(compact('associado', $associado));
     }
 
@@ -119,16 +117,6 @@ class AssociadoController extends Controller
 
         $input = $request->all();
 
-        $dependente_nascimento_carbon = [];
-        if (is_array($input['dependentes']['data_nascimento'])) {
-            $dependente_nascimento = $input['dependentes']['data_nascimento'];
-            foreach (array_filter($dependente_nascimento) as $data => $value) {
-                $data = Carbon::now()
-                    ->createFromFormat('d/m/Y', $value)
-                    ->toDateString();
-                $dependente_nascimento_carbon[] = $data;
-            }
-        }
 
         $associado->id = $id;
         $associado->matricula = $request->input('matricula');
@@ -145,29 +133,25 @@ class AssociadoController extends Controller
         $associado->telefone_celular = $request->input('telefone_celular');
         $associado->email = $request->input('email');
         $associado->observacoes = $request->input('observacoes');
-        $associado->data_nascimento = $request->input('data_nascimento');
-        $associado->admissao = $request->input('admissao');
-        //$associado->data_nascimento = Carbon::parse($request->input('data_nascimento')->format('Y-m-d'));
-        //$associado->admissao = Carbon::parse($request->input('admissao')->format('Y-m-d'));
-        /*
-        $associado->data_nascimento = Carbon::now()
-            ->createFromFormat('d/m/Y',$request->get('data_nascimento'));
-        $associado->admissao = Carbon::now()
-            ->createFromFormat('d/m/Y',$request->get('admissao'));
-        */
+        //$associado->data_nascimento = $request->input('data_nascimento');
+        //$associado->admissao = $request->input('admissao');
+        $associado->data_nascimento = Carbon::parse($request->input('data_nascimento'));
+        $associado->admissao = Carbon::parse($request->input('admissao'));
+
+        $datas = [
+            'data_nascimento' => Carbon::now()
+                ->createFromFormat('d/m/Y', $request->get('data_nascimento'))
+                ->toDateString(),
+            'admissao' => Carbon::now()
+                ->createFromFormat('d/m/Y', $request->get('admissao'))
+                ->toDateString(),
+        ];
+
+        $associado->fill($datas);
         $associado->save();
 
         if ($associado) {
-            $tamanho_array = count(array_filter($request['dependentes']['nome_dependente']));
-            for ($i = 0; $i < $tamanho_array; $i++) {
-                $dependente = new Dependente();
-                $dependente->associado_id = $associado->id;
-                $dependente->nome_dependente = $input['dependentes']['nome_dependente'][$i];
-                $dependente->cpf = $input['dependentes']['cpf'][$i];
-                $dependente->grau_parentesco = $input['dependentes']['grau_parentesco'][$i];
-                $dependente->data_nascimento = $dependente_nascimento_carbon[$i];
-                $dependente->save();
-            }
+
             $endereco = new Endereco();
             $endereco->associado_id = $associado->id;
             $endereco->logradouro = $request->logradouro;

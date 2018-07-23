@@ -21,6 +21,14 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Associados
+//Dependentes
 Route::get('dependentes/{id}','DependenteController@create')->name('dependentes.create')->middleware('auth');
 Route::post('dependentes','DependenteController@store')->name('dependentes.store')->middleware('auth');
+
+//Pagamentos
+//Route::resource('pagamentos','PagamentoController')->middleware('auth');
+Route::get('pagamentos/{pagamento}','PagamentoController@show')->name('pagamentos.show')->middleware('auth');
+Route::get('pagamentos/create/{id}','PagamentoController@create')->name('pagamentos.create')->middleware('auth');
+Route::get('pagamentos/edit/{id}','PagamentoController@edit')->name('pagamentos.edit')->middleware('auth');
+Route::post('pagamentos/{id}','PagamentoController@store')->name('pagamentos.store')->middleware('auth');
+Route::put('pagamentos/{pagamento}','PagamentoController@update')->name('pagamentos.update')->middleware('auth');

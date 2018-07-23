@@ -1,13 +1,5 @@
 @extends('layouts.master')
 @section('content')
-@if (Session::has('message'))
-    <div class="alert alert-info alert-dismissible fade show" role="alert">
-        {{ Session::get('message') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-@endif
 <form novalidate action="{{route('dependentes.store',$associado_id)}}" method="POST" >
     {{csrf_field()}}
     <input type="hidden" value="{{$associado_id}}" name="associado_id">

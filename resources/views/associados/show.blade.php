@@ -1,8 +1,10 @@
 @extends('layouts.master')
-
+@section('title','Exibir usuário')
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 @section('content')
+
+
 <div class="row ">
 
     <div class="col-md-12" >
@@ -80,8 +82,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class=" col-md-12">
-                        <table class="table table-striped">
-                            <thead>
+                        <table class="table table-responsive-md table-bordered">
+                            <thead class="thead-dark">
                             <tr>
                                 <th>Nome do dependente</th>
                                 <th>CPF</th>
