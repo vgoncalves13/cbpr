@@ -209,15 +209,9 @@
                 <textarea class="form-control" id="observacoes" rows="5" name="observacoes"></textarea>
             </div>
         </div>
-        @if(Route::currentRouteName()==='associados.create')
             <div class="form-group"> <!-- Botão submeter -->
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <button type="submit" class="btn btn-primary">Cadastrar <i class="fa fa-save"></i></button>
             </div>
-        @else(Route::currentRouteName()==='associados.edit')
-            <div class="form-group"> <!-- Botão atualizar -->
-                <button type="submit" class="btn btn-secondary">Atualizar</button>
-            </div>
-        @endif
     </form>
 
 @endsection

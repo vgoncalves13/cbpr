@@ -119,7 +119,8 @@
             <div class="card-footer">
                 <a data-original-title="Imprimir {EM BREVE}" data-toggle="tooltip" type="button" class="btn btn-primary"><i class="fa fa-print"></i></a>
                 <span class="pull-right">
-                    <a href="#" data-original-title="Editar este associado [EM BREVE]" data-toggle="tooltip" type="button" class="btn btn-warning"><i class="fas fa-user-edit"></i></a>
+                    <a href="{{route('pagamentos.show',$associado->id)}}" data-original-title="Verificar histórico pagamento" data-toggle="tooltip" type="button" class="btn btn-success"><i class="fas fa-dollar-sign"></i></a>
+                    <a href="{{route('associados.edit',$associado->id)}}" data-original-title="Editar este associado" data-toggle="tooltip" type="button" class="btn btn-warning"><i class="fas fa-user-edit"></i></a>
                     <a data-original-title="Excluir este associado [EM BREVE]" data-toggle="tooltip" type="button" class="btn btn-danger"><i class="fas fa-user-times"></i></a>
                     <a href="{{route('dependentes.create',$associado->id)}}" data-original-title="Adicionar dependentes" data-toggle="tooltip" type="button" class="btn btn-info"><i class="fas fa-user-plus"></i></a>
                 </span>

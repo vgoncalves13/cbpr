@@ -3,6 +3,12 @@
 @section('content')
     <form novalidate action="{{route('associados.update',$associado->id)}}" method="POST" enctype="multipart/form-data">
         {{csrf_field()}}
+
+        <script>
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        </script>
         <script type="text/javascript">
             window.onload = function() {
 
@@ -195,7 +201,8 @@
             </div>
         </div>
             <div class="form-group"> <!-- Botão atualizar -->
-                <button type="submit" class="btn btn-secondary">Atualizar</button>
+                <button type="submit" class="btn btn-secondary"></i>Atualizar</button>
+                <a href="{{\Illuminate\Support\Facades\URL::previous()}}" data-original-title="Voltar" data-toggle="tooltip"  type="submit" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Voltar</a>
             </div>
     </form>
 @endsection

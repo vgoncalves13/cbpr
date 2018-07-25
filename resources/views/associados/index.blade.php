@@ -1,6 +1,12 @@
 @extends('layouts.master');
 @section('title', 'Index');
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 @section('content')
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -19,9 +25,10 @@
             <td>  {{\Carbon\Carbon::parse($associado->data_nascimento)->format('d/m/Y')}}</td>
             <td>{{$associado->classe}}</td>
             <td>
-                <button class="btn btn-outline-primary" onclick="location.href='{{ route('associados.show',$associado->id) }}'">Mostrar mais</button>
-                <button class="btn btn-outline-warning" onclick="location.href='{{ route('pagamentos.show',$associado->id) }}'">Verificar pagamentos</button>
-                <button class="btn btn-outline-secondary" onclick="location.href='{{ route('associados.edit',$associado->id) }}'">Editar</button>
+                <a href="{{ route('associados.show',$associado->id) }}" data-original-title="Ver mais" data-toggle="tooltip"  type="submit" class="btn btn-outline-primary"><i class="fa fa-search-plus"></i></a>
+                <a href="{{ route('pagamentos.show',$associado->id) }}" data-original-title="Verificar pagamentos" data-toggle="tooltip"  type="submit" class="btn btn-outline-warning"><i class="fa fa-dollar-sign"></i></a>
+                <a href="{{ route('associados.edit',$associado->id) }}" data-original-title="Editar associado" data-toggle="tooltip"  type="submit" class="btn btn-outline-secondary"><i class="fa fa-user-edit"></i></a>
+
             </td>
         </tr>
         @endforeach
