@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Associado;
 use App\Dependente;
 use App\Endereco;
+use App\Http\Requests\BuscaAssociadoRequest;
 use App\Http\Requests\StoreAssociadoRequest;
 use App\Http\Requests\UpdateAssociadoRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AssociadoController extends Controller
 {
@@ -108,8 +110,6 @@ class AssociadoController extends Controller
     {
         $associado = Associado::findOrFail($id);
 
-        $input = $request->all();
-
         $data_nascimento =  Carbon::now()
             ->createFromFormat('d/m/Y', $request->input('data_nascimento'))
             ->toDateString();
@@ -117,11 +117,6 @@ class AssociadoController extends Controller
                 ->createFromFormat('d/m/Y', $request->input('admissao'))
                 ->toDateString();
 
-
-        //$associado->data_nascimento = Carbon::parse($request->input('data_nascimento'));
-        //$associado->admissao = Carbon::parse($request->input('admissao'));
-
-        //$associado->save();
         $associado->update(
             [
                 'id' => $id,
@@ -178,22 +173,21 @@ class AssociadoController extends Controller
 
 
 
-    public function busca(Request $request)
+    public function busca(BuscaAssociadoRequest $request)
     {
-        $data[] = null;
-        $termo_busca = $request->input('busca');
-        $query = Associado::where('nome_completo', 'LIKE', '%'.$termo_busca.'%')->exists();
+        $termo = $request->input('termo');
+        $busca = $request->input('busca');
+        $query = Associado::where($termo, 'LIKE', '%'.$busca.'%')->exists();
+        //Se a query tiver resultado, retorna a view index de associados com os resultados obtidos da query
         if ($query) {
-
-
-            $id = Associado::with('endereco', 'dependente')
-                ->where('nome_completo', 'LIKE', '%'.$termo_busca.'%')
-                ->first();
-
-            return redirect()->route('associados.show', $id->id);
+            $associados = Associado::with('endereco', 'dependente')
+                ->where($termo, 'LIKE', '%'.$busca.'%')
+                ->paginate(10);
+            $request->session()->flash('message', 'Resultado da busca '.'Termo: '.$termo.' Valor: '.$busca);
+            return view('associados.index')->with('associados',$associados);
 
         } else {
-            return redirect()->back();
+            return redirect('procurar')->withErrors('Nenhum associado encontrado com os termos fornecidos! '.'Termo: '.$termo.' Valor: '.$busca);
         }
 
     }
