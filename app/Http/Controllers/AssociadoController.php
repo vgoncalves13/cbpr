@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Associado;
-use App\Dependente;
 use App\Endereco;
 use App\Http\Requests\BuscaAssociadoRequest;
 use App\Http\Requests\StoreAssociadoRequest;
 use App\Http\Requests\UpdateAssociadoRequest;
+use App\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\Http\Controllers\Auth;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class AssociadoController extends Controller
 {
@@ -23,7 +23,6 @@ class AssociadoController extends Controller
     public function index()
     {
         $associados = Associado::paginate(10);
-
         return view('associados.index')->with('associados', $associados);
     }
 
@@ -45,11 +44,11 @@ class AssociadoController extends Controller
      */
     public function store(StoreAssociadoRequest $request)
     {
+
         $foto[] = null;
-        if($request->hasFile('foto')){
+        if ($request->hasFile('foto')) {
             $foto['foto'] = $this->saveProfilePhoto($request);
         }
-
 
 
         $datas = [
@@ -61,7 +60,7 @@ class AssociadoController extends Controller
                 ->toDateString(),
         ];
 
-        if($associado = Associado::create(array_merge($request->all(), $datas, $foto))){
+        if ($associado = Associado::create(array_merge($request->all(), $datas, $foto))) {
 
 
             $endereco = new Endereco();
@@ -73,6 +72,14 @@ class AssociadoController extends Controller
             $endereco->cep = $request->cep;
             $endereco->save();
 
+            //Cria user para o associado
+            $user_associado = [
+                'username' => $request->cpf,
+                'name' => $request->nome_completo,
+                'password' => $request->cpf,
+                'associado_id' => $associado->id
+            ];
+            User::CreateUserAssociado($user_associado);
             return redirect('associados/')->with('message', 'Associado cadastrado com sucesso.');
         }
         return Redirect::back()->withErrors(['message', 'Erro ao cadastrar']);
@@ -87,7 +94,12 @@ class AssociadoController extends Controller
     public function show($id)
     {
         $associado = Associado::find($id);
-        return view('associados.show')->with(compact('associado', $associado));
+        if (Gate::allows('associados.view', $associado)) {
+            return view('associados.show')->with(compact('associado', $associado));
+        } else {
+            abort('403', 'Você não está autorizado');
+        }
+
     }
 
     /**
@@ -113,12 +125,12 @@ class AssociadoController extends Controller
     {
         $associado = Associado::findOrFail($id);
 
-        $data_nascimento =  Carbon::now()
+        $data_nascimento = Carbon::now()
             ->createFromFormat('d/m/Y', $request->input('data_nascimento'))
             ->toDateString();
         $admissao = Carbon::now()
-                ->createFromFormat('d/m/Y', $request->input('admissao'))
-                ->toDateString();
+            ->createFromFormat('d/m/Y', $request->input('admissao'))
+            ->toDateString();
 
         $associado->update(
             [
@@ -176,22 +188,21 @@ class AssociadoController extends Controller
     }
 
 
-
     public function busca(BuscaAssociadoRequest $request)
     {
         $termo = $request->input('termo');
         $busca = $request->input('busca');
-        $query = Associado::where($termo, 'LIKE', '%'.$busca.'%')->exists();
+        $query = Associado::where($termo, 'LIKE', '%' . $busca . '%')->exists();
         //Se a query tiver resultado, retorna a view index de associados com os resultados obtidos da query
         if ($query) {
             $associados = Associado::with('endereco', 'dependente')
-                ->where($termo, 'LIKE', '%'.$busca.'%')
+                ->where($termo, 'LIKE', '%' . $busca . '%')
                 ->paginate(10);
-            $request->session()->flash('message', 'Resultado da busca '.'Termo: '.$termo.' Valor: '.$busca);
-            return view('associados.index')->with('associados',$associados);
+            $request->session()->flash('message', 'Resultado da busca ' . 'Termo: ' . $termo . ' Valor: ' . $busca);
+            return view('associados.index')->with('associados', $associados);
 
         } else {
-            return redirect('procurar')->withErrors('Nenhum associado encontrado com os termos fornecidos! '.'Termo: '.$termo.' Valor: '.$busca);
+            return redirect('procurar')->withErrors('Nenhum associado encontrado com os termos fornecidos! ' . 'Termo: ' . $termo . ' Valor: ' . $busca);
         }
 
     }
@@ -201,11 +212,12 @@ class AssociadoController extends Controller
         $file = $request->file('foto');
         $ext = $file->guessClientExtension();
 
-        $path = $file->storeAs('fotos',"{$request->cpf}.{$ext}");
+        $path = $file->storeAs('fotos', "{$request->cpf}.{$ext}");
 
         return $path;
 
     }
+
     public function updateFoto(Request $request, $id)
     {
         $associado = Associado::find($id);
@@ -213,8 +225,8 @@ class AssociadoController extends Controller
         $path = $this->saveProfilePhoto($request);
 
         $associado->foto = $path;
-        if($associado->save()){
-            return redirect('associados/')->with('message', 'Foto adicionada com sucesso.');
+        if ($associado->save()) {
+            return redirect('associados/' . $associado->id)->with('message', 'Foto adicionada com sucesso.');
         }
 
     }

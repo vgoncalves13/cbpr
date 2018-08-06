@@ -5,9 +5,14 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
+    public function associado(){
+        return $this->belongsTo('App\Associado','associado_id','id');
+    }
+
     use Notifiable;
 
 
@@ -17,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'password','role',
+        'name', 'username', 'password','role','associado_id'
     ];
 
     /**
@@ -34,8 +39,16 @@ class User extends Authenticatable
             return true;
         }
     }
-    public function createUserAssociado($dados)
+    public static function createUserAssociado($data)
     {
-        
+        $user = User::create([
+            'name' => $data['name'],
+            'username' => $data['username'],
+            'password' => Hash::make($data['password']),
+            'associado_id' => $data['associado_id']
+        ]);
+        if ($user){
+            return true;
+        }
     }
 }

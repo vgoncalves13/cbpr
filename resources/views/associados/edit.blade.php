@@ -138,15 +138,18 @@
                         <input type="text" class="form-control" id="naturalidade" name="naturalidade" placeholder="Naturalidade"
                                value="@if(isset($associado->naturalidade)){{$associado->naturalidade}}@else{{old('naturalidade')}}@endif">
                     </div>
+                    <?php $options = ['SOLTEIRO(A)','CASADO(A)','DIVORCIADO(A)','VIÚVO(A)','SEPARADO(A)'] ?>
                     <div class="form-group col-md-3"> <!-- Estado Civil -->
                         <label for="estado_civil" class="control-label">Estado civil</label>
                         <select class="form-control" id="estado_civil" name="estado_civil">
-                            <option value="" selected     @if(isset($associado->estado_civil) && $associado->estado_civil==='') selected='selected'@endif>Selecione..</option>
-                            <option value="Solteiro(a)"   @if(isset($associado->estado_civil) && $associado->estado_civil==='Solteiro(a)') selected='selected'@endif>Solteiro(a)</option>
-                            <option value="Casado(a)"     @if(isset($associado->estado_civil) && $associado->estado_civil==='Casado(a)') selected='selected'@endif>Casado(a)</option>
-                            <option value="Divorciado(a)" @if(isset($associado->estado_civil) && $associado->estado_civil==='Divorciado(a)') selected='selected'@endif>Divorciado(a)</option>
-                            <option value="Viúvo(a)"      @if(isset($associado->estado_civil) && $associado->estado_civil==='Viúvo(a)') selected='selected'@endif>Viúvo(a)</option>
-                            <option value="Separado(a)"   @if(isset($associado->estado_civil) && $associado->estado_civil==='Separado(a)') selected='selected'@endif>Separado(a)</option>
+                                <option value="">Selecione...</option>
+                            @foreach ($options as $key => $value)
+                                <option value="{{ $value }}"
+                                        @if ($key == old('estado_civil', $associado->estado_civil))
+                                        selected="selected"
+                                        @endif
+                                >{{ $value }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group col-md-3"> <!-- Data Nascimento -->

@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('role')->default('guest');
-            $table->integer('associado_id')->unsigned()->nullable();
+            $table->integer('associado_id')->unsigned();
             $table->foreign('associado_id')
                 ->references('id')->on('associados')
                 ->onDelete('cascade');

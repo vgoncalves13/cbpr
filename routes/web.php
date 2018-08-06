@@ -17,6 +17,17 @@ Route::get('associados/','AssociadoController@index')->name('associados.index')-
 Route::get('busca/','AssociadoController@busca')->name('associados.busca')->middleware('auth');
 Route::get('/','AssociadoController@index')->name('associados.index')->middleware('auth');
 
+/*
+Route::group(['middleware' => 'App\Http\Middleware\AssociadoMiddleware'], function()
+{
+    Route::get('/associados/{associado}','AssociadoController@show')->name('associados.show')->middleware('auth');
+
+});
+*/
+
+
+
+
 Auth::routes();
 
 //Associados
@@ -35,3 +46,8 @@ Route::get('pagamentos/create/{id}','PagamentoController@create')->name('pagamen
 Route::get('pagamentos/edit/{id}','PagamentoController@edit')->name('pagamentos.edit')->middleware('auth');
 Route::post('pagamentos/{id}','PagamentoController@store')->name('pagamentos.store')->middleware('auth');
 Route::put('pagamentos/{pagamento}','PagamentoController@update')->name('pagamentos.update')->middleware('auth');
+
+//Trocar senha
+
+Route::get('/changePassword','HomeController@showChangePasswordForm');
+Route::post('/changePassword','HomeController@changePassword')->name('changePassword');

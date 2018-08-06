@@ -12,4 +12,18 @@ class Dependente extends Model
     public function associado(){
         return $this->belongsTo('App\Associado','dependente_id','id');
     }
+
+    public function getNomeDependenteAttribute($value)
+    {
+        return strtoupper($value);
+    }
+    public function getGrauParentescoAttribute($value)
+    {
+        return strtoupper($value);
+    }
+    public function getCpfAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
 }

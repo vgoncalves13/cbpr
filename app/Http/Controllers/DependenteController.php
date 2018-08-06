@@ -60,7 +60,7 @@ class DependenteController extends Controller
             $dependente->save();
         }
         return redirect()->route('associados.show', ['id' => $request->associado_id])->with(
-            'message', 'Associado cadastrado com sucesso.');
+            'message', 'Dependentes cadastrado com sucesso.');
     }
 
     /**

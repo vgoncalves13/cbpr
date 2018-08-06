@@ -30,18 +30,71 @@ class Associado extends Model
         return $this->hasOne('App\Endereco', 'associado_id', 'id');
     }
 
+    public function usuario()
+    {
+        return $this->hasOne('App\User', 'associado_id', 'id');
+    }
+
     //Accessors
 
     public function getNomeCompletoAttribute($value)
     {
         return strtoupper($value);
     }
-    /*
-    public function getAttribute($key){
-        if(array_key_exists($key, $this->attributes))
-            return strtoupper($this->attributes[$key]);
-        else
-            return null;
+
+    public function getNomeMaeAttribute($value)
+    {
+        return strtoupper($value);
     }
-    */
+
+    public function getNomePaiAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
+    public function getLogradouroAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
+    public function getBairroAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
+    public function getComplementoAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
+    public function getNaturalidadeAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
+    public function getEstadoCivilAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
+    public function getObservacoesAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
+    public function getEmailAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
+    public function getTipoAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
+    public function getGraduacaoAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
 }
