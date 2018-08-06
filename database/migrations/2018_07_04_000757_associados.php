@@ -16,7 +16,8 @@ class Associados extends Migration
         Schema::create('associados', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('matricula')->unique();
+            $table->string('matricula_antiga')->nullable($value = true);
+            $table->string('matricula_nova')->nullable($value = true);
             $table->string('graduacao')->nullable($value = true);
             $table->date('admissao')->nullable($value = true);
             $table->string('classe')->nullable($value = true);
@@ -27,7 +28,7 @@ class Associados extends Migration
             $table->string('naturalidade')->nullable($value = true);
             $table->string('estado_civil')->nullable($value = true);
             $table->date('data_nascimento')->nullable($value = true);
-            $table->string('cpf')->unique();
+            $table->string('cpf')->nullable($value = true);
             $table->string('telefone_trabalho')->nullable($value = true);
             $table->string('telefone_casa')->nullable($value = true);
             $table->string('telefone_celular')->nullable($value = true);

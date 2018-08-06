@@ -18,6 +18,11 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('role')->default('guest');
+            $table->integer('associado_id')->unsigned()->nullable();
+            $table->foreign('associado_id')
+                ->references('id')->on('associados')
+                ->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -53,13 +53,13 @@
                     <td>@if(isset($pagamento->outubro))R$ {{$pagamento->outubro}}@else{{'-'}}@endif</td>
                     <td>@if(isset($pagamento->novembro))R$ {{$pagamento->novembro}}@else{{'-'}}@endif</td>
                     <td>@if(isset($pagamento->dezembro))R$ {{$pagamento->dezembro}}@else{{'-'}}@endif</td>
-                    <td><a href="{{route('pagamentos.edit',$pagamento->id)}}" data-original-title="Editar Histórico" data-toggle="tooltip"  type="submit" class="btn btn-secondary"><i class="fa fa-edit"></i></a></td>
+                    <td><a href="{{route('pagamentos.edit',$pagamento->id)}}" data-original-title="Editar Histórico" data-toggle="tooltip"  type="submit" class="d-print-none btn btn-secondary"><i class="fa fa-edit"></i></a></td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-    <a data-original-title="Imprimir" data-toggle="tooltip" onclick="window.print()" type="button" class="btn btn-primary"><i class="fa fa-print"></i></a>
-    <a href="{{route('pagamentos.create',$associado_id)}}" data-original-title="Criar novo ano" data-toggle="tooltip"  type="submit" class="btn btn-secondary"><i class="fa fa-plus"></i></a>
+    <a data-original-title="Imprimir" data-toggle="tooltip" onclick="window.print()" type="button" class="d-print-none btn btn-primary"><i class="fa fa-print"></i></a>
+    <a href="{{route('pagamentos.create',$associado_id)}}" data-original-title="Criar novo ano" data-toggle="tooltip"  type="submit" class="d-print-none btn btn-secondary"><i class="fa fa-plus"></i></a>
 
 
 </div>

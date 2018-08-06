@@ -11,4 +11,10 @@ class Endereco extends Model
     public function associado(){
         return $this->belongsTo('App\Associado','endereco_id','id');
     }
+    public function getAttribute($key){
+        if(array_key_exists($key, $this->attributes))
+            return strtoupper($this->attributes[$key]);
+        else
+            return null;
+    }
 }

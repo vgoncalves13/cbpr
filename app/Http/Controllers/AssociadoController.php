@@ -46,7 +46,10 @@ class AssociadoController extends Controller
     public function store(StoreAssociadoRequest $request)
     {
         $foto[] = null;
-        $foto['foto'] = $this->saveProfilePhoto($request);
+        if($request->hasFile('foto')){
+            $foto['foto'] = $this->saveProfilePhoto($request);
+        }
+
 
 
         $datas = [
@@ -120,7 +123,8 @@ class AssociadoController extends Controller
         $associado->update(
             [
                 'id' => $id,
-                'matricula' => $request->input('matricula'),
+                'matricula_antiga' => $request->input('matricula_antiga'),
+                'matricula_nova' => $request->input('matricula_nova'),
                 'graduacao' => $request->input('graduacao'),
                 'classe' => $request->input('classe'),
                 'nome_completo' => $request->input('nome_completo'),
@@ -200,6 +204,18 @@ class AssociadoController extends Controller
         $path = $file->storeAs('fotos',"{$request->cpf}.{$ext}");
 
         return $path;
+
+    }
+    public function updateFoto(Request $request, $id)
+    {
+        $associado = Associado::find($id);
+        $request->merge(['cpf' => $associado->cpf]);
+        $path = $this->saveProfilePhoto($request);
+
+        $associado->foto = $path;
+        if($associado->save()){
+            return redirect('associados/')->with('message', 'Foto adicionada com sucesso.');
+        }
 
     }
 }

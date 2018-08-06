@@ -16,14 +16,47 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3 col-lg-3 " align="center"> <img height="240" width="160" alt="Foto usuário {{$associado->nome_completo}}" src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive"> </div>
+                    <div class="col-md-3 col-lg-3 " align="center">
+                        @if(isset($associado->foto))
+                            <img height="240" width="160" alt="Foto usuário {{$associado->nome_completo}}" src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive">
+                            <form novalidate action="{{action('AssociadoController@updateFoto',$associado->id)}}" method="POST" enctype="multipart/form-data">
+                                {{csrf_field()}}
+                                <input name="_method" type="hidden" value="PUT">
+                                <div class="form-group"> <!-- Foto -->
+                                    <label for="Foto" class="control-label">Foto</label>
+                                    <input type="file" class="form-control" id="foto" name="foto" placeholder=""
+                                           value="@if(isset($associado->foto)){{$associado->foto}}@else{{old('foto')}}@endif">
+                                </div>
+                                <div class="form-group"> <!-- Botão atualizar -->
+                                    <button type="submit" class="btn btn-secondary"></i>Atualizar</button>
+                                </div>
+                            </form>
+                        @else
+                            <form class="d-print-none" novalidate action="{{action('AssociadoController@updateFoto',$associado->id)}}" method="POST" enctype="multipart/form-data">
+                                {{csrf_field()}}
+                                <input name="_method" type="hidden" value="PUT">
+                                <div class="form-group"> <!-- Foto -->
+                                    <label for="Foto" class="control-label">Foto</label>
+                                    <input type="file" class="form-control" id="foto" name="foto" placeholder=""
+                                           value="@if(isset($associado->foto)){{$associado->foto}}@else{{old('foto')}}@endif">
+                                </div>
+                                <div class="form-group"> <!-- Botão atualizar -->
+                                    <button type="submit" class="btn btn-secondary"></i>Salvar</button>
+                                </div>
+                            </form>
+                        @endif
+                    </div>
 
                     <div class=" col-md-9 col-lg-9 ">
                         <table class="table table-responsive-md">
                             <tbody>
                             <tr>
-                                <td>Matrícula:</td>
-                                <td>{{$associado->matricula}}</td>
+                                <td>Matrícula Antiga:</td>
+                                <td>{{$associado->matricula_antiga}}</td>
+                            </tr>
+                            <tr>
+                                <td>Matrícula Nova:</td>
+                                <td>{{$associado->matricula_nova}}</td>
                             </tr>
                             <tr>
                                 <td>Admissão:</td>

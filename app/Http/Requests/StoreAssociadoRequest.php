@@ -24,10 +24,14 @@ class StoreAssociadoRequest extends FormRequest
     public function rules()
     {
         return [
-            'foto' => 'image|required|file|dimensions:min_width=100,min_height=200',
+            'foto' => 'image|file|dimensions:min_width=100,min_height=200',
             'nome_completo' => 'required',
             'nome_mae' => 'required',
-            'email' => 'email|required'
+            'email' => 'nullable|email',
+            'logradouro' => 'required',
+            'bairro' => 'required',
+            'cep' => 'required',
+            'cpf' => 'unique:associados|required',
         ];
     }
 
@@ -38,7 +42,8 @@ class StoreAssociadoRequest extends FormRequest
             'foto.image' => 'A :attribute deve ser uma imagem válida.',
             'foto.required'  => 'É necessário escolher uma foto 3x4',
             'foto.dimensions' => 'A :attribute não segue os tamanhos mínimos recomendados',
-            'email' => ':attribute deve ser um E-mail válido'
+            'email' => ':attribute deve ser um E-mail válido',
+            'unique' => ':attribute já foi cadastrado!'
         ];
     }
 }

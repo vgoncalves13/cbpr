@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title','Pesquisar associado')
 @section('content')
         <form class="card card-sm" action="{{route('associados.busca')}}" method="GET">
 
@@ -8,7 +9,7 @@
                 </div>
                 <!--end of col-->
                 <div class="col">
-                    <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Digite aqui sua busca" name="busca">
+                    <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Digite aqui sua busca" name="busca" value="{{old('busca')}}">
                 </div>
                 <div class="col-4">
                     <select class="form-control form-control-lg" name="termo">

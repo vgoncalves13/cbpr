@@ -19,6 +19,9 @@ Route::get('/','AssociadoController@index')->name('associados.index')->middlewar
 
 Auth::routes();
 
+//Associados
+Route::put('associados/foto/{id}','AssociadoController@updateFoto');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Dependentes
