@@ -24,6 +24,7 @@ class AssociadoController extends Controller
     {
         $associados = Associado::paginate(10);
         return view('associados.index')->with('associados', $associados);
+
     }
 
     /**
@@ -72,15 +73,8 @@ class AssociadoController extends Controller
             $endereco->cep = $request->cep;
             $endereco->save();
 
-            //Cria user para o associado
-            $user_associado = [
-                'username' => $request->cpf,
-                'name' => $request->nome_completo,
-                'password' => $request->cpf,
-                'associado_id' => $associado->id
-            ];
-            User::CreateUserAssociado($user_associado);
-            return redirect('associados/')->with('message', 'Associado cadastrado com sucesso.');
+
+            return redirect("associados/$associado->id")->with('message', 'Associado cadastrado com sucesso.');
         }
         return Redirect::back()->withErrors(['message', 'Erro ao cadastrar']);
     }
@@ -94,11 +88,7 @@ class AssociadoController extends Controller
     public function show($id)
     {
         $associado = Associado::find($id);
-        if (Gate::allows('associados.view', $associado)) {
-            return view('associados.show')->with(compact('associado', $associado));
-        } else {
-            abort('403', 'Você não está autorizado');
-        }
+        return view('associados.show')->with(compact('associado', $associado));
 
     }
 
@@ -193,15 +183,14 @@ class AssociadoController extends Controller
         $termo = $request->input('termo');
         $busca = $request->input('busca');
         $query = Associado::where($termo, 'LIKE', '%' . $busca . '%')->exists();
-        //Se a query tiver resultado, retorna a view index de associados com os resultados obtidos da query
+        //Se a query tiver resultado e o usuario for admin, retorna a view index de associados com os resultados obtidos da query
         if ($query) {
             $associados = Associado::with('endereco', 'dependente')
                 ->where($termo, 'LIKE', '%' . $busca . '%')
                 ->paginate(10);
             $request->session()->flash('message', 'Resultado da busca ' . 'Termo: ' . $termo . ' Valor: ' . $busca);
             return view('associados.index')->with('associados', $associados);
-
-        } else {
+        }else {
             return redirect('procurar')->withErrors('Nenhum associado encontrado com os termos fornecidos! ' . 'Termo: ' . $termo . ' Valor: ' . $busca);
         }
 

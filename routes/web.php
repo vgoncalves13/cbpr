@@ -11,19 +11,26 @@
 |
 */
 
-Route::resource('associados','AssociadoController')->middleware('auth');
-Route::get('procurar','AssociadoController@procurar')->name('associados.procurar')->middleware('auth');
-Route::get('associados/','AssociadoController@index')->name('associados.index')->middleware('auth');
-Route::get('busca/','AssociadoController@busca')->name('associados.busca')->middleware('auth');
-Route::get('/','AssociadoController@index')->name('associados.index')->middleware('auth');
+Route::middleware(['auth', 'consultorio'])->group(function () {
+    Route::resource('associados','AssociadoController');
 
-/*
-Route::group(['middleware' => 'App\Http\Middleware\AssociadoMiddleware'], function()
-{
-    Route::get('/associados/{associado}','AssociadoController@show')->name('associados.show')->middleware('auth');
+    Route::get('associados/','AssociadoController@index')->name('associados.index');
+    Route::get('/','AssociadoController@index')->name('associados.index');
 
 });
-*/
+
+Route::get('show_consultorio/{id}',function ($id) {
+    $associado = \App\Associado::find($id)->first();
+
+    return view('associados.show_consultorio')->with('associado',$associado);
+})->name('associados.show_consultorio')->middleware('auth');
+
+
+Route::get('procurar','AssociadoController@procurar')->name('associados.procurar')->middleware('auth');
+
+Route::get('busca/','AssociadoController@busca')->name('associados.busca')->middleware('auth');
+
+
 
 
 

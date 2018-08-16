@@ -24,7 +24,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if ( $user->isGuest() ) {
-            return redirect('associados/'.$user->associado_id);
+            return redirect('procurar');
         }
 
         return redirect('/');

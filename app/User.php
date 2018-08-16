@@ -39,16 +39,5 @@ class User extends Authenticatable
             return true;
         }
     }
-    public static function createUserAssociado($data)
-    {
-        $user = User::create([
-            'name' => $data['name'],
-            'username' => $data['username'],
-            'password' => Hash::make($data['password']),
-            'associado_id' => $data['associado_id']
-        ]);
-        if ($user){
-            return true;
-        }
-    }
+
 }

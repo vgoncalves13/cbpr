@@ -20,7 +20,7 @@ class UserPolicy
     public function view(User $user, Associado $associado)
     {
         if ($user->isGuest()) {
-            return $associado->id === $user->associado_id;
+            return false;
         }
         return true;
     }
@@ -33,7 +33,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -58,5 +58,13 @@ class UserPolicy
     public function delete(User $user, Associado $associado)
     {
         //
+    }
+
+    public function procurar(User $user)
+    {
+        if ($user->isGuest()){
+            return true;
+        }
+        return true;
     }
 }

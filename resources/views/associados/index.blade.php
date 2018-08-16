@@ -21,15 +21,20 @@
         <tbody>
         @foreach($associados as $associado)
         <tr>
-            <td><img height="80" width="60"  src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive rounded"></td>
-            <td scope="row">{{$associado->nome_completo}}</td>
+            <td>@if($associado->foto)<img height="80" width="60"  src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive rounded">@else<span><i class="far fa-image"></i> </span>@endif</td>
+            <td scope="row"><a href="@if(\Illuminate\Support\Facades\Auth::user()->isGuest())show_consultorio/{!!$associado->id!!}@else{{'associados/'.$associado->id}}@endif">{{$associado->nome_completo}}</a></td>
             <td>  {{\Carbon\Carbon::parse($associado->data_nascimento)->format('d/m/Y')}}</td>
             <td>{{$associado->classe}}</td>
             <td>
                 <div class="btn-group">
-                    <a href="{{ route('associados.show',$associado->id) }}" data-original-title="Ver mais" data-toggle="tooltip"  type="submit" class="btn btn-primary"><i class="fa fa-search-plus"></i></a>
-                    <a href="{{ route('pagamentos.show',$associado->id) }}" data-original-title="Verificar pagamentos" data-toggle="tooltip"  type="submit" class="btn btn-primary"><i class="fa fa-dollar-sign"></i></a>
-                    <a href="{{ route('associados.edit',$associado->id) }}" data-original-title="Editar associado" data-toggle="tooltip"  type="submit" class="btn btn-primary"><i class="fa fa-user-edit"></i></a>
+                    <a href="@if(\Illuminate\Support\Facades\Auth::user()->isGuest()){{ route('associados.show_consultorio',$associado->id) }} @else {{route('associados.show',$associado->id)}} @endif" data-original-title="Ver mais" data-toggle="tooltip"  type="submit" class="btn btn-primary"><i class="fa fa-search-plus"></i></a>
+                    @if(!\Illuminate\Support\Facades\Auth::user()->isGuest())
+                        <a href="{{ route('pagamentos.show',$associado->id) }}" data-original-title="Verificar pagamentos" data-toggle="tooltip"  type="submit" class="btn btn-primary"><i class="fa fa-dollar-sign"></i></a>
+                        <a href="{{ route('associados.edit',$associado->id) }}" data-original-title="Editar associado" data-toggle="tooltip"  type="submit" class="btn btn-primary"><i class="fa fa-user-edit"></i></a>
+                        <a href="{{route('dependentes.create',$associado->id)}}"
+                           data-original-title="Adicionar dependentes" data-toggle="tooltip" type="button"
+                           class="btn btn-primary"><i class="fas fa-user-plus"></i></a>
+                    @endif
                 </div>
 
 

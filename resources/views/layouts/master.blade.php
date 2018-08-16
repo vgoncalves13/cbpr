@@ -17,6 +17,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
           integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/css-toggle-switch@latest/dist/toggle-switch.css" />
     <!-- Custom styles for this template -->
     <style>
         body {
@@ -51,10 +52,10 @@
                         <li class="nav-item {{ Request::path() == 'associados/create' ? 'active' : '' }}">
                             <a class="nav-link" href="{{route('associados.create')}}">Cadastrar</a>
                         </li>
+                    @endif
                         <li class="nav-item {{ Request::path() == 'procurar' ? 'active' : '' }}">
                             <a class="nav-link" href="{{route('associados.procurar')}}">Procurar</a>
                         </li>
-                    @endif
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

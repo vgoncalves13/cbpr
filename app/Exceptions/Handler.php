@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use http\Env\Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler

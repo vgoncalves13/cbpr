@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
@@ -211,5 +211,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+
+    'faker_local' => 'pt_BR',
 
 ];

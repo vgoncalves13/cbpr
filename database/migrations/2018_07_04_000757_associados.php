@@ -35,6 +35,7 @@ class Associados extends Migration
             $table->string('email')->nullable($value = true);
             $table->text('observacoes')->nullable($value = true);
             $table->string('foto')->nullable($value = true);
+            $table->boolean('status')->default($value = 1);
 
 
             $table->timestamps();
