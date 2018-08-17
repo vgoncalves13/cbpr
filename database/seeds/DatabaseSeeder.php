@@ -19,10 +19,14 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin'
         ]);
 
+        DB::table('users')->insert([
+            'name' => 'Consultorio',
+            'username' => 'consultorio',
+            'password' => bcrypt('123456'),
+            'role' => 'guest'
+        ]);
 
-        //factory(App\Associado::class, 50)->create();
-
-        factory(App\Associado::class, 10)->create()->each(function ($u) {
+        factory(App\Associado::class, 20)->create()->each(function ($u) {
             $u->endereco()->save(factory(App\Endereco::class)->make());
         });
     }
