@@ -17,6 +17,12 @@
                         <div class="col-md-3 col-lg-3 " align="center">
 
                             <legend>Status</legend>
+                            @if($associado->status === 1)
+                                <h2 class="text-light bg-success">Adimplente</h2>
+                            @else
+                                <h2 class="text-light bg-danger">Inadimplente</h2>
+                            @endif
+                            <!--
                             <div class="switch-toggle alert alert-dark">
                                 <input disabled id="adimplente" name="status" type="radio" @if ($associado->status === 1) checked @endif>
                                 <label class="text-light" for="adimplente" onclick="">Adimplente</label>
@@ -30,7 +36,7 @@
                                     <a class="btn btn-danger"></a>
                                 @endif
                             </div>
-
+                            -->
                             @if(isset($associado->foto))
                                 <img height="240" width="160" alt="Foto usuário {{$associado->nome_completo}}"
                                      src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive">
@@ -161,20 +167,25 @@
                                     <th>CPF</th>
                                     <th>Grau parentesco</th>
                                     <th>Data nascimento</th>
+                                    <th>Opções</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($associado->dependente as $dependente)
+                                @foreach($dependentes as $dependente)
                                     <tr>
                                         <td>{{$dependente->nome_dependente}}</td>
                                         <td>{{$dependente->cpf}}</td>
                                         <td>{{$dependente->grau_parentesco}}</td>
                                         <td>{{\Carbon\Carbon::parse($dependente->data_nascimento)->format('d/m/Y')}}</td>
+                                        <td><a href="{{route('dependentes.pre_delete',$dependente->id)}}" data-original-title="Excluir" data-toggle="tooltip" type="button"
+                                               class="btn btn-danger text-light"><i class="fas fa-trash-alt"></i></a>
+
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
-
+                            <a href="{{route('dependente_info_delete.show',$associado->id)}}" type="button">Clique para verificar histórico de dependentes desativados</a>
                         </div>
                     </div>
                 </div>
@@ -186,8 +197,7 @@
                 <div class="card-footer">
                     <a data-original-title="Imprimir {EM BREVE}" data-toggle="tooltip" type="button"
                        class="btn btn-primary"><i class="fa fa-print"></i></a>
-                    @if(!Auth::user()->isGuest())
-                        <span class="pull-right">
+                    <span class="pull-right">
                         <a href="{{route('pagamentos.show',$associado->id)}}"
                            data-original-title="Verificar histórico pagamento" data-toggle="tooltip" type="button"
                            class="btn btn-success"><i class="fas fa-dollar-sign"></i></a>
@@ -200,7 +210,6 @@
                            data-original-title="Adicionar dependentes" data-toggle="tooltip" type="button"
                            class="btn btn-info"><i class="fas fa-user-plus"></i></a>
                     </span>
-                    @endif
                 </div>
             </div>
         </div>

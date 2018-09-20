@@ -13,6 +13,10 @@ class Dependente extends Model
         return $this->belongsTo('App\Associado','dependente_id','id');
     }
 
+    public function dependente_delete_info(){
+        return $this->hasOne('App\DependenteDeleteInfo','dependente_id','id');
+    }
+
     public function getNomeDependenteAttribute($value)
     {
         return strtoupper($value);

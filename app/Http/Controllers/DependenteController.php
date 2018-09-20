@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dependente;
+use http\Url;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -80,9 +81,10 @@ class DependenteController extends Controller
      * @param  \App\Dependente  $dependente
      * @return \Illuminate\Http\Response
      */
-    public function edit(Dependente $dependente)
+    public function edit($associado_id)
     {
-        //
+        $dependentes = Dependente::where('associado_id','=',$associado_id)->get();
+        return view('dependentes.edit')->with('dependentes',$dependentes);
     }
 
     /**
@@ -97,14 +99,45 @@ class DependenteController extends Controller
         //
     }
 
+    //Renderiza pagina para informar o motivo da deleção do dependente
+
+
     /**
-     * Remove the specified resource from storage.
+     * Retorna página com campos para serem informados o motivo da deleção do usuários
      *
-     * @param  \App\Dependente  $dependente
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function destroy(Dependente $dependente)
+    public function pre_delete($id)
     {
-        //
+    }
+
+    public function info_delete($id)
+    {
+
+
+        // redireciona
+        Session::flash('message', 'Dependente removido com sucesso!');
+        return url(back());
+    }
+
+
+    /**
+     * Deleta o dependente informado
+     *
+     * @param $id
+     * @return bool
+     */
+    public function destroy($id)
+    {
+        //procura o dependente e deleta
+        $depentende = Dependente::find($id);
+        if ($depentende->delete()) {
+            return true;
+        }else {
+            return false;
+        }
+
+
     }
 }

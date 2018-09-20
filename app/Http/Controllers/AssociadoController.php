@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Associado;
+use App\Dependente;
 use App\Endereco;
 use App\Http\Requests\BuscaAssociadoRequest;
 use App\Http\Requests\StoreAssociadoRequest;
@@ -88,7 +89,12 @@ class AssociadoController extends Controller
     public function show($id)
     {
         $associado = Associado::find($id);
-        return view('associados.show')->with(compact('associado', $associado));
+        $dependentes = Dependente::where([
+            ['associado_id', '=', $id],
+            ['status','=','1']
+        ])->get();
+        //dd($dependente);
+        return view('associados.show')->with(compact('associado', $associado,'dependentes',$dependentes));
 
     }
 
@@ -129,6 +135,7 @@ class AssociadoController extends Controller
                 'matricula_nova' => $request->input('matricula_nova'),
                 'graduacao' => $request->input('graduacao'),
                 'classe' => $request->input('classe'),
+                'status' => $request->input('status'),
                 'nome_completo' => $request->input('nome_completo'),
                 'nome_mae' => $request->input('nome_mae'),
                 'nome_pai' => $request->input('nome_pai'),
@@ -156,7 +163,7 @@ class AssociadoController extends Controller
             $endereco->cep = $request->cep;
             $endereco->save();
 
-            return redirect('associados/')->with('message', 'Associado atualizado com sucesso.');
+            return redirect("associados/$id")->with('message', 'Associado atualizado com sucesso.');
         }
         return Redirect::back()->withErrors(['message', 'Erro ao atualizar']);
     }

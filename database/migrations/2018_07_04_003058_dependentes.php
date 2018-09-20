@@ -20,10 +20,10 @@ class Dependentes extends Migration
             $table->string('grau_parentesco')->nullable();
             $table->date('data_nascimento')->nullable();
             $table->integer('associado_id')->unsigned();
+            $table->boolean('status')->unsigned()->default(1);
             $table->foreign('associado_id')
                 ->references('id')->on('associados')
                 ->onDelete('cascade');
-
             $table->timestamps();
         });
     }

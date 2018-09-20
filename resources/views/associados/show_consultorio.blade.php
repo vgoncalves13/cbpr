@@ -12,6 +12,12 @@
                     <div class="row">
                         <div class="col-md-3 col-lg-3 " align="center">
                             <legend>Status</legend>
+                            @if($associado->status == "1")
+                                <h2 class="text-light bg-success">Adimplente</h2>
+                            @else
+                                <h2 class="text-light bg-danger">Inadimplente</h2>
+                            @endif
+                        <!--
                             <div class="switch-toggle alert alert-dark">
                                 <input disabled id="adimplente" name="status" type="radio" @if ($associado->status === 1) checked @endif>
                                 <label class="text-light" for="adimplente" onclick="">Adimplente</label>
@@ -20,11 +26,12 @@
                                 <label class="text-light" for="inadimplente" onclick="">Inadimplente</label>
 
                                 @if($associado->status === 1)
-                                    <a class="btn btn-success"></a>
-                                @else
-                                    <a class="btn btn-danger"></a>
-                                @endif
-                            </div>
+                            <a class="btn btn-success"></a>
+@else
+                            <a class="btn btn-danger"></a>
+@endif
+                                </div>
+-->
                             @if(isset($associado->foto))
                                 <img height="240" width="160" alt="Foto usuário {{$associado->nome_completo}}"
                                      src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive">

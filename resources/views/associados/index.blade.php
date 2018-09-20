@@ -8,7 +8,7 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
-    <table class="table table-hover table-bordered">
+    <table class="table table-responsive-md table-hover table-bordered">
         <thead>
         <tr>
             <th><i class="fa fa-user"></i> </th>
