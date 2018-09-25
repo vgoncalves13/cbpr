@@ -14,20 +14,20 @@
                         <div class="col-md-3 col-lg-3 " align="center">
 
                             <legend>Status</legend>
-                            @if($associado->status === 1)
+                            @if($associado->status == 1)
                                 <h2 class="text-light bg-success">Adimplente</h2>
                             @else
                                 <h2 class="text-light bg-danger">Inadimplente</h2>
                             @endif
                             <!--
                             <div class="switch-toggle alert alert-dark">
-                                <input disabled id="adimplente" name="status" type="radio" @if ($associado->status === 1) checked @endif>
+                                <input disabled id="adimplente" name="status" type="radio" @if ($associado->status == 1) checked @endif>
                                 <label class="text-light" for="adimplente" onclick="">Adimplente</label>
 
-                                <input disabled id="inadimplente" name="status" type="radio" @if ($associado->status === 0) checked @endif>
+                                <input disabled id="inadimplente" name="status" type="radio" @if ($associado->status == 0) checked @endif>
                                 <label class="text-light" for="inadimplente" onclick="">Inadimplente</label>
 
-                                @if($associado->status === 1)
+                                @if($associado->status == 1)
                                     <a class="btn btn-success"></a>
                                 @else
                                     <a class="btn btn-danger"></a>

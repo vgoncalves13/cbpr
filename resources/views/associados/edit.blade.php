@@ -74,28 +74,28 @@
                     <div class="form-group col-md-6">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="classe" value="PMERJ" id="pmerj"
-                                   @if(isset($associado->classe) && $associado->classe === 'PMERJ')checked="checked" @endif>
+                                   @if(isset($associado->classe) && $associado->classe == 'PMERJ')checked="checked" @endif>
                             <label class="form-check-label" for="pmerj">
                                 PMERJ
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="classe" value="CBMERJ" id="cbmerj"
-                                   @if(isset($associado->classe) && $associado->classe === 'CBMERJ')checked="checked" @endif>
+                                   @if(isset($associado->classe) && $associado->classe == 'CBMERJ')checked="checked" @endif>
                             <label class="form-check-label" for="cbmerj">
                                 CBMERJ
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="classe" value="PENSIONISTA" id="pensionista"
-                                   @if(isset($associado->classe) && $associado->classe === 'PENSIONISTA' || is_array(old('classe')) && in_array('PENSIONISTA',old('classe')))checked="checked" @endif>
+                                   @if(isset($associado->classe) && $associado->classe == 'PENSIONISTA' || is_array(old('classe')) && in_array('PENSIONISTA',old('classe')))checked="checked" @endif>
                             <label class="form-check-label" for="pensionista">
                                 PENSIONISTA
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="classe" value="CIVIL" id="socio"
-                                   @if(isset($associado->classe) && $associado->classe === 'CIVIL')checked= "checked" @endif>
+                                   @if(isset($associado->classe) && $associado->classe == 'CIVIL')checked= "checked" @endif>
                             <label class="form-check-label" for="socio">
                                 SÓCIO CIVIL
                             </label>
@@ -105,14 +105,14 @@
                         <label>Status</label>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="status" value="1" id="adimplente"
-                                   @if($associado->status === 1)checked= "checked" @endif>
+                                   @if($associado->status == 1)checked= "checked" @endif>
                             <label class="form-check-label" for="adimplente">
                                 Adimplente
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="status" value="0" id="inadimplente"
-                                   @if($associado->status === 0)checked= "checked" @endif>
+                                   @if($associado->status == 0)checked= "checked" @endif>
                             <label class="form-check-label" for="inadimplente">
                                 Inadimplente
                             </label>
