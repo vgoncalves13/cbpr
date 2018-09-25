@@ -8,9 +8,6 @@
                 <div class="card-header">
                     <h3 class="card-title">{{$associado->nome_completo}}</h3>
 
-
-
-
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -40,40 +37,9 @@
                             @if(isset($associado->foto))
                                 <img height="240" width="160" alt="Foto usuário {{$associado->nome_completo}}"
                                      src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive">
-                                @if(!Auth::user()->isGuest())
-                                    <form novalidate
-                                          action="{{action('AssociadoController@updateFoto',$associado->id)}}"
-                                          method="POST" enctype="multipart/form-data">
-                                        {{csrf_field()}}
-                                        <input name="_method" type="hidden" value="PUT">
-                                        <div class="form-group"> <!-- Foto -->
-                                            <label for="Foto" class="control-label">Foto</label>
-                                            <input type="file" class="form-control" id="foto" name="foto" placeholder=""
-                                                   value="@if(isset($associado->foto)){{$associado->foto}}@else{{old('foto')}}@endif">
-                                        </div>
-                                        <div class="form-group"> <!-- Botão atualizar -->
-                                            <button type="submit" class="btn btn-secondary"></i>Atualizar</button>
-                                        </div>
-                                    </form>
+
                                 @endif
-                            @else
-                                @if(!Auth::user()->isGuest())
-                                    <form class="d-print-none" novalidate
-                                          action="{{action('AssociadoController@updateFoto',$associado->id)}}"
-                                          method="POST" enctype="multipart/form-data">
-                                        {{csrf_field()}}
-                                        <input name="_method" type="hidden" value="PUT">
-                                        <div class="form-group"> <!-- Foto -->
-                                            <label for="Foto" class="control-label">Foto</label>
-                                            <input type="file" class="form-control" id="foto" name="foto" placeholder=""
-                                                   value="@if(isset($associado->foto)){{$associado->foto}}@else{{old('foto')}}@endif">
-                                        </div>
-                                        <div class="form-group"> <!-- Botão atualizar -->
-                                            <button type="submit" class="btn btn-secondary"></i>Salvar</button>
-                                        </div>
-                                    </form>
-                                @endif
-                            @endif
+
                         </div>
 
                         <div class=" col-md-9 col-lg-9 ">
@@ -206,7 +172,7 @@
                            class="btn btn-warning"><i class="fas fa-user-edit"></i></a>
                         <a data-original-title="Excluir este associado [EM BREVE]" data-toggle="tooltip" type="button"
                            class="btn btn-danger"><i class="fas fa-user-times"></i></a>
-                        <a href="{{route('dependentes.create',$associado->id)}}"
+                        <a href="{{route('dependentes.pre_create',$associado->id)}}"
                            data-original-title="Adicionar dependentes" data-toggle="tooltip" type="button"
                            class="btn btn-info"><i class="fas fa-user-plus"></i></a>
                     </span>

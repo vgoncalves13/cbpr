@@ -27,5 +27,6 @@ $factory->define(App\Associado::class, function (Faker $faker) {
         'telefone_celular' => $faker->phoneNumber(),
         'email' => $faker->unique()->safeEmail,
         'observacoes' => $faker->text(),
+        'status' => $faker->boolean
     ];
 });

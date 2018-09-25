@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dependente;
+use App\Http\Requests\StoreDependenteRequest;
 use http\Url;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -24,9 +25,13 @@ class DependenteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create(Request $request,$associado_id)
     {
-        return view('dependentes.create')->with('associado_id',$id);
+        $quantidade_dependentes = $request->input('quantidade_dependentes');
+        return view('dependentes.create')->with(compact(
+            'associado_id',$associado_id,
+            'quantidade_dependentes',$quantidade_dependentes)
+        );
     }
 
     /**
@@ -35,7 +40,7 @@ class DependenteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreDependenteRequest $request)
     {
         $input = $request->all();
 

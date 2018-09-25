@@ -42,7 +42,12 @@ Route::put('associados/foto/{id}','AssociadoController@updateFoto');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Dependente Dele Info
+//Dependentes
+
+Route::get('dependentes/pre_create/{associado_id}', function ($associado_id) {
+    return view('dependentes.pre_create')->with('associado_id',$associado_id);
+})->name('dependentes.pre_create')->middleware('auth');
+
 Route::get('dependentes/pre_delete/{dependente_id}',function ($dependente_id){
 
     $dependente = App\Dependente::findOrFail($dependente_id);
@@ -59,7 +64,7 @@ Route::get('dependentes/delete/info/{associado_id}',function ($associado_id){
         return view('dependentes_delete_info.index')->with('dependentes',$dependentes);
     }
 )->name('dependente_info_delete.show')->middleware('auth');
-//Dependentes
+
 
 Route::get('dependentes/{dependente}/create','DependenteController@create')->name('dependentes.create')->middleware('auth');
 Route::post('dependentes','DependenteController@store')->name('dependentes.store')->middleware('auth');

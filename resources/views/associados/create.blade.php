@@ -107,6 +107,22 @@
                             </label>
                         </div>
                     </div>
+
+                    <label><b>Status</b></label>
+                        <div class="form-row">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="status" value="1" id="adimplente">
+                                <label class="form-check-label" for="adimplente">
+                                    Adimplente
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="status" value="0" id="inadimplente">
+                                <label class="form-check-label" for="inadimplente">
+                                    Inadimplente
+                                </label>
+                            </div>
+                        </div>
                 </div><!-- Fim jumbotron Informações Associado -->
                 <div class="jumbotron">
                     <h2>Informações Pessoais</h2>

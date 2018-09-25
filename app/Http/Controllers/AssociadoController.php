@@ -7,6 +7,7 @@ use App\Dependente;
 use App\Endereco;
 use App\Http\Requests\BuscaAssociadoRequest;
 use App\Http\Requests\StoreAssociadoRequest;
+use App\Http\Requests\StorePhotoRequest;
 use App\Http\Requests\UpdateAssociadoRequest;
 use App\User;
 use Illuminate\Support\Facades\Gate;
@@ -120,6 +121,9 @@ class AssociadoController extends Controller
     public function update(UpdateAssociadoRequest $request, $id)
     {
         $associado = Associado::findOrFail($id);
+        if ($request->has('foto')){
+            $this->updateFoto($request,$id);
+        }
 
         $data_nascimento = Carbon::now()
             ->createFromFormat('d/m/Y', $request->input('data_nascimento'))
@@ -148,7 +152,7 @@ class AssociadoController extends Controller
                 'email' => $request->input('email'),
                 'observacoes' => $request->input('observacoes'),
                 'data_nascimento' => $data_nascimento,
-                'admissao' => $admissao
+                'admissao' => $admissao,
             ]
         );
 
@@ -205,12 +209,15 @@ class AssociadoController extends Controller
 
     public function saveProfilePhoto(Request $request)
     {
-        $file = $request->file('foto');
-        $ext = $file->guessClientExtension();
+        if ($request->has('foto')){
 
-        $path = $file->storeAs('fotos', "{$request->cpf}.{$ext}");
+            $file = $request->file('foto');
+            $ext = $file->guessClientExtension();
 
-        return $path;
+            $path = $file->storeAs('fotos', "{$request->cpf}.{$ext}");
+
+            return $path;
+        }
 
     }
 
