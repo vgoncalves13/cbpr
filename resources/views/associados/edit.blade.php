@@ -230,7 +230,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12"> <!-- Observação-->
                     <label for="observacoes" class="text-light control-label">Observações</label>
-                    <textarea class="form-control" id="observacoes" rows="5" name="observacoes"></textarea>
+                    <textarea class="form-control" id="observacoes" rows="5"  name="observacoes">@if(isset($associado->observacoes)){{$associado->observacoes}}@else{{old('observacoes')}}@endif</textarea>
                 </div>
             </div>
             <div class="form-group"> <!-- Botão submeter -->

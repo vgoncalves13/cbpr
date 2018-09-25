@@ -31,7 +31,7 @@
                     @if(!\Illuminate\Support\Facades\Auth::user()->isGuest())
                         <a href="{{ route('pagamentos.show',$associado->id) }}" data-original-title="Verificar pagamentos" data-toggle="tooltip"  type="submit" class="btn btn-primary"><i class="fa fa-dollar-sign"></i></a>
                         <a href="{{ route('associados.edit',$associado->id) }}" data-original-title="Editar associado" data-toggle="tooltip"  type="submit" class="btn btn-primary"><i class="fa fa-user-edit"></i></a>
-                        <a href="{{route('dependentes.create',$associado->id)}}"
+                        <a href="{{route('dependentes.pre_create',$associado->id)}}"
                            data-original-title="Adicionar dependentes" data-toggle="tooltip" type="button"
                            class="btn btn-primary"><i class="fas fa-user-plus"></i></a>
                     @endif
