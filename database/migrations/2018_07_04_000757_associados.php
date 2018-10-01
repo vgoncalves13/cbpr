@@ -22,7 +22,6 @@ class Associados extends Migration
             $table->date('admissao')->nullable($value = true);
             $table->string('classe')->nullable($value = true);
             $table->string('nome_completo')->nullable($value = true);
-
             $table->string('nome_mae')->nullable($value = true);
             $table->string('nome_pai')->nullable($value = true);
             $table->string('naturalidade')->nullable($value = true);
@@ -37,7 +36,9 @@ class Associados extends Migration
             $table->string('foto')->nullable($value = true);
             $table->boolean('status')->default($value = 1);
 
-
+            //Soft Delete
+            $table->softDeletes();
+            // Campos de tempo, criado em e atualizado em
             $table->timestamps();
         });
     }

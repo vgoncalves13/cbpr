@@ -170,8 +170,20 @@
                         <a href="{{route('associados.edit',$associado->id)}}"
                            data-original-title="Editar este associado" data-toggle="tooltip" type="button"
                            class="btn btn-warning"><i class="fas fa-user-edit"></i></a>
-                        <a data-original-title="Excluir este associado [EM BREVE]" data-toggle="tooltip" type="button"
+                        <a href="#"
+                                onclick="
+                                var result = confirm('Tem certeza que deseja excluir este associado?');
+                                        if (result){
+                                                event.preventDefault();
+                                                document.getElementById('delete-form').submit();
+                                        } "
+                           data-original-title="Excluir este associado" data-toggle="tooltip" type="button"
                            class="btn btn-danger"><i class="fas fa-user-times"></i></a>
+                        <form id="delete-form" action="{{route('associados.destroy',$associado->id)}}" method="POST"
+                              style="display: none;">
+                            <input type="hidden" name="_method" value="delete">
+                            {{csrf_field()}}
+                        </form>
                         <a href="{{route('dependentes.pre_create',$associado->id)}}"
                            data-original-title="Adicionar dependentes" data-toggle="tooltip" type="button"
                            class="btn btn-info"><i class="fas fa-user-plus"></i></a>

@@ -180,7 +180,11 @@ class AssociadoController extends Controller
      */
     public function destroy(Associado $associado)
     {
-        //
+        if ($associado->delete()){
+            return redirect(route('associados.index'))->with('message','Associado deletado com sucesso');
+        } else {
+            return back()->withInput()->withErrors('error','Associado não pode ser deletado');
+        }
     }
 
     public function procurar()

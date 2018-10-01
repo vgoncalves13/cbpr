@@ -3,13 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Associado extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = ['id', 'logradouro', 'numero', 'complemento', 'bairro', 'cep'];
 
-    protected $dates = ['data_nascimento', 'admissao', 'created_at', 'updated_at'];
+    protected $dates = ['data_nascimento', 'admissao', 'created_at', 'updated_at','deleted_at'];
 
     protected $dateFormat = 'Y-m-d H:m:s';
 
