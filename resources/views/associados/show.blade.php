@@ -143,7 +143,9 @@
                                         <td>{{$dependente->cpf}}</td>
                                         <td>{{$dependente->grau_parentesco}}</td>
                                         <td>{{\Carbon\Carbon::parse($dependente->data_nascimento)->format('d/m/Y')}}</td>
-                                        <td><a href="{{route('dependentes.pre_delete',$dependente->id)}}" data-original-title="Excluir" data-toggle="tooltip" type="button"
+                                        <td><a href="{{route('dependentes.edit',$dependente->id)}}" data-original-title="Editar dependente" data-toggle="tooltip" type="button"
+                                               class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                            <a href="{{route('dependentes.pre_delete',$dependente->id)}}" data-original-title="Excluir" data-toggle="tooltip" type="button"
                                                class="btn btn-danger text-light"><i class="fas fa-trash-alt"></i></a>
 
                                         </td>

@@ -7,6 +7,7 @@ use App\Http\Requests\StoreDependenteRequest;
 use http\Url;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redirect;
 
 class DependenteController extends Controller
 {
@@ -86,10 +87,10 @@ class DependenteController extends Controller
      * @param  \App\Dependente  $dependente
      * @return \Illuminate\Http\Response
      */
-    public function edit($associado_id)
+    public function edit($dependente_id)
     {
-        $dependentes = Dependente::where('associado_id','=',$associado_id)->get();
-        return view('dependentes.edit')->with('dependentes',$dependentes);
+        $dependente = Dependente::with('associado')->where('id','=',$dependente_id)->first();
+        return view('dependentes.edit')->with('dependente',$dependente);
     }
 
     /**
@@ -99,12 +100,29 @@ class DependenteController extends Controller
      * @param  \App\Dependente  $dependente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Dependente $dependente)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $dependente = Dependente::findOrFail($id);
 
-    //Renderiza pagina para informar o motivo da deleção do dependente
+        $data_nascimento = Carbon::now()
+            ->createFromFormat('d/m/Y', $request->input('data_nascimento'))
+            ->toDateString();
+
+        $dependente->update(
+            [
+                'nome_dependente' => $request->input('nome_dependente'),
+                'cpf' => $request->input('cpf'),
+                'grau_parentesco' => $request->input('grau_parentesco'),
+                'data_nascimento' => $data_nascimento,
+            ]
+        );
+
+        if ($dependente) {
+
+            return Redirect::back()->with('message', 'Dependente atualizado com sucesso.');
+        }
+        return Redirect::back()->withErrors(['message', 'Erro ao atualizar']);
+    }
 
 
     /**

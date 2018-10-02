@@ -157,18 +157,16 @@
                         <input type="text" class="form-control" id="naturalidade" name="naturalidade" placeholder="Naturalidade"
                                value="@if(isset($associado->naturalidade)){{$associado->naturalidade}}@else{{old('naturalidade')}}@endif">
                     </div>
-                    <?php $options = ['SOLTEIRO(A)','CASADO(A)','DIVORCIADO(A)','VIÚVO(A)','SEPARADO(A)'] ?>
                     <div class="form-group col-md-3"> <!-- Estado Civil -->
                         <label for="estado_civil" class="control-label">Estado civil</label>
                         <select class="form-control" id="estado_civil" name="estado_civil">
-                                <option value="">Selecione...</option>
-                            @foreach ($options as $key => $value)
-                                <option value="{{ $value }}"
-                                        @if ($key == old('estado_civil', $associado->estado_civil))
-                                        selected="selected"
-                                        @endif
-                                >{{ $value }}</option>
-                            @endforeach
+                            <option value="">Selecione...</option>
+                            <option value="SOLTEIRO(A)"  @if($associado->estado_civil=='SOLTEIRO(A)') selected='selected' @endif >SOLTEIRO(A)</option>
+                            <option value="CASADO(A)"  @if($associado->estado_civil=='CASADO(A)') selected='selected' @endif >CASADO(A)</option>
+                            <option value="DIVORCIADO(A)"  @if($associado->estado_civil=='DIVORCIADO(A)') selected='selected' @endif >DIVORCIADO(A)</option>
+                            <option value="VIÚVO(A)"  @if($associado->estado_civil=='VIÚVO(A)') selected='selected' @endif >VIÚVO(A)</option>
+                            <option value="SEPARADO(A)"  @if($associado->estado_civil=='SEPARADO(A)') selected='selected' @endif >SEPARADO(A)</option>
+
                         </select>
                     </div>
                     <div class="form-group col-md-3"> <!-- Data Nascimento -->

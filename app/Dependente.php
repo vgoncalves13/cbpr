@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Dependente extends Model
 {
     protected $table = 'dependentes';
-    protected $fillable = ['dependentes','associado_id'];
+    protected $fillable = ['dependentes','associado_id','nome_dependente','cpf','grau_parentesco','data_nascimento'];
 
     public function associado(){
-        return $this->belongsTo('App\Associado','dependente_id','id');
+        return $this->belongsTo('App\Associado');
     }
 
     public function dependente_delete_info(){
