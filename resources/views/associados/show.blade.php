@@ -1,49 +1,35 @@
-@extends('layouts.master')
+@extends('adminlte::page')
 @section('title','Exibir usuário')
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 @section('content')
-    <div class="row ">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">{{$associado->nome_completo}}</h3>
 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3>{{$associado->nome_completo}}
+                        @if($associado->status == 1)
+                            <span class="label label-success">Adimplente</span>
+                        @else
+                            <span class="label label-danger">Inadimplente</span>
+                        @endif
+
+                    </h3>
+                    <h6 align="right">Cadastrado em: {{\Carbon\Carbon::parse($associado->created_at)->format('d/m/Y - H:m')}}</h6>
+                    <h6 align="right">Última atualização em: {{\Carbon\Carbon::parse($associado->updated_at)->format('d/m/Y - H:m')}}</h6>
                 </div>
-                <div class="card-body">
+                <div class="box-body">
                     <div class="row">
                         <div class="col-md-3 col-lg-3 " align="center">
-
-                            <legend>Status</legend>
-                            @if($associado->status == 1)
-                                <h2 class="text-light bg-success">Adimplente</h2>
-                            @else
-                                <h2 class="text-light bg-danger">Inadimplente</h2>
-                            @endif
-                            <!--
-                            <div class="switch-toggle alert alert-dark">
-                                <input disabled id="adimplente" name="status" type="radio" @if ($associado->status == 1) checked @endif>
-                                <label class="text-light" for="adimplente" onclick="">Adimplente</label>
-
-                                <input disabled id="inadimplente" name="status" type="radio" @if ($associado->status == 0) checked @endif>
-                                <label class="text-light" for="inadimplente" onclick="">Inadimplente</label>
-
-                                @if($associado->status == 1)
-                                    <a class="btn btn-success"></a>
-                                @else
-                                    <a class="btn btn-danger"></a>
-                                @endif
-                            </div>
-                            -->
                             @if(isset($associado->foto))
                                 <img height="240" width="160" alt="Foto usuário {{$associado->nome_completo}}"
                                      src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive">
 
-                                @endif
+                            @endif
 
                         </div>
 
-                        <div class=" col-md-9 col-lg-9 ">
-                            <table class="table table-responsive-md">
+                        <div class="box-body table-responsive">
+                            <table class="table">
                                 <tbody>
                                 <tr>
                                     <td>Matrícula Antiga:</td>
@@ -120,67 +106,64 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-header">
-                    <h4 class="card-title">Dependentes</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class=" col-md-12">
-                            <table class="table table-responsive-md table-bordered">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th>Nome do dependente</th>
-                                    <th>CPF</th>
-                                    <th>Grau parentesco</th>
-                                    <th>Data nascimento</th>
-                                    <th>Opções</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($dependentes as $dependente)
-                                    <tr>
-                                        <td>{{$dependente->nome_dependente}}</td>
-                                        <td>{{$dependente->cpf}}</td>
-                                        <td>{{$dependente->grau_parentesco}}</td>
-                                        <td>{{\Carbon\Carbon::parse($dependente->data_nascimento)->format('d/m/Y')}}</td>
-                                        <td><a href="{{route('dependentes.edit',$dependente->id)}}" data-original-title="Editar dependente" data-toggle="tooltip" type="button"
-                                               class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                                            <a href="{{route('dependentes.pre_delete',$dependente->id)}}" data-original-title="Excluir" data-toggle="tooltip" type="button"
-                                               class="btn btn-danger text-light"><i class="fas fa-trash-alt"></i></a>
+                <div class="box-footer">
 
-                                        </td>
+                        <h4 class="card-title">Dependentes</h4>
+
+                    <div class="box-body table-responsive">
+                        <div class="row">
+                            <div class=" col-md-12">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th>Nome do dependente</th>
+                                        <th>CPF</th>
+                                        <th>Grau parentesco</th>
+                                        <th>Data nascimento</th>
+                                        <th>Opções</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            <a href="{{route('dependente_info_delete.show',$associado->id)}}" type="button">Clique para verificar histórico de dependentes desativados</a>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($dependentes as $dependente)
+                                        <tr>
+                                            <td>{{$dependente->nome_dependente}}</td>
+                                            <td>{{$dependente->cpf}}</td>
+                                            <td>{{$dependente->grau_parentesco}}</td>
+                                            <td>{{\Carbon\Carbon::parse($dependente->data_nascimento)->format('d/m/Y')}}</td>
+                                            <td><a href="{{route('dependentes.edit',$dependente->id)}}" data-original-title="Editar dependente" data-toggle="tooltip" type="button"
+                                                   class="btn btn-warning"><i class="fa fa-edit"></i></a>
+                                                <a href="{{route('dependentes.pre_delete',$dependente->id)}}" data-original-title="Excluir" data-toggle="tooltip" type="button"
+                                                   class="btn btn-danger text-light"><i class="fa fa-trash"></i></a>
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                <a href="{{route('dependente_info_delete.show',$associado->id)}}" type="button">Clique para verificar histórico de dependentes desativados</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <script>
-                    $(function () {
-                        $('[data-toggle="tooltip"]').tooltip()
-                    })
-                </script>
-                <div class="card-footer">
+                <div class="box-footer">
                     <a data-original-title="Imprimir {EM BREVE}" data-toggle="tooltip" type="button"
                        class="btn btn-primary"><i class="fa fa-print"></i></a>
                     <span class="pull-right">
                         <a href="{{route('pagamentos.show',$associado->id)}}"
                            data-original-title="Verificar histórico pagamento" data-toggle="tooltip" type="button"
-                           class="btn btn-success"><i class="fas fa-dollar-sign"></i></a>
+                           class="btn btn-success"><i class="fa fa-dollar"></i></a>
                         <a href="{{route('associados.edit',$associado->id)}}"
                            data-original-title="Editar este associado" data-toggle="tooltip" type="button"
-                           class="btn btn-warning"><i class="fas fa-user-edit"></i></a>
+                           class="btn btn-warning"><i class="fa fa-pencil"></i></a>
                         <a href="#"
-                                onclick="
+                           onclick="
                                 var result = confirm('Tem certeza que deseja excluir este associado?');
                                         if (result){
                                                 event.preventDefault();
                                                 document.getElementById('delete-form').submit();
                                         } "
                            data-original-title="Excluir este associado" data-toggle="tooltip" type="button"
-                           class="btn btn-danger"><i class="fas fa-user-times"></i></a>
+                           class="btn btn-danger"><i class="fa fa-trash"></i></a>
                         <form id="delete-form" action="{{route('associados.destroy',$associado->id)}}" method="POST"
                               style="display: none;">
                             <input type="hidden" name="_method" value="delete">
@@ -188,10 +171,20 @@
                         </form>
                         <a href="{{route('dependentes.pre_create',$associado->id)}}"
                            data-original-title="Adicionar dependentes" data-toggle="tooltip" type="button"
-                           class="btn btn-info"><i class="fas fa-user-plus"></i></a>
+                           class="btn btn-info"><i class="fa fa-user-plus"></i></a>
                     </span>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
+
+
 @endsection

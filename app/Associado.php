@@ -37,6 +37,16 @@ class Associado extends Model
         return $this->hasOne('App\User', 'associado_id', 'id');
     }
 
+    // this is a recommended way to declare event handlers
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($associado) { // before delete() method call this
+            $associado->dependente()->delete();
+            // do the rest of the cleanup...
+        });
+    }
+
     //Accessors
 
     public function getNomeCompletoAttribute($value)

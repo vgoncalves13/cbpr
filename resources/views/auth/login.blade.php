@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('vendor.adminlte.login')
 @section('title','Autenticar')
 @section('content')
 <div class="container">

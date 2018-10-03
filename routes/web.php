@@ -42,6 +42,15 @@ Route::put('associados/foto/{id}','AssociadoController@updateFoto');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+
+Route::get('/lista_associados/',function(){
+    $associados = App\Associado::orderBy('nome_completo')->paginate(10);
+
+    return view('associados.resultado_busca')->with('associados',$associados);
+})->name('associados.lista')->middleware('auth');
+
+
 //Dependentes
 
 Route::get('dependentes/pre_create/{associado_id}', function ($associado_id) {

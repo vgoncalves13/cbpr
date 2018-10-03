@@ -1,37 +1,42 @@
-@extends('layouts.master')
+@extends('adminlte::page')
 @section('title','Exibir usuário')
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 @section('content')
     <div class="row ">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{$associado->nome_completo}}</h3>
+
                 </div>
                 <div class="card-body">
+
+                </div>
+
+                <script>
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    })
+                </script>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3>{{$associado->nome_completo}}
+                        @if($associado->status == 1)
+                            <span class="label label-success">Adimplente</span>
+                        @else
+                            <span class="label label-danger">Inadimplente</span>
+                        @endif </h3>
+                </div>
+                <div class="box-body">
                     <div class="row">
                         <div class="col-md-3 col-lg-3 " align="center">
-                            <legend>Status</legend>
-                            @if($associado->status == "1")
-                                <h2 class="text-light bg-success">Adimplente</h2>
-                            @else
-                                <h2 class="text-light bg-danger">Inadimplente</h2>
-                            @endif
-                        <!--
-                            <div class="switch-toggle alert alert-dark">
-                                <input disabled id="adimplente" name="status" type="radio" @if ($associado->status === 1) checked @endif>
-                                <label class="text-light" for="adimplente" onclick="">Adimplente</label>
 
-                                <input disabled id="inadimplente" name="status" type="radio" @if ($associado->status === 0) checked @endif>
-                                <label class="text-light" for="inadimplente" onclick="">Inadimplente</label>
-
-                                @if($associado->status === 1)
-                            <a class="btn btn-success"></a>
-@else
-                            <a class="btn btn-danger"></a>
-@endif
-                                </div>
--->
                             @if(isset($associado->foto))
                                 <img height="240" width="160" alt="Foto usuário {{$associado->nome_completo}}"
                                      src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive">
@@ -119,16 +124,10 @@
                         </div>
                     </div>
                 </div>
-
-                <script>
-                    $(function () {
-                        $('[data-toggle="tooltip"]').tooltip()
-                    })
-                </script>
-                <div class="card-footer">
+                <div class="box-footer">
                     <a data-original-title="Imprimir {EM BREVE}" data-toggle="tooltip" type="button"
-                       class="btn btn-primary"><i class="fa fa-print"></i></a>
-
+                       class="btn btn-primary"><i class="fa fa-print"></i>
+                    </a>
                 </div>
             </div>
         </div>

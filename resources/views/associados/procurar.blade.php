@@ -1,30 +1,34 @@
-@extends('layouts.master')
+@extends('adminlte::page')
 @section('title','Pesquisar associado')
 @section('content')
-        <form class="card card-sm" action="{{route('associados.busca')}}" method="GET">
-
-            <div class="card-body row no-gutters align-items-center">
-                <div class="col-auto">
-                    <i class="fas fa-search h4 text-body"></i>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3>Pesquisa de Associados</h3>
                 </div>
-                <!--end of col-->
-                <div class="col">
-                    <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Digite aqui sua busca" name="busca" value="{{old('busca')}}">
+                <div class="box-body">
+                    <form class="" action="{{route('associados.busca')}}" method="GET">
+                        <div class="form-group">
+                            <label>Palavra-chave</label>
+                            <input type="text" name="busca" class="form-control" placeholder="Procurar" value="{{old('busca')}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Termo</label>
+                            <select class="custom-select form-control" name="termo">
+                                <option value="" selected>Escolha um termo</option>
+                                <option value="cpf">CPF</option>
+                                <option value="nome_completo">Nome</option>
+                                <option value="email">E-mail</option>
+                            </select>
+                        </div>
+                        <button type="submit" name="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i>
+                        Procurar</button>
+                    </form>
                 </div>
-                <div class="col-4">
-                    <select class="form-control form-control-lg" name="termo">
-                        <option value="" selected>Escolha um termo</option>
-                        <option value="cpf">CPF</option>
-                        <option value="nome_completo">Nome</option>
-                        <option value="email">E-mail</option>
-                    </select>
-                </div>
-                <!--end of col-->
-                <div class="col-auto">
-                    <button class="btn btn-lg btn-success" type="submit">Procurar</button>
-                </div>
-                <!--end of col-->
             </div>
-        </form>
-    <!--end of col-->
+        </div>
+    </div>
 @endsection
+
+

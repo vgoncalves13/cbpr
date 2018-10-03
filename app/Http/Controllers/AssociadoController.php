@@ -24,10 +24,33 @@ class AssociadoController extends Controller
      */
     public function index()
     {
-        $associados = Associado::paginate(10);
-        return view('associados.index')->with('associados', $associados);
+
+
+        $graficoClasseAssociado = app()->chartjs
+            ->name('pieChartTest')
+            ->type('doughnut')
+            ->size(['width' => 300, 'height' => 100])
+            ->labels(['CBMERJ', 'PMERJ','PENSIONISTA','SÓCIO CIVIL'])
+            ->datasets([
+                [
+                    'backgroundColor' => ['#FF0000','#0000b2', '#008000','#e5d800'],
+                    'hoverBackgroundColor' => ['#ff6666', '#7f7fff','#4ca64c','#fff44c'],
+                    'data' => [
+                        getTotalClasse('CBMERJ'),
+                        getTotalClasse('PMERJ'),
+                        getTotalClasse('PENSIONISTA'),
+                        getTotalClasse('CIVIL'),
+                    ]
+                ]
+            ])
+            ->options([]);
+
+        return view('associados.index', compact('graficoClasseAssociado'));
+
+
 
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -204,7 +227,7 @@ class AssociadoController extends Controller
                 ->where($termo, 'LIKE', '%' . $busca . '%')
                 ->paginate(10);
             $request->session()->flash('message', 'Resultado da busca ' . 'Termo: ' . $termo . ' Valor: ' . $busca);
-            return view('associados.index')->with('associados', $associados);
+            return view('associados.resultado_busca')->with('associados', $associados);
         }else {
             return redirect('procurar')->withErrors('Nenhum associado encontrado com os termos fornecidos! ' . 'Termo: ' . $termo . ' Valor: ' . $busca);
         }

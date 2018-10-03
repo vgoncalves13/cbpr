@@ -1,47 +1,93 @@
-@extends('layouts.master');
-@section('title', 'Index');
+@extends('adminlte::page')
+@section('title', 'Index')
 
 @section('content')
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{getTotalAssociadosInadimplentes()+getTotalAssociadosAdimplentes()}}</h3>
+
+                    <p>Total Associados</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios-contact-outline"></i>
+                </div>
+                <a href="{{route('associados.lista')}}" class="small-box-footer">
+                    Mais informações <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="ion ion-ios-contact-outline"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">ADIMPLENTES</span>
+                    <span class="info-box-number">{{getTotalAssociadosAdimplentes()}}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="ion ion-ios-contact-outline"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">INADIMPLENTES</span>
+                    <span class="info-box-number">{{getTotalAssociadosInadimplentes()}}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+
+            <div class="info-box">
+                <span class="info-box-icon bg-light-blue"><i class="ion ion-ios-people"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">TOTAL DEPENDENTES</span>
+                    <span class="info-box-number">{{getTotalDependentes()}}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">Associados por categoria</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+
+                    {!! $graficoClasseAssociado->render() !!}
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+
+
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
-    <table class="table table-responsive-md table-hover table-bordered">
-        <thead>
-        <tr>
-            <th><i class="fa fa-user"></i> </th>
-            <th scope="col">Nome Completo</th>
-            <th scope="col">Data Nascimento</th>
-            <th scope="col">Classe</th>
-            <th scope="col">Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($associados as $associado)
-        <tr>
-            <td>@if($associado->foto)<img height="80" width="60"  src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive rounded">@else<span><i class="far fa-image"></i> </span>@endif</td>
-            <td scope="row"><a href="@if(\Illuminate\Support\Facades\Auth::user()->isGuest())show_consultorio/{!!$associado->id!!}@else{{'associados/'.$associado->id}}@endif">{{$associado->nome_completo}}</a></td>
-            <td>  {{\Carbon\Carbon::parse($associado->data_nascimento)->format('d/m/Y')}}</td>
-            <td>{{$associado->classe}}</td>
-            <td>
-                <div class="btn-group">
-                    <a href="@if(\Illuminate\Support\Facades\Auth::user()->isGuest()){{ route('associados.show_consultorio',$associado->id) }} @else {{route('associados.show',$associado->id)}} @endif" data-original-title="Ver mais" data-toggle="tooltip"  type="submit" class="btn btn-primary"><i class="fa fa-search-plus"></i></a>
-                    @if(!\Illuminate\Support\Facades\Auth::user()->isGuest())
-                        <a href="{{ route('pagamentos.show',$associado->id) }}" data-original-title="Verificar pagamentos" data-toggle="tooltip"  type="submit" class="btn btn-primary"><i class="fa fa-dollar-sign"></i></a>
-                        <a href="{{ route('associados.edit',$associado->id) }}" data-original-title="Editar associado" data-toggle="tooltip"  type="submit" class="btn btn-primary"><i class="fa fa-user-edit"></i></a>
-                        <a href="{{route('dependentes.pre_create',$associado->id)}}"
-                           data-original-title="Adicionar dependentes" data-toggle="tooltip" type="button"
-                           class="btn btn-primary"><i class="fas fa-user-plus"></i></a>
-                    @endif
-                </div>
 
-
-            </td>
-        </tr>
-        @endforeach
-        </tbody>
-    </table>
-{{ $associados->links() }}
 @endsection

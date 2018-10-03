@@ -46,7 +46,7 @@
                 @guest
                 @else
                     @if(!Auth::user()->isGuest())
-                        <li class="nav-item {{ Request::path() == '/' ? 'active' : '' }}">
+                        <li class="nav-item {{ Request::path() == 'associados' ? 'active' : '' }}">
                             <a class="nav-link" href="{{route('associados.index')}}">Página Inicial </a>
                         </li>
                         <li class="nav-item {{ Request::path() == 'associados/create' ? 'active' : '' }}">

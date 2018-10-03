@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('adminlte::page')
 @section('title','Cadastrar pagamento')
 @section('content')
     <style>
@@ -27,17 +27,37 @@
                 });
         }
     </script>
-    <form method="POST" novalidate action="{{route('pagamentos.store',$associado_id)}}">
-        {{csrf_field()}}
-        <input type="hidden" name="associado_id" value="{{$associado_id}}">
-        <div class="form-row">
-            <div class="form-group col-md-3"> <!-- Ano histórico -->
-                <label for="ano" class="control-label">Ano Histórico</label>
-                <input type="text" class="form-control" id="ano" name="ano" placeholder="ANO"
-                       value="{{old('graduacao')}}">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3>Criar novo registro anual</h3>
+                </div>
+                <div class="box-body">
+                    <form method="POST" novalidate action="{{route('pagamentos.store',$associado_id)}}">
+                        {{csrf_field()}}
+                        <input type="hidden" name="associado_id" value="{{$associado_id}}">
+                        <div class="form-group"> <!-- Ano histórico -->
+                            <label for="ano" class="">Ano Histórico</label>
+                            <input type="text" class="form-control" id="ano" name="ano" placeholder="ANO"
+                                   value="{{old('graduacao')}}">
+                        </div>
+                        <div class="form-group"><!--Botão enviar-->
+                            <button type="submit" class="btn btn-primary btn-flat">Cadastrar</button>
+                            <a href="{{url('pagamentos',$associado_id)}}"
+                               data-original-title="Voltar"
+                               data-toggle="tooltip"
+                               type="submit"
+                               class="btn btn-secondary btn-flat">
+                                <i class="fa fa-arrow-left"></i>
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
-        <a href="{{url('pagamentos',$associado_id)}}" data-original-title="Voltar" data-toggle="tooltip"  type="submit" class="btn btn-secondary"><i class="fa fa-arrow-left"></i></a>
-    </form>
+    </div>
+
+
 @endsection

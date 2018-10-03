@@ -46,7 +46,9 @@ class DependenteDeleteInfoController extends Controller
     public function excluir(DependenteDeleteInfoRequest $request, $dependente_id)
     {
         //Procura pelo dependente
-        $dependente = Dependente::findOrFail($dependente_id);
+        $dependente = Dependente::with('associado')->findOrFail($dependente_id);
+        //Salva o id do associado atrelado ao dependente que queremos deletar para usar posteriormente no redirect da rota
+        $associado_id = $dependente->associado->id;
         //Seta o valor da coluna status para 0 (desativado)
         $dependente->status = 0;
         //Salva o valor
@@ -55,7 +57,7 @@ class DependenteDeleteInfoController extends Controller
         //Se o campo for alterado com sucesso, registra as informações no banco
         if ($dependente){
             if ($this->store($request)){
-                return back();
+                return redirect("associados/$associado_id")->with('message','Dependente desativado com sucesso!');
             }
         return false;
 
