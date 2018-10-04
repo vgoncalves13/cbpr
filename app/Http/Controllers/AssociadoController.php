@@ -181,8 +181,8 @@ class AssociadoController extends Controller
 
         if ($associado) {
 
-            $endereco = new Endereco();
-            $endereco->associado_id = $associado->id;
+            $endereco = Endereco::where('associado_id',$id)->first();
+            //$endereco->associado_id = $id;
             $endereco->logradouro = $request->logradouro;
             $endereco->numero = $request->numero;
             $endereco->complemento = $request->complemento;
