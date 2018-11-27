@@ -124,6 +124,11 @@ return [
             'url' => 'procurar',
             'icon' => 'search'
         ],
+        'EXPORTAR DADOS',
+        [
+            'text' => 'Exportar informações associados',
+            'url'  => 'lista_associados/',
+        ],
         'DETALHES DA CONTA',
         [
             'text' => 'Trocar senha',

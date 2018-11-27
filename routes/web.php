@@ -32,7 +32,7 @@ Route::get('procurar','AssociadoController@procurar')->name('associados.procurar
 
 Route::get('busca/','AssociadoController@busca')->name('associados.busca')->middleware('auth');
 
-
+Route::get('exportar_csv','AssociadoController@exportarCsv')->name('exportar_csv')->middleware('auth');
 
 
 
@@ -43,7 +43,6 @@ Auth::routes();
 Route::put('associados/foto/{id}','AssociadoController@updateFoto');
 
 Route::get('/home', 'HomeController@index')->name('home');
-
 
 
 Route::get('/lista_associados/',function(){

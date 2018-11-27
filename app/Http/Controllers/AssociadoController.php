@@ -7,13 +7,11 @@ use App\Dependente;
 use App\Endereco;
 use App\Http\Requests\BuscaAssociadoRequest;
 use App\Http\Requests\StoreAssociadoRequest;
-use App\Http\Requests\StorePhotoRequest;
 use App\Http\Requests\UpdateAssociadoRequest;
 use App\User;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Laracsv\Export;
 
 class AssociadoController extends Controller
 {
@@ -259,5 +257,24 @@ class AssociadoController extends Controller
             return redirect('associados/' . $associado->id)->with('message', 'Foto adicionada com sucesso.');
         }
 
+    }
+
+    public function exportarCsv()
+    {
+
+        $associados = Associado::with('endereco')->orderBy('nome_completo','asc')->get();
+        $fields = [
+            'nome_completo' => 'Nome Completo',
+            'endereco.logradouro' => 'Logradouro',
+            'endereco.numero' => 'Número',
+            'endereco.bairro' => 'Bairro',
+            'endereco.complemento' => 'Complemento',
+            'endereco.cep' => 'CEP'
+        ];
+        $csvExporter = new Export();
+        //$csvExporter->beforeEach(function ($associado) {
+        //    $associado->endereco->logradouro;
+        //});
+        $csvExporter->build($associados,$fields)->download();
     }
 }

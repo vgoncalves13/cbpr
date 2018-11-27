@@ -42,4 +42,6 @@
         </tbody>
     </table>
 {{ $associados->links() }}
+<a href="{{route('exportar_csv')}}" class="btn btn-primary pull-right"><i class="fa fa-file-excel-o"></i> Exportar para CSV </a>
+
 @endsection

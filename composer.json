@@ -12,7 +12,8 @@
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
         "nesbot/carbon": "1.25.0",
-        "robinherbots/jquery.inputmask": "^4.0"
+        "robinherbots/jquery.inputmask": "^4.0",
+        "usmanhalalit/laracsv": "1.*@dev"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
