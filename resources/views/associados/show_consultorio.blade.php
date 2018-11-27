@@ -120,7 +120,31 @@
 
                                 </tbody>
                             </table>
+                            <div class="box-footer">
 
+                                <h4 class="card-title">Dependentes</h4>
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th>Nome do dependente</th>
+                                        <th>CPF</th>
+                                        <th>Grau parentesco</th>
+                                        <th>Data nascimento</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($dependentes as $dependente)
+                                        <tr>
+                                            <td>{{$dependente->nome_dependente}}</td>
+                                            <td>{{$dependente->cpf}}</td>
+                                            <td>{{$dependente->grau_parentesco}}</td>
+                                            <td>{{\Carbon\Carbon::parse($dependente->data_nascimento)->format('d/m/Y')}}</td>
+
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

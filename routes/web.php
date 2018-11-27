@@ -21,8 +21,10 @@ Route::middleware(['auth', 'consultorio'])->group(function () {
 
 Route::get('show_consultorio/{associado_id}',function ($associado_id) {
     $associado = App\Associado::where('id',$associado_id)->first();
+    //Mostra os dependentes do associado_id com status 1 = ativo
+    $dependentes = App\Dependente::where([['associado_id',$associado_id],['status',1]])->get();
 
-    return view('associados.show_consultorio')->with('associado',$associado);
+    return view('associados.show_consultorio')->with(compact('associado','dependentes'));
 })->name('associados.show_consultorio')->middleware('auth');
 
 
