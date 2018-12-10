@@ -16,7 +16,7 @@ class Enderecos extends Migration
         Schema::create('enderecos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('logradouro');
-            $table->string('numero');
+            $table->string('numero')->nullable($value = true);
             $table->string('complemento');
             $table->string('bairro');
             $table->string('cep');
