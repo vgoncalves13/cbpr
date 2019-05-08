@@ -119,11 +119,6 @@ return [
             'url'         => 'associados/create',
             'icon'        => 'plus',
         ],
-        [
-            'text' => 'Pesquisar',
-            'url' => 'procurar',
-            'icon' => 'search'
-        ],
         'EXPORTAR DADOS',
         [
             'text' => 'Exportar informações associados',

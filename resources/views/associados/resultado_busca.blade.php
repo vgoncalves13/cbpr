@@ -15,6 +15,7 @@
                     <th scope="col">Nome completo</th>
                     <th scope="col">Classe</th>
                     <th scope="col">Data de nascimento</th>
+                    <th scope="col">CPF</th>
                     <th scope="col">Status</th>
                     <th scope="col">Ações</th>
                 </tr>

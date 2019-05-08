@@ -176,6 +176,7 @@
                     { data: 'nome_completo', name: 'nome_completo' },
                     { data: 'classe', name: 'classe' },
                     { data: 'data_nascimento', name: 'data_nascimento' },
+                    { data: 'cpf', name: 'cpf' },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false}
                 ]
