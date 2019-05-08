@@ -113,8 +113,11 @@ class PagamentoController extends Controller
      * @param  \App\Pagamento  $pagamento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pagamento $pagamento)
+    public function destroy($id)
     {
-        //
+        $pagamento = Pagamento::findOrFail($id);
+        $pagamento->delete();
+
+        return back()->with('message','Histórico pagamento deletado com sucesso!');
     }
 }

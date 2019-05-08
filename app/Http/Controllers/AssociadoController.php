@@ -8,6 +8,7 @@ use App\Endereco;
 use App\Http\Requests\BuscaAssociadoRequest;
 use App\Http\Requests\StoreAssociadoRequest;
 use App\Http\Requests\UpdateAssociadoRequest;
+use App\Report;
 use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -259,9 +260,11 @@ class AssociadoController extends Controller
 
     }
 
-    public function exportarCsv()
+    public function exportarCsv(Request $request)
     {
 
+        Report::displayReport($request);
+        /*
         $associados = Associado::with('endereco')->orderBy('nome_completo','asc')->get();
         $fields = [
             'nome_completo' => 'Nome Completo',
@@ -276,5 +279,6 @@ class AssociadoController extends Controller
         //    $associado->endereco->logradouro;
         //});
         $csvExporter->build($associados,$fields)->download();
+        */
     }
 }

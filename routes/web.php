@@ -89,6 +89,7 @@ Route::get('pagamentos/create/{id}','PagamentoController@create')->name('pagamen
 Route::get('pagamentos/edit/{id}','PagamentoController@edit')->name('pagamentos.edit')->middleware('auth');
 Route::post('pagamentos/{id}','PagamentoController@store')->name('pagamentos.store')->middleware('auth');
 Route::put('pagamentos/{pagamento}','PagamentoController@update')->name('pagamentos.update')->middleware('auth');
+Route::delete('pagamentos/destroy/{id}','PagamentoController@destroy')->name('pagamentos.destroy')->middleware('auth');
 
 //Trocar senha
 

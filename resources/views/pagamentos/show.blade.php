@@ -55,15 +55,38 @@
                             <td>@if(isset($pagamento->outubro))R$ {{$pagamento->outubro}}@else{{'-'}}@endif</td>
                             <td>@if(isset($pagamento->novembro))R$ {{$pagamento->novembro}}@else{{'-'}}@endif</td>
                             <td>@if(isset($pagamento->dezembro))R$ {{$pagamento->dezembro}}@else{{'-'}}@endif</td>
-                            <td><a href="{{route('pagamentos.edit',$pagamento->id)}}" data-original-title="Editar Histórico" data-toggle="tooltip"  type="submit" class="d-print-none btn btn-secondary"><i class="fa fa-edit"></i></a></td>
+                            <td>
+                                <a href="{{route('pagamentos.edit',$pagamento->id)}}" data-original-title="Editar Histórico"
+                                   data-toggle="tooltip"
+                                   type="submit"
+                                   class="d-print-none btn btn-flat btn-xs btn-primary">
+                                    EDITAR <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="#"
+                                   onclick="
+                                           var result = confirm('Tem certeza que deseja deletar este histórico?');
+                                           if (result){
+                                           event.preventDefault();
+                                           document.getElementById('delete-form{{$pagamento->id}}').submit();
+                                           } "
+                                   data-original-title="Deletar Histórico" data-toggle="tooltip" type="submit"
+                                   class="d-print-none btn btn-flat btn-xs btn-danger">DELETAR <i class="fa fa-trash"></i>
+                                </a>
+                                <form method="POST" action="{{route('pagamentos.destroy',$pagamento->id)}}" accept-charset="UTF-8"
+                                      id="delete-form{{$pagamento->id}}">
+                                    <input name="_token" type="hidden" value="{{csrf_token()}}">
+                                    <input name="_method" type="hidden" value="DELETE">
+                                </form>
+                            </td>
+
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
             <div class="box-footer">
-                <a data-original-title="Imprimir" data-toggle="tooltip" onclick="window.print()" type="button" class="d-print-none btn btn-primary btn-flat"><i class="fa fa-print"></i></a>
-                <a href="{{route('pagamentos.create',$associado_id)}}" data-original-title="Criar novo ano" data-toggle="tooltip"  type="submit" class="d-print-none btn btn-secondary"><i class="fa fa-plus"></i></a>
+                <a data-original-title="Imprimir" data-toggle="tooltip" onclick="window.print()" type="button" class="d-print-none btn btn-primary btn-flat">Imprimir <i class="fa fa-print"></i></a>
+                <a href="{{route('pagamentos.create',$associado_id)}}" data-original-title="Criar novo ano" data-toggle="tooltip"  type="submit" class="d-print-none btn-flat btn btn-primary">Criar novo ano <i class="fa fa-plus"></i></a>
 
             </div>
         </div>
