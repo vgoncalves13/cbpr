@@ -41,14 +41,15 @@ Auth::routes();
 
 //Associados
 Route::put('associados/foto/{id}','AssociadoController@updateFoto');
-
+//Rota para ajax da tabela index
+Route::get('/associadosData','AssociadoController@associadosData')->name('associados.datatables.data');
 Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get('/lista_associados/',function(){
-    $associados = App\Associado::orderBy('nome_completo')->paginate(10);
+    //$associados = App\Associado::orderBy('nome_completo')->paginate(10);
 
-    return view('associados.resultado_busca')->with('associados',$associados);
+    return view('associados.resultado_busca');
 })->name('associados.lista')->middleware('auth');
 
 

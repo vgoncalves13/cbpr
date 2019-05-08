@@ -13,6 +13,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Laracsv\Export;
+use Yajra\DataTables\Facades\DataTables;
 
 class AssociadoController extends Controller
 {
@@ -262,9 +263,8 @@ class AssociadoController extends Controller
 
     public function exportarCsv(Request $request)
     {
-
         Report::displayReport($request);
-        /*
+
         $associados = Associado::with('endereco')->orderBy('nome_completo','asc')->get();
         $fields = [
             'nome_completo' => 'Nome Completo',
@@ -279,6 +279,31 @@ class AssociadoController extends Controller
         //    $associado->endereco->logradouro;
         //});
         $csvExporter->build($associados,$fields)->download();
-        */
+
+    }
+
+    public function associadosData()
+    {
+        $associado = Associado::get();
+
+        return DataTables::of($associado)
+            ->addColumn('action', function ($associado) {
+                return '
+                <a href="associados/'.$associado->id.'" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Exibir</a>
+                <a href="associados/'.$associado->id.'/edit" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-edit"></i> Editar</a>
+                <a href="pagamentos/'.$associado->id.'" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-dollar"></i> Pagamentos</a>
+                        ';
+            })
+            ->addColumn('data_nascimento',function ($associado) {
+                return Carbon::parse($associado->data_nascimento)->format('d/m/Y');
+            })
+            ->addColumn('status',function ($associado) {
+                if ($associado->status == 1){
+                    return 'ADIMPLENTE';
+                }else{
+                    return 'INADIMPLENTE';
+                }
+            })
+            ->make(true);
     }
 }

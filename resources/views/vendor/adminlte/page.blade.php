@@ -166,6 +166,21 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
+
+        $(function() {
+            $('#associados-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{!! route('associados.datatables.data') !!}',
+                columns: [
+                    { data: 'nome_completo', name: 'nome_completo' },
+                    { data: 'classe', name: 'classe' },
+                    { data: 'data_nascimento', name: 'data_nascimento' },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
+        });
     </script>
     @stack('js')
     @yield('js')
