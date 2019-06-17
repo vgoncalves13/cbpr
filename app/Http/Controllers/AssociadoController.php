@@ -112,13 +112,13 @@ class AssociadoController extends Controller
      */
     public function show($id)
     {
-        $associado = Associado::find($id);
+        $associado = Associado::with(['parent'])->find($id);
         $dependentes = Dependente::where([
             ['associado_id', '=', $id],
-            ['status','=','1']
-        ])->get();
-        //dd($dependente);
-        return view('associados.show')->with(compact('associado', $associado,'dependentes',$dependentes));
+            ['status','=','1']])
+            ->get();
+        $associados_linkados = Associado::where('parent_id',$associado->id)->get();
+        return view('associados.show')->with(compact('associado','dependentes','associados_linkados'));
 
     }
 
@@ -305,5 +305,34 @@ class AssociadoController extends Controller
                 }
             })
             ->make(true);
+    }
+
+    public function link($associado_id)
+    {
+        return view('associados.link_parent')->with(compact('associado_id'));
+    }
+
+    public function link_save(Request $request)
+    {
+        $associado = Associado::where('id',$request->associado_id)->first();
+        $associado->parent_id = $request->parent_id;
+        $associado->save();
+        return redirect('associados/' . $associado->id)->with('message', 'Associado linkado com sucesso!');
+
+    }
+
+    /**
+     * Return result to populate select2
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function associado_load_select2(Request $request)
+    {
+
+        $search = $request->get('search');
+        $data = Associado::where('nome_completo', 'like', '%' . $search . '%')
+            ->select('nome_completo','id')
+            ->paginate(5);
+        return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 }

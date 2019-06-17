@@ -37,6 +37,11 @@ class Associado extends Model
         return $this->hasOne('App\User', 'associado_id', 'id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(self::class,'parent_id');
+    }
+
     // this is a recommended way to declare event handlers
     public static function boot() {
         parent::boot();

@@ -167,6 +167,38 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
 
+        $('#associado_id').select2({
+            ajax: {
+                url: '{{'/associados/load/select2'}}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.nome_completo
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250
+            },
+            placeholder: 'Selecione um associado',
+            minimumInputLength: 3,
+            multiple: false
+        });
+
         $(function() {
             $('#associados-table').DataTable({
                 processing: true,

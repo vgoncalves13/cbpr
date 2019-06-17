@@ -44,6 +44,10 @@ Route::put('associados/foto/{id}','AssociadoController@updateFoto');
 //Rota para ajax da tabela index
 Route::get('/associadosData','AssociadoController@associadosData')->name('associados.datatables.data');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('link/associados/{id}','AssociadoController@link')->name('associados.link');
+Route::post('link/associados/','AssociadoController@link_save')->name('associados.link_save');
+//Rota responsável pelo ajax do select2
+Route::get('/associados/load/select2', 'AssociadoController@associado_load_select2');
 
 
 Route::get('/lista_associados/',function(){

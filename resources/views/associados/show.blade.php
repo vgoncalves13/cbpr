@@ -32,6 +32,11 @@
                             <table class="table">
                                 <tbody>
                                 <tr>
+                                    <td>Associado Pai:</td>
+                                    <td>@isset($associado->parent_id)<a href="{{route('associados.show',$associado->parent->id)}}">{{$associado->parent->nome_completo}}</a> @endisset</td>
+
+                                </tr>
+                                <tr>
                                     <td>Matrícula Antiga:</td>
                                     <td>{{$associado->matricula_antiga}}</td>
                                 </tr>
@@ -107,39 +112,71 @@
                     </div>
                 </div>
                 <div class="box-footer">
+                    <h4 class="card-title">Associados linkados</h4>
 
-                        <h4 class="card-title">Dependentes</h4>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class=" col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered ">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>CPF</th>
+                                            <th>Matrícula Nova</th>
+                                            <th>Data nascimento</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($associados_linkados as $associado_linkado)
+                                            <tr>
+                                                <td><a href="{{route('associados.show',$associado_linkado->id)}}">{{$associado_linkado->nome_completo}}</a> </td>
+                                                <td>{{$associado_linkado->cpf}}</td>
+                                                <td>{{$associado_linkado->matricula_nova}}</td>
+                                                <td>{{\Carbon\Carbon::parse($associado_linkado->data_nascimento)->format('d/m/Y')}}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="card-title">Dependentes</h4>
 
                     <div class="box-body table-responsive">
                         <div class="row">
                             <div class=" col-md-12">
-                                <table class="table table-bordered">
-                                    <thead class="thead-dark">
-                                    <tr>
-                                        <th>Nome do dependente</th>
-                                        <th>CPF</th>
-                                        <th>Grau parentesco</th>
-                                        <th>Data nascimento</th>
-                                        <th>Opções</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($dependentes as $dependente)
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="thead-dark">
                                         <tr>
-                                            <td>{{$dependente->nome_dependente}}</td>
-                                            <td>{{$dependente->cpf}}</td>
-                                            <td>{{$dependente->grau_parentesco}}</td>
-                                            <td>{{\Carbon\Carbon::parse($dependente->data_nascimento)->format('d/m/Y')}}</td>
-                                            <td><a href="{{route('dependentes.edit',$dependente->id)}}" data-original-title="Editar dependente" data-toggle="tooltip" type="button"
-                                                   class="btn btn-warning"><i class="fa fa-edit"></i></a>
-                                                <a href="{{route('dependentes.pre_delete',$dependente->id)}}" data-original-title="Excluir" data-toggle="tooltip" type="button"
-                                                   class="btn btn-danger text-light"><i class="fa fa-trash"></i></a>
-
-                                            </td>
+                                            <th>Nome do dependente</th>
+                                            <th>CPF</th>
+                                            <th>Grau parentesco</th>
+                                            <th>Data nascimento</th>
+                                            <th>Opções</th>
                                         </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($dependentes as $dependente)
+                                            <tr>
+                                                <td>{{$dependente->nome_dependente}}</td>
+                                                <td>{{$dependente->cpf}}</td>
+                                                <td>{{$dependente->grau_parentesco}}</td>
+                                                <td>{{\Carbon\Carbon::parse($dependente->data_nascimento)->format('d/m/Y')}}</td>
+                                                <td><a href="{{route('dependentes.edit',$dependente->id)}}" data-original-title="Editar dependente" data-toggle="tooltip" type="button"
+                                                       class="btn btn-warning"><i class="fa fa-edit"></i></a>
+                                                    <a href="{{route('dependentes.pre_delete',$dependente->id)}}" data-original-title="Excluir" data-toggle="tooltip" type="button"
+                                                       class="btn btn-danger text-light"><i class="fa fa-trash"></i></a>
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <a href="{{route('dependente_info_delete.show',$associado->id)}}" type="button">Clique para verificar histórico de dependentes desativados</a>
                             </div>
                         </div>
@@ -171,7 +208,12 @@
                         </form>
                         <a href="{{route('dependentes.pre_create',$associado->id)}}"
                            data-original-title="Adicionar dependentes" data-toggle="tooltip" type="button"
-                           class="btn btn-info"><i class="fa fa-user-plus"></i></a>
+                           class="btn btn-info"><i class="fa fa-user-plus"></i>
+                        </a>
+                        <a href="{{route('associados.link',$associado->id)}}"
+                           data-original-title="Linkar associado" data-toggle="tooltip" type="button"
+                           class="btn btn-info"><i class="fa fa-chain"></i>
+                        </a>
                     </span>
                 </div>
             </div>
