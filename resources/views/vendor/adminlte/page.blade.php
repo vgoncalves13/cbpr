@@ -214,6 +214,21 @@
                 ]
             });
         });
+        $(function() {
+            $('#dependentes-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{!! route('dependentes.datatables.data') !!}',
+                columns: [
+                    { data: 'nome_dependente', name: 'nome_dependente' },
+                    { data: 'grau_parentesco', name: 'grau_parentesco' },
+                    { data: 'data_nascimento', name: 'data_nascimento' },
+                    { data: 'associado_id', name: 'associado_id' },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
+        });
     </script>
     @stack('js')
     @yield('js')

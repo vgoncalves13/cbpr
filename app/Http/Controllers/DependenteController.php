@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Dependente;
 use App\Http\Requests\StoreDependenteRequest;
-use http\Url;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
+use Yajra\DataTables\Facades\DataTables;
 
 class DependenteController extends Controller
 {
@@ -18,7 +18,7 @@ class DependenteController extends Controller
      */
     public function index()
     {
-        //
+        return view('dependentes.index');
     }
 
     /**
@@ -162,5 +162,31 @@ class DependenteController extends Controller
         }
 
 
+    }
+
+    public function dependentesData()
+    {
+        $dependente = Dependente::with('associado')->get();
+
+        return DataTables::of($dependente)
+            ->addColumn('action', function ($dependente) {
+                return '
+                <a href="associados/'.$dependente->associado_id.'" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Exibir</a>
+                        ';
+            })
+            ->addColumn('associado_id', function ($dependente) {
+                return $dependente->associado->nome_completo;
+            })
+            ->addColumn('data_nascimento',function ($dependente) {
+                return Carbon::parse($dependente->data_nascimento)->format('d/m/Y');
+            })
+            ->addColumn('status',function ($dependente) {
+                if ($dependente->status == 1){
+                    return 'ATIVO';
+                }else{
+                    return 'DESATIVADO';
+                }
+            })
+            ->make(true);
     }
 }

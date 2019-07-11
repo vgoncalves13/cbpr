@@ -124,6 +124,11 @@ return [
             'url'         => 'lista_associados',
             'icon'        => 'circle',
         ],
+        [
+            'text'        => 'Lista Dependentes',
+            'url'         => 'dependentes',
+            'icon'        => 'circle',
+        ],
         'EXPORTAR DADOS',
         [
             'text' => 'Exportar informações associados',

@@ -58,7 +58,7 @@ Route::get('/lista_associados/',function(){
 
 
 //Dependentes
-
+Route::get('/dependentesData','DependenteController@dependentesData')->name('dependentes.datatables.data');
 Route::get('dependentes/pre_create/{associado_id}', function ($associado_id) {
     return view('dependentes.pre_create')->with('associado_id',$associado_id);
 })->name('dependentes.pre_create')->middleware('auth');
@@ -86,6 +86,7 @@ Route::post('dependentes','DependenteController@store')->name('dependentes.store
 Route::get('dependentes/{associado_id}/edit','DependenteController@edit')->name('dependentes.edit')->middleware('auth');
 Route::put('dependentes/{dependente}','DependenteController@update')->name('dependentes.update')->middleware('auth');
 Route::delete('dependentes/{dependente}','DependenteController@destroy')->name('dependentes.destroy')->middleware('auth');
+Route::get('dependentes','DependenteController@index')->name('dependentes.index')->middleware('auth');
 
 //Pagamentos
 //Route::resource('pagamentos','PagamentoController')->middleware('auth');
