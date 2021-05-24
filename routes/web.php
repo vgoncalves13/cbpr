@@ -19,6 +19,13 @@ Route::middleware(['auth', 'consultorio'])->group(function () {
 
 });
 
+Route::middleware('auth')->group(function (){
+    Route::resources([
+        'medicos' => 'MedicoController',
+        'especialidades' => 'EspecialidadeController'
+    ]);
+});
+
 Route::get('show_consultorio/{associado_id}',function ($associado_id) {
     $associado = App\Associado::where('id',$associado_id)->first();
     //Mostra os dependentes do associado_id com status 1 = ativo
@@ -29,11 +36,8 @@ Route::get('show_consultorio/{associado_id}',function ($associado_id) {
 
 
 Route::get('procurar','AssociadoController@procurar')->name('associados.procurar')->middleware('auth');
-
 Route::get('busca/','AssociadoController@busca')->name('associados.busca')->middleware('auth');
-
 Route::get('exportar_csv','AssociadoController@exportarCsv')->name('exportar_csv')->middleware('auth');
-
 
 
 
@@ -49,13 +53,12 @@ Route::post('link/associados/','AssociadoController@link_save')->name('associado
 //Rota responsável pelo ajax do select2
 Route::get('/associados/load/select2', 'AssociadoController@associado_load_select2');
 
-
 Route::get('/lista_associados/',function(){
     //$associados = App\Associado::orderBy('nome_completo')->paginate(10);
 
     return view('associados.resultado_busca');
 })->name('associados.lista')->middleware('auth');
-
+Route::get('/criar-username-legado','AssociadoController@CriacaoUsuariosLegado')->name('criar.username.legado');
 
 //Dependentes
 Route::get('/dependentesData','DependenteController@dependentesData')->name('dependentes.datatables.data');
@@ -101,3 +104,13 @@ Route::delete('pagamentos/destroy/{id}','PagamentoController@destroy')->name('pa
 
 Route::get('/changePassword','HomeController@showChangePasswordForm');
 Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
+
+//Marcação
+Route::get('/marcacoes','MarcacaoController@index')->name('marcacao.index');
+Route::get('/marcacoes/especialidade/{associado_id?}','MarcacaoController@especialidade')->name('marcacao.especialidade');
+Route::get('/marcacoes/medico/','MarcacaoController@medico')->name('marcacao.medico');
+Route::get('/marcacoes/dias/{medico_id}/{especialidade_id}','MarcacaoController@dias')
+    ->name('marcacao.dias');
+Route::get('/marcacoes/horarios/{data}','MarcacaoController@horarios')->name('marcacao.horarios');
+Route::get('/marcacoes/paciente/}','MarcacaoController@paciente')->name('marcacao.paciente');
+Route::post('/marcacoes/','MarcacaoController@store')->name('marcacao.store');

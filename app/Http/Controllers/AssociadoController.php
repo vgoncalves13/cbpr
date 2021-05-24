@@ -12,16 +12,20 @@ use App\Report;
 use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Laracsv\Export;
 use Yajra\DataTables\Facades\DataTables;
 
 class AssociadoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    protected $associado;
+
+    public function __construct(Associado $associado)
+    {
+        $this->associado = new Associado();
+    }
+
     public function index()
     {
 
@@ -59,7 +63,11 @@ class AssociadoController extends Controller
      */
     public function create()
     {
-        return view('associados.create');
+
+        if (Auth::user()->can('create-associado')){
+            return view('associados.create');
+        }
+        abort('403');
     }
 
     /**
@@ -97,6 +105,12 @@ class AssociadoController extends Controller
             $endereco->bairro = $request->bairro;
             $endereco->cep = $request->cep;
             $endereco->save();
+
+            $cpf_limpo = $this->associado->limparCpfUsuario($associado->cpf);
+            $user = $this->associado->criarUsername($cpf_limpo);
+            $user->attachRole('associado');
+            $associado->user_id = $user->id;
+            $associado->save();
 
 
             return redirect("associados/$associado->id")->with('message', 'Associado cadastrado com sucesso.');
@@ -268,16 +282,23 @@ class AssociadoController extends Controller
         $associados = Associado::with('endereco')->orderBy('nome_completo','asc')->get();
         $fields = [
             'nome_completo' => 'Nome Completo',
+            'cpf' => 'CPF',
+            'data_nascimento' => 'Data de nascimento',
             'endereco.logradouro' => 'Logradouro',
             'endereco.numero' => 'Número',
             'endereco.bairro' => 'Bairro',
             'endereco.complemento' => 'Complemento',
-            'endereco.cep' => 'CEP'
+            'endereco.cep' => 'CEP',
+            'status' => 'Status'
         ];
         $csvExporter = new Export();
-        //$csvExporter->beforeEach(function ($associado) {
-        //    $associado->endereco->logradouro;
-        //});
+        $csvExporter->beforeEach(function ($associado) {
+            if ($associado->status == 0){
+                $associado->status = 'INADIMPLENTE';
+            } else {
+                $associado->status = 'ADIMPLENTE';
+            }
+        });
         $csvExporter->build($associados,$fields)->download();
 
     }
@@ -335,4 +356,19 @@ class AssociadoController extends Controller
             ->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
+
+
+    public function CriacaoUsuariosLegado()
+    {
+        $associados = Associado::all();
+        foreach ($associados as $associado){
+            $cpf = $this->associado->limparCpfUsuario($associado->cpf);
+            $user = $this->associado->criarUsername($cpf);
+            $user->attachRole('associado');
+            $associado->user_id = $user->id;
+            $associado->save();
+        }
+        return redirect('/')->with('message','Usuarios criados com sucesso');
+    }
+
 }

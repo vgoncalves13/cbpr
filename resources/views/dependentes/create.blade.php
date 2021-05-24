@@ -19,7 +19,7 @@
                         <div class="form-row"> <!-- Nome dependente -->
                             <div class="form-group col-md-5"> <!-- Dependentes campos com valores do banco, caso precise alterar -->
                                 <label for="dependente_nome" class="control-label">Nome Dependente</label>
-                                <input type="text" class="form-control" id="dependente_nome" name="dependentes[nome_dependente][]">
+                                <input type="text" class="form-control" id="dependente_nome" name="dependentes[nome_completo][]">
                             </div>
                             <div class="form-group col-md-3"><!-- CPF -->
                                 <label for="dependente_cpf" class="control-label">CPF</label>

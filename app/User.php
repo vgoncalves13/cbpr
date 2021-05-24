@@ -6,11 +6,13 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laratrust\Traits\LaratrustUserTrait;
 
 class User extends Authenticatable
 {
+    use LaratrustUserTrait;
     public function associado(){
-        return $this->belongsTo('App\Associado','associado_id','id');
+        return $this->hasOne(Associado::class, 'user_id');
     }
 
     use Notifiable;
@@ -39,5 +41,7 @@ class User extends Authenticatable
             return true;
         }
     }
+
+
 
 }

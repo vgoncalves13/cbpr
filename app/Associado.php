@@ -11,11 +11,16 @@ class Associado extends Model
 
     protected $guarded = ['id', 'logradouro', 'numero', 'complemento', 'bairro', 'cep'];
 
-    protected $dates = ['data_nascimento', 'admissao', 'created_at', 'updated_at','deleted_at'];
+    protected $dates = ['data_nascimento', 'admissao'];
 
-    protected $dateFormat = 'Y-m-d H:m:s';
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $table = 'associados';
+
+    public function marcacoes()
+    {
+        return $this->morphMany('App\Marcacao','pacienteable');
+    }
 
     public function dependente()
     {
@@ -34,7 +39,7 @@ class Associado extends Model
 
     public function usuario()
     {
-        return $this->hasOne('App\User', 'associado_id', 'id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function parent()
@@ -50,6 +55,20 @@ class Associado extends Model
             $associado->dependente()->delete();
             // do the rest of the cleanup...
         });
+    }
+
+    public function limparCpfUsuario($cpf)
+    {
+        $cpf_limpo = preg_replace('/\D/', '', $cpf);
+        return $cpf_limpo;
+    }
+    public function criarUsername($username)
+    {
+        $user = User::create([
+            'username' => $username,
+            'password' => bcrypt(substr($username,0,6))
+        ]);
+        return $user;
     }
 
     //Accessors

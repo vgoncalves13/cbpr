@@ -31,6 +31,7 @@ class StoreAssociadoRequest extends FormRequest
             'logradouro' => 'required',
             'bairro' => 'required',
             'cep' => 'required',
+            'complemento' => 'required',
             'cpf' => 'unique:associados|required',
             'admissao' => 'required',
             'data_nascimento' => 'required',

@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Dependente extends Model
 {
     protected $table = 'dependentes';
-    protected $fillable = ['dependentes','associado_id','nome_dependente','cpf','grau_parentesco','data_nascimento'];
+    protected $fillable = ['dependentes','associado_id','nome_completo','cpf','grau_parentesco','data_nascimento'];
+
+    public function marcacoes()
+    {
+        return $this->morphMany('App\Marcacao','pacienteable');
+    }
 
     public function associado(){
         return $this->belongsTo('App\Associado');
@@ -17,7 +22,7 @@ class Dependente extends Model
         return $this->hasOne('App\DependenteDeleteInfo','dependente_id','id');
     }
 
-    public function getNomeDependenteAttribute($value)
+    public function getNomeCompletoAttribute($value)
     {
         return strtoupper($value);
     }

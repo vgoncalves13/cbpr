@@ -21,7 +21,7 @@
                         <tbody>
                         @foreach($dependentes as $dependente)
                             <tr>
-                                <td>{{$dependente->nome_dependente}}</td>
+                                <td>{{$dependente->nome_completo}}</td>
                                 <td>{{\Carbon\Carbon::parse($dependente->dependente_delete_info->data_solicitacao)->format('d/m/Y')}}</td>
                                 <td>{{$dependente->dependente_delete_info->observacao}}</td>
                                 <td><a target="_blank" href="{{\Storage::url($dependente->dependente_delete_info->documento_comprovante)}}">

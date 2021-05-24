@@ -24,15 +24,13 @@ class DependenteController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     *
      */
     public function create(Request $request,$associado_id)
     {
+        //dd($associado_id);
         $quantidade_dependentes = $request->input('quantidade_dependentes');
-        return view('dependentes.create')->with(compact(
-            'associado_id',$associado_id,
-            'quantidade_dependentes',$quantidade_dependentes)
-        );
+        return view('dependentes.create')->with(compact('associado_id','quantidade_dependentes'));
     }
 
     /**
@@ -56,11 +54,11 @@ class DependenteController extends Controller
             }
         }
 
-        $tamanho_array = count(array_filter($request['dependentes']['nome_dependente']));
+        $tamanho_array = count(array_filter($request['dependentes']['nome_completo']));
         for ($i = 0; $i < $tamanho_array; $i++) {
             $dependente = new Dependente();
             $dependente->associado_id = $request->associado_id;
-            $dependente->nome_dependente = $input['dependentes']['nome_dependente'][$i];
+            $dependente->nome_completo = $input['dependentes']['nome_completo'][$i];
             $dependente->cpf = $input['dependentes']['cpf'][$i];
             $dependente->grau_parentesco = $input['dependentes']['grau_parentesco'][$i];
             $dependente->data_nascimento = $dependente_nascimento_carbon[$i];
@@ -110,7 +108,7 @@ class DependenteController extends Controller
 
         $dependente->update(
             [
-                'nome_dependente' => $request->input('nome_dependente'),
+                'nome_completo' => $request->input('nome_completo'),
                 'cpf' => $request->input('cpf'),
                 'grau_parentesco' => $request->input('grau_parentesco'),
                 'data_nascimento' => $data_nascimento,
@@ -137,9 +135,6 @@ class DependenteController extends Controller
 
     public function info_delete($id)
     {
-
-
-        // redireciona
         Session::flash('message', 'Dependente removido com sucesso!');
         return url(back());
     }
@@ -153,15 +148,12 @@ class DependenteController extends Controller
      */
     public function destroy($id)
     {
-        //procura o dependente e deleta
         $depentende = Dependente::find($id);
         if ($depentende->delete()) {
             return true;
         }else {
             return false;
         }
-
-
     }
 
     public function dependentesData()

@@ -14,8 +14,8 @@
                         @endif
 
                     </h3>
-                    <h6 align="right">Cadastrado em: {{\Carbon\Carbon::parse($associado->created_at)->format('d/m/Y - H:i')}}</h6>
-                    <h6 align="right">Última atualização em: {{\Carbon\Carbon::parse($associado->updated_at)->format('d/m/Y - H:i')}}</h6>
+                    <h6 align="right">Cadastrado em: {{\Carbon\Carbon::parse($associado->created_at)->format('d/m/Y - H:m')}}</h6>
+                    <h6 align="right">Última atualização em: {{\Carbon\Carbon::parse($associado->updated_at)->format('d/m/Y - H:m')}}</h6>
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -166,11 +166,8 @@
                                                 <td>{{$dependente->cpf}}</td>
                                                 <td>{{$dependente->grau_parentesco}}</td>
                                                 <td>{{\Carbon\Carbon::parse($dependente->data_nascimento)->format('d/m/Y')}}</td>
-                                                <td>
-                                                    <a href="{{route('dependentes.edit',$dependente->id)}}" data-original-title="Editar dependente" data-toggle="tooltip" type="button"
+                                                <td><a href="{{route('dependentes.edit',$dependente->id)}}" data-original-title="Editar dependente" data-toggle="tooltip" type="button"
                                                        class="btn btn-warning"><i class="fa fa-edit"></i></a>
-                                                    <a href="{{route('marcacao.paciente',[$dependente->id,'dependente'])}}" data-original-title="Marcar consulta" data-toggle="tooltip" type="button"
-                                                       class="btn btn-info"><i class="fa fa-notes-medical"></i></a>
                                                     <a href="{{route('dependentes.pre_delete',$dependente->id)}}" data-original-title="Excluir" data-toggle="tooltip" type="button"
                                                        class="btn btn-danger text-light"><i class="fa fa-trash"></i></a>
 
@@ -213,8 +210,6 @@
                            data-original-title="Adicionar dependentes" data-toggle="tooltip" type="button"
                            class="btn btn-info"><i class="fa fa-user-plus"></i>
                         </a>
-                        <a href="{{route('marcacao.paciente',[$associado->id,'associado'])}}" data-original-title="Marcar consulta" data-toggle="tooltip" type="button"
-                           class="btn btn-info"><i class="fa fa-notes-medical"></i></a>
                         <a href="{{route('associados.link',$associado->id)}}"
                            data-original-title="Linkar associado" data-toggle="tooltip" type="button"
                            class="btn btn-info"><i class="fa fa-chain"></i>

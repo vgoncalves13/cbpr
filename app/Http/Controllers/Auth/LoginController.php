@@ -27,7 +27,7 @@ class LoginController extends Controller
             return redirect('procurar');
         }
 
-        return redirect('/');
+        return redirect()->intended('/');
     }
 
     /**

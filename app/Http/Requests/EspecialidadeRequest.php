@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDependenteRequest extends FormRequest
+class EspecialidadeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +24,14 @@ class StoreDependenteRequest extends FormRequest
     public function rules()
     {
         return [
-            'dependentes.nome_completo.*' => 'required',
-            'dependentes.grau_parentesco.*' => 'required',
-            'dependentes.data_nascimento.*' => 'required',
-            'dependentes.cpf.*' => 'required',
+            'nome' => 'unique:especialidades',
         ];
     }
 
     public function messages()
     {
         return [
-            'required' => ':attribute é obrigatório'
+            'unique' => 'Especialidade já existe!'
         ];
     }
-
 }

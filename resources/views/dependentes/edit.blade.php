@@ -16,9 +16,9 @@
                         <input type="hidden" name="_method" value="PUT">
                         <div class="form-row"> <!-- Nome dependente -->
                             <div class="form-group col-md-5"> <!-- Dependentes campos com valores do banco, caso precise alterar -->
-                                <label for="nome_dependente" class="control-label">Nome Dependente</label>
-                                <input type="text" class="form-control" id="nome_dependente" name="nome_dependente"
-                                       value="@if(isset($dependente->nome_dependente)){{$dependente->nome_dependente}}@else{{old('nome_dependente')}}@endif">
+                                <label for="nome_completo" class="control-label">Nome Dependente</label>
+                                <input type="text" class="form-control" id="nome_completo" name="nome_completo"
+                                       value="@if(isset($dependente->nome_completo)){{$dependente->nome_completo}}@else{{old('nome_completo')}}@endif">
                             </div>
                             <div class="form-group col-md-3"><!-- CPF -->
                                 <label for="cpf" class="control-label">CPF</label>

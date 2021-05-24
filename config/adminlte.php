@@ -129,6 +129,26 @@ return [
             'url'         => 'dependentes',
             'icon'        => 'circle',
         ],
+        [
+            'text'    => 'Médicos',
+            'submenu' => [
+                [
+                    'text'    => 'Cadastrar médicos',
+                    'route' => 'medicos.create',
+                    'icon' => 'user-md',
+                ],
+                [
+                    'text'    => 'Cadastrar especialidades',
+                    'route' => 'especialidades.create',
+                    'icon' => 'plus',
+                ],
+            ],
+        ],
+        'MARCAÇÃO CONSULTA',
+        [
+            'text' => 'agendar',
+            'url'  => 'marcacoes/',
+        ],
         'EXPORTAR DADOS',
         [
             'text' => 'Exportar informações associados',

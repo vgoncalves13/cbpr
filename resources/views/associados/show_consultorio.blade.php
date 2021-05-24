@@ -135,7 +135,7 @@
                                     <tbody>
                                     @foreach($dependentes as $dependente)
                                         <tr>
-                                            <td>{{$dependente->nome_dependente}}</td>
+                                            <td>{{$dependente->nome_completo}}</td>
                                             <td>{{$dependente->cpf}}</td>
                                             <td>{{$dependente->grau_parentesco}}</td>
                                             <td>{{\Carbon\Carbon::parse($dependente->data_nascimento)->format('d/m/Y')}}</td>
