@@ -9,11 +9,12 @@ use App\Http\Requests\BuscaAssociadoRequest;
 use App\Http\Requests\StoreAssociadoRequest;
 use App\Http\Requests\UpdateAssociadoRequest;
 use App\Report;
-use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Laracsv\Export;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
 
 class AssociadoController extends Controller
@@ -23,13 +24,11 @@ class AssociadoController extends Controller
 
     public function __construct(Associado $associado)
     {
-        $this->associado = new Associado();
+        $this->associado = $associado;
     }
 
     public function index()
     {
-
-
         $graficoClasseAssociado = app()->chartjs
             ->name('pieChartTest')
             ->type('doughnut')
@@ -48,18 +47,17 @@ class AssociadoController extends Controller
                 ]
             ])
             ->options([]);
-
-        return view('associados.index', compact('graficoClasseAssociado'));
-
-
-
+        if (Auth::user()->can('create-associado')){
+            return view('associados.index', compact('graficoClasseAssociado'));
+        }else{
+            return redirect(route('marcacao.index'));
+        }
     }
-
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -74,7 +72,7 @@ class AssociadoController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function store(StoreAssociadoRequest $request)
     {
@@ -121,8 +119,8 @@ class AssociadoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Associado $associado
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Contracts\View\View
      */
     public function show($id)
     {
@@ -132,15 +130,19 @@ class AssociadoController extends Controller
             ['status','=','1']])
             ->get();
         $associados_linkados = Associado::where('parent_id',$associado->id)->get();
-        return view('associados.show')->with(compact('associado','dependentes','associados_linkados'));
 
+        if (Auth::user()->isAbleTo(['create-associado']) || $associado->isTheOwner(Auth::user())){
+            return view('associados.show')->with(compact('associado','dependentes','associados_linkados'));
+        }else{
+            abort('403');
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Associado $associado
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Contracts\View\View
      */
     public function edit($id)
     {
@@ -152,8 +154,8 @@ class AssociadoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Associado $associado
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return RedirectResponse
      */
     public function update(UpdateAssociadoRequest $request, $id)
     {

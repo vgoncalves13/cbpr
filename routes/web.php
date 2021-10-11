@@ -17,12 +17,28 @@ Route::middleware(['auth', 'consultorio'])->group(function () {
     Route::get('associados/','AssociadoController@index')->name('associados.index');
     Route::get('/','AssociadoController@index')->name('associados.index');
 
+    //Marcação
+    Route::delete('/marcacoes/{marcacao}/destroy','MarcacaoController@destroy')->name('marcacao.destroy');
+    Route::get('/marcacoes/show/{marcacao}/','MarcacaoController@show')->name('marcacao.show');
+    Route::get('/marcacoes','MarcacaoController@index')->name('marcacao.index');
+    Route::get('/marcacoes/especialidade/{associado_id?}','MarcacaoController@especialidade')->name('marcacao.especialidade');
+    Route::get('/marcacoes/medico/','MarcacaoController@medico')->name('marcacao.medico');
+    Route::get('/marcacoes/dias/{medico_id}/{especialidade_id}','MarcacaoController@dias')
+        ->name('marcacao.dias');
+    Route::get('/marcacoes/horarios/{data}','MarcacaoController@horarios')->name('marcacao.horarios');
+    Route::get('/marcacoes/paciente/}','MarcacaoController@paciente')->name('marcacao.paciente');
+    Route::post('/marcacoes/','MarcacaoController@store')->name('marcacao.store');
+    //Download PDF
+    Route::post('marcacoes/download/pdf/{download}', 'MarcacaoController@download_pdf')->name('marcacao.download_pdf');
+
+
 });
 
 Route::middleware('auth')->group(function (){
     Route::resources([
         'medicos' => 'MedicoController',
-        'especialidades' => 'EspecialidadeController'
+        'especialidades' => 'EspecialidadeController',
+        'agendas' => 'AgendaController'
     ]);
 });
 
@@ -105,12 +121,9 @@ Route::delete('pagamentos/destroy/{id}','PagamentoController@destroy')->name('pa
 Route::get('/changePassword','HomeController@showChangePasswordForm');
 Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
 
-//Marcação
-Route::get('/marcacoes','MarcacaoController@index')->name('marcacao.index');
-Route::get('/marcacoes/especialidade/{associado_id?}','MarcacaoController@especialidade')->name('marcacao.especialidade');
-Route::get('/marcacoes/medico/','MarcacaoController@medico')->name('marcacao.medico');
-Route::get('/marcacoes/dias/{medico_id}/{especialidade_id}','MarcacaoController@dias')
-    ->name('marcacao.dias');
-Route::get('/marcacoes/horarios/{data}','MarcacaoController@horarios')->name('marcacao.horarios');
-Route::get('/marcacoes/paciente/}','MarcacaoController@paciente')->name('marcacao.paciente');
-Route::post('/marcacoes/','MarcacaoController@store')->name('marcacao.store');
+
+//Login Marcar consulta
+Route::get('agendar_consulta', 'MarcacaoController@login')->name('marcacao.login');
+
+//Agendas
+Route::post('/agendas/{agenda}','AgendaController@store')->name('agendas.store')->middleware('auth');

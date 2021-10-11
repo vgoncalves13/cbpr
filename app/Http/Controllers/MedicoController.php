@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Agenda;
 use App\Especialidade;
+use App\Http\Requests\MedicoStoreRequest;
 use App\Medico;
+use App\User;
 use Illuminate\Http\Request;
 
 class MedicoController extends Controller
@@ -34,15 +37,21 @@ class MedicoController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MedicoStoreRequest $request)
     {
+        $agenda = new Agenda();
+
         $medico = Medico::create($request->all());
+        $medico->agenda()->save($agenda);
+        $user = User::create([
+            'username' => $request->crm,
+            'password' => bcrypt(substr($request->crm,0,6))
+        ]);
         $medico->especialidades()->attach($request->especialidades);
 
-        return redirect("medicos")->with('message', 'Médico cadastrado com sucesso.');
 
+        return redirect("medicos")->with('message', 'Médico cadastrado com sucesso.');
     }
 
     /**

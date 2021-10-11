@@ -16,8 +16,8 @@
                                 <div class="form-group">
                                     <select class="form-control" name="paciente_id">
                                         <option value="">Selecione um paciente...</option>
-                                        <option value="associado.{{Auth::id()}}">
-                                            {{Auth::user()->associado->nome_completo}} (Titular)
+                                        <option value="associado.{{$associado->id}}">
+                                            {{$associado->nome_completo}} (Titular)
                                         </option>
                                         <optgroup label="Dependentes">
                                         @foreach($dependentes as $dependente)

@@ -24,7 +24,7 @@ class UpdateAssociadoRequest extends FormRequest
     public function rules()
     {
         return [
-            'foto' => 'image|file|dimensions:min_width=100,min_height=200',
+            'foto' => 'mimes:jpg,jpeg,bmp,png|dimensions:min_width=100,min_height=200',
             'nome_completo' => 'required',
             'nome_mae' => 'required',
             'email' => 'nullable|email',

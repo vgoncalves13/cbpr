@@ -12,4 +12,9 @@ class Medico extends Model
     {
         return $this->belongsToMany('App\Especialidade','especialidade_medico');
     }
+
+    public function agenda()
+    {
+        return $this->hasOne(Agenda::class);
+    }
 }

@@ -25,9 +25,7 @@
                                      src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive">
 
                             @endif
-
                         </div>
-
                         <div class="box-body table-responsive">
                             <table class="table">
                                 <tbody>
@@ -169,7 +167,7 @@
                                                 <td>
                                                     <a href="{{route('dependentes.edit',$dependente->id)}}" data-original-title="Editar dependente" data-toggle="tooltip" type="button"
                                                        class="btn btn-warning"><i class="fa fa-edit"></i></a>
-                                                    <a href="{{route('marcacao.paciente',[$dependente->id,'dependente'])}}" data-original-title="Marcar consulta" data-toggle="tooltip" type="button"
+                                                    <a href="{{route('marcacao.especialidade',$associado->id)}}" data-original-title="Marcar consulta" data-toggle="tooltip" type="button"
                                                        class="btn btn-info"><i class="fa fa-notes-medical"></i></a>
                                                     <a href="{{route('dependentes.pre_delete',$dependente->id)}}" data-original-title="Excluir" data-toggle="tooltip" type="button"
                                                        class="btn btn-danger text-light"><i class="fa fa-trash"></i></a>
@@ -213,7 +211,7 @@
                            data-original-title="Adicionar dependentes" data-toggle="tooltip" type="button"
                            class="btn btn-info"><i class="fa fa-user-plus"></i>
                         </a>
-                        <a href="{{route('marcacao.paciente',[$associado->id,'associado'])}}" data-original-title="Marcar consulta" data-toggle="tooltip" type="button"
+                        <a href="{{route('marcacao.especialidade',$associado->id)}}" data-original-title="Marcar consulta" data-toggle="tooltip" type="button"
                            class="btn btn-info"><i class="fa fa-notes-medical"></i></a>
                         <a href="{{route('associados.link',$associado->id)}}"
                            data-original-title="Linkar associado" data-toggle="tooltip" type="button"

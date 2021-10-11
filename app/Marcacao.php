@@ -5,12 +5,32 @@ namespace App;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
+use Laratrust\Contracts\Ownable;
 
-class Marcacao extends Model
+class Marcacao extends Model implements Ownable
 {
+    public function ownerKey($owner)
+    {
+        if ($this->pacienteable_type == 'App\Associado'){
+            return $this->pacienteable->usuario->id;
+        }else{
+            return $this->pacienteable->associado->usuario->id;
+        }
+
+    }
+
     protected $table = 'marcacoes';
 
     protected $fillable = ['horario'];
+
+    protected $dates = ['data_hora_consulta'];
+
+    public function getDiaConsultaAttribute($value)
+    {
+        Carbon::setLocale('pt');
+        $data = Carbon::createFromFormat('Y-m-d',$value);
+        return $data->format('d/m/Y');
+    }
 
     public function pacienteable()
     {
@@ -30,7 +50,7 @@ class Marcacao extends Model
     public function getDiasMarcacao($quantidade_dias)
     {
         //Periodo 15 dias para ser exibido
-        $periodo = CarbonPeriod::create(Carbon::today(),Carbon::today()->addDay($quantidade_dias));
+        $periodo = CarbonPeriod::create(Carbon::tomorrow(),Carbon::today()->addDay($quantidade_dias));
         $dias = [];
         foreach ($periodo as $data){
             if ($data->dayOfWeek != Carbon::SATURDAY && $data->dayOfWeek != Carbon::SUNDAY){
@@ -49,6 +69,29 @@ class Marcacao extends Model
             $array_dias_semana[] = $arr;
         }
         return $array_dias_semana;
+    }
+
+
+    public function getSecondsFromTime($time)
+    {
+        $timeInSeconds = strtotime($time) - strtotime('TODAY');
+
+        return $timeInSeconds;
+    }
+
+    public function horasRange($lower = 0, $upper = 86400, $step = 3600, $format = '')
+    {
+        $times = array();
+        if (empty($format)){
+            $format = 'H:i';
+        }
+        foreach (range($lower, $upper, $step) as $increment) {
+            $increment = gmdate('H:i', $increment);
+            list($hour, $minutes) = explode(':', $increment);
+            $date = new \DateTime($hour . ':' . $minutes);
+            $times[(string) $increment] = $date->format($format);
+        }
+        return $times;
     }
 
 }

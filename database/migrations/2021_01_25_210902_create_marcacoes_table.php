@@ -21,13 +21,17 @@ class CreateMarcacoesTable extends Migration
                 ->on('medicos')->onDelete('cascade');
 
             $table->morphs('pacienteable');
-
+            $table->unsignedInteger('associado_id');
+            $table->foreign('associado_id')
+                ->references('id')
+                ->on('associados')->onDelete('cascade');
             $table->unsignedInteger('especialidade_id');
             $table->foreign('especialidade_id')
                 ->references('id')
                 ->on('especialidades')->onDelete('cascade');
             $table->date('dia_consulta');
             $table->string('hora_consulta');
+            $table->dateTime('data_hora_consulta');
             $table->softDeletes();
             $table->timestamps();
 

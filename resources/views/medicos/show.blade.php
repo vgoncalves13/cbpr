@@ -23,11 +23,8 @@
                             @if(isset($associado->foto))
                                 <img height="240" width="160" alt="Foto usuário {{$associado->nome_completo}}"
                                      src="{{\Storage::url("$associado->foto")}}" class="img-thumbnail img-responsive">
-
                             @endif
-
                         </div>
-
                         <div class="box-body table-responsive">
                             <table class="table">
                                 <tbody>

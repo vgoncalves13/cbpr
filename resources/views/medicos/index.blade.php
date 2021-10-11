@@ -34,7 +34,8 @@
                         </td>
 
                         <td>
-                            <a href="{{route('medicos.edit',$medico->id)}}" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i>Editar</a>
+                            <a href="{{route('medicos.edit',$medico->id)}}" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Editar</a>
+                            <a href="{{route('agendas.show',$medico->agenda)}}" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-calendar"></i> Agenda</a>
                         </td>
                     </tr>
                 @endforeach

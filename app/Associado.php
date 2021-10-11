@@ -19,7 +19,7 @@ class Associado extends Model
 
     public function marcacoes()
     {
-        return $this->morphMany('App\Marcacao','pacienteable');
+        return $this->morphMany(Marcacao::class,'pacienteable');
     }
 
     public function dependente()
@@ -69,6 +69,11 @@ class Associado extends Model
             'password' => bcrypt(substr($username,0,6))
         ]);
         return $user;
+    }
+
+    public function isTheOwner($user)
+    {
+        return $this->user_id === $user->id;
     }
 
     //Accessors

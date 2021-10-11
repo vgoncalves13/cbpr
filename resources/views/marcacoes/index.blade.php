@@ -6,7 +6,9 @@
     <div class="box box-danger">
         <div class="box-header with-border">
             <h3>Lista de marcações</h3>
-            <a href="{{route('marcacao.especialidade')}}" class="btn btn-primary pull-right">Cadastrar nova consulta</a>
+            @if(!\Laratrust::hasRole(['admin','superadmin']))
+                <a href="{{route('marcacao.especialidade')}}" class="btn btn-primary pull-right">Agendar uma nova consulta</a>
+            @endif
         </div>
         <div class="box-body table-responsive">
 
@@ -25,17 +27,36 @@
                 @foreach($marcacoes as $marcacao)
                     <tr>
                         <td>{{$marcacao->medico->nome}}</td>
-                        <td>{{$marcacao->pacienteable->nome_completo}}</td>
+                            <td><a href="{{route('associados.show',$marcacao->associado_id)}}">
+                                    {{$marcacao->pacienteable->nome_completo}}</a> </td>
                         <td>{{$marcacao->especialidade->nome}}</td>
-                        <td>{{\Carbon\Carbon::parse($marcacao->dia_consulta)->format('d/m/Y')}}</td>
+                        <td>{{$marcacao->dia_consulta}}</td>
                         <td>{{($marcacao->hora_consulta)}}</td>
-
                         <td>
-                            <a href="{{route('medicos.edit',$marcacao->id)}}" class="btn btn-xs btn-flat btn-primary"><i
-                                        class="fa fa-eye"></i>Editar</a>
+                            <div class="row">
+                                <div class="col-12">
+                                    <a href="{{route('marcacao.show',$marcacao)}}" class="btn btn-xs btn-flat btn-primary"><i
+                                                class="fa fa-eye"></i>Detalhes</a>
+                                    <a href="#"
+                                       onclick="
+                                               var result = confirm('Você tem certeza que deseja cancelar esta consulta?');
+                                               if (result){
+                                               event.preventDefault();
+                                               document.getElementById('cancel-form{{$marcacao->id}}').submit();
+                                               } "
+                                       data-original-title="Cancelar consulta" data-toggle="tooltip" type="button"
+                                       class="btn btn-xs btn-flat btn-danger"><i class="fa fa-ban"> </i> Cancelar
+                                    </a>
+                                    <form id="cancel-form{{$marcacao->id}}" action="{{route('marcacao.destroy',$marcacao)}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+
 @endsection

@@ -113,21 +113,25 @@ return [
             'text'        => 'Início',
             'url'         => 'associados',
             'icon'        => 'home',
+            'permission'  => 'create-associado',
         ],
         [
             'text'        => 'Cadastrar',
             'url'         => 'associados/create',
             'icon'        => 'plus',
+            'permission'  => 'create-associado',
         ],
         [
             'text'        => 'Lista Associados',
             'url'         => 'lista_associados',
             'icon'        => 'circle',
+            'permission'  => 'create-associado',
         ],
         [
             'text'        => 'Lista Dependentes',
             'url'         => 'dependentes',
             'icon'        => 'circle',
+            'permission'  => 'create-dependente',
         ],
         [
             'text'    => 'Médicos',
@@ -138,22 +142,30 @@ return [
                     'icon' => 'user-md',
                 ],
                 [
+                    'text'    => 'Exibir médicos',
+                    'route' => 'medicos.index',
+                    'icon' => 'user-md',
+                ],
+                [
                     'text'    => 'Cadastrar especialidades',
                     'route' => 'especialidades.create',
                     'icon' => 'plus',
                 ],
             ],
+            'permission'  => 'create-medico',
         ],
-        'MARCAÇÃO CONSULTA',
+        'CONSULTAS',
         [
-            'text' => 'agendar',
+            'text' => 'Agendar / Consultas',
             'url'  => 'marcacoes/',
         ],
         'EXPORTAR DADOS',
         [
             'text' => 'Exportar informações associados',
             'url'  => 'lista_associados/',
+            'permission'  => 'create-associado',
         ],
+
         'DETALHES DA CONTA',
         [
             'text' => 'Trocar senha',
@@ -180,7 +192,8 @@ return [
         JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
+        //JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
+        \App\MenuFilter::class,
     ],
 
     /*

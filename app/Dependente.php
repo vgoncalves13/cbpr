@@ -11,7 +11,7 @@ class Dependente extends Model
 
     public function marcacoes()
     {
-        return $this->morphMany('App\Marcacao','pacienteable');
+        return $this->morphMany(Marcacao::class,'pacienteable');
     }
 
     public function associado(){

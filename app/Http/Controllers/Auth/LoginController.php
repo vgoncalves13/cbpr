@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Laratrust\Laratrust;
 
 class LoginController extends Controller
 {
@@ -23,10 +24,9 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if ( $user->isGuest() ) {
-            return redirect('procurar');
+        if ( !$user->hasRole(['admin','superadmin']) ) {
+            return redirect(route('marcacao.index'));
         }
-
         return redirect()->intended('/');
     }
 
