@@ -99,7 +99,7 @@
                                 MATRÍCULA ASSOCIADO: <strong>{{$marcacao->pacienteable->matricula_nova}}</strong><br>
                             </span>
                             <span class="texto-demarcado">
-                                DATA DA CONSULTA: <strong>{{Carbon\Carbon::parse($marcacao->dia_consulta)->format('d/m/Y')}}</strong><br>
+                                DATA DA CONSULTA: <strong>{{$marcacao->dia_consulta}}</strong><br>
                             </span>
                             <span class="texto-demarcado">
                                 HORA: <strong>{{$marcacao->hora_consulta}}</strong><br>
