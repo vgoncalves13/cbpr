@@ -373,4 +373,10 @@ class AssociadoController extends Controller
         return redirect('/')->with('message','Usuarios criados com sucesso');
     }
 
+    public function regularizar_situacao(Request $request)
+    {
+        $associado = $request->user()->associado;
+        return view('associados.regularizar_situacao')->with(compact('associado'));
+    }
+
 }

@@ -11,8 +11,14 @@
 |
 */
 
-Route::middleware(['auth', 'consultorio'])->group(function () {
-    Route::resource('associados','AssociadoController');
+Route::middleware(['auth', 'consultorio','inadimplente'])->group(function () {
+
+    Route::resources([
+        'medicos' => 'MedicoController',
+        'especialidades' => 'EspecialidadeController',
+        'agendas' => 'AgendaController',
+        'associados' => 'AssociadoController'
+    ]);
 
     Route::get('associados/','AssociadoController@index')->name('associados.index');
     Route::get('/','AssociadoController@index')->name('associados.index');
@@ -31,33 +37,20 @@ Route::middleware(['auth', 'consultorio'])->group(function () {
     //Download PDF
     Route::post('marcacoes/download/pdf/{download}', 'MarcacaoController@download_pdf')->name('marcacao.download_pdf');
 
+    Route::get('show_consultorio/{associado_id}',function ($associado_id) {
+        $associado = App\Associado::where('id',$associado_id)->first();
+        //Mostra os dependentes do associado_id com status 1 = ativo
+        $dependentes = App\Dependente::where([['associado_id',$associado_id],['status',1]])->get();
 
-});
-
-Route::middleware('auth')->group(function (){
-    Route::resources([
-        'medicos' => 'MedicoController',
-        'especialidades' => 'EspecialidadeController',
-        'agendas' => 'AgendaController'
-    ]);
-});
-
-Route::get('show_consultorio/{associado_id}',function ($associado_id) {
-    $associado = App\Associado::where('id',$associado_id)->first();
-    //Mostra os dependentes do associado_id com status 1 = ativo
-    $dependentes = App\Dependente::where([['associado_id',$associado_id],['status',1]])->get();
-
-    return view('associados.show_consultorio')->with(compact('associado','dependentes'));
-})->name('associados.show_consultorio')->middleware('auth');
+        return view('associados.show_consultorio')->with(compact('associado','dependentes'));
+    })->name('associados.show_consultorio');
 
 
-Route::get('procurar','AssociadoController@procurar')->name('associados.procurar')->middleware('auth');
-Route::get('busca/','AssociadoController@busca')->name('associados.busca')->middleware('auth');
-Route::get('exportar_csv','AssociadoController@exportarCsv')->name('exportar_csv')->middleware('auth');
+    Route::get('procurar','AssociadoController@procurar')->name('associados.procurar');
+    Route::get('busca/','AssociadoController@busca')->name('associados.busca');
+    Route::get('exportar_csv','AssociadoController@exportarCsv')->name('exportar_csv');
 
 
-
-Auth::routes();
 
 //Associados
 Route::put('associados/foto/{id}','AssociadoController@updateFoto');
@@ -80,16 +73,16 @@ Route::get('/criar-username-legado','AssociadoController@CriacaoUsuariosLegado')
 Route::get('/dependentesData','DependenteController@dependentesData')->name('dependentes.datatables.data');
 Route::get('dependentes/pre_create/{associado_id}', function ($associado_id) {
     return view('dependentes.pre_create')->with('associado_id',$associado_id);
-})->name('dependentes.pre_create')->middleware('auth');
+})->name('dependentes.pre_create');
 
 Route::get('dependentes/pre_delete/{dependente_id}',function ($dependente_id){
 
     $dependente = App\Dependente::findOrFail($dependente_id);
     return view('dependentes.pre_delete')->with('dependente',$dependente);
 
-})->name('dependentes.pre_delete')->middleware('auth');
+})->name('dependentes.pre_delete');
 
-Route::post('dependentes/delete/{dependente_id}','DependenteDeleteInfoController@excluir')->name('dependentes_info.excluir')->middleware('auth');
+Route::post('dependentes/delete/{dependente_id}','DependenteDeleteInfoController@excluir')->name('dependentes_info.excluir');
 Route::get('dependentes/delete/info/{associado_id}',function ($associado_id){
         $dependentes = App\Dependente::with('dependente_delete_info')
             ->where('associado_id',$associado_id)
@@ -97,33 +90,48 @@ Route::get('dependentes/delete/info/{associado_id}',function ($associado_id){
             ->get();
         return view('dependentes_delete_info.index')->with('dependentes',$dependentes);
     }
-)->name('dependente_info_delete.show')->middleware('auth');
+)->name('dependente_info_delete.show');
 
 
-Route::get('dependentes/{dependente}/create','DependenteController@create')->name('dependentes.create')->middleware('auth');
-Route::post('dependentes','DependenteController@store')->name('dependentes.store')->middleware('auth');
-Route::get('dependentes/{associado_id}/edit','DependenteController@edit')->name('dependentes.edit')->middleware('auth');
-Route::put('dependentes/{dependente}','DependenteController@update')->name('dependentes.update')->middleware('auth');
-Route::delete('dependentes/{dependente}','DependenteController@destroy')->name('dependentes.destroy')->middleware('auth');
-Route::get('dependentes','DependenteController@index')->name('dependentes.index')->middleware('auth');
+Route::get('dependentes/{dependente}/create','DependenteController@create')->name('dependentes.create');
+Route::post('dependentes','DependenteController@store')->name('dependentes.store');
+Route::get('dependentes/{associado_id}/edit','DependenteController@edit')->name('dependentes.edit');
+Route::put('dependentes/{dependente}','DependenteController@update')->name('dependentes.update');
+Route::delete('dependentes/{dependente}','DependenteController@destroy')->name('dependentes.destroy');
+Route::get('dependentes','DependenteController@index')->name('dependentes.index');
 
 //Pagamentos
-//Route::resource('pagamentos','PagamentoController')->middleware('auth');
-Route::get('pagamentos/{pagamento}','PagamentoController@show')->name('pagamentos.show')->middleware('auth');
-Route::get('pagamentos/create/{id}','PagamentoController@create')->name('pagamentos.create')->middleware('auth');
-Route::get('pagamentos/edit/{id}','PagamentoController@edit')->name('pagamentos.edit')->middleware('auth');
-Route::post('pagamentos/{id}','PagamentoController@store')->name('pagamentos.store')->middleware('auth');
-Route::put('pagamentos/{pagamento}','PagamentoController@update')->name('pagamentos.update')->middleware('auth');
-Route::delete('pagamentos/destroy/{id}','PagamentoController@destroy')->name('pagamentos.destroy')->middleware('auth');
+Route::get('pagamentos/{pagamento}','PagamentoController@show')->name('pagamentos.show');
+Route::get('pagamentos/create/{id}','PagamentoController@create')->name('pagamentos.create');
+Route::get('pagamentos/edit/{id}','PagamentoController@edit')->name('pagamentos.edit');
+Route::post('pagamentos/{id}','PagamentoController@store')->name('pagamentos.store');
+Route::put('pagamentos/{pagamento}','PagamentoController@update')->name('pagamentos.update');
+Route::delete('pagamentos/destroy/{id}','PagamentoController@destroy')->name('pagamentos.destroy');
 
 //Trocar senha
 
-Route::get('/changePassword','HomeController@showChangePasswordForm');
+
 Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
 
 
-//Login Marcar consulta
-Route::get('agendar_consulta', 'MarcacaoController@login')->name('marcacao.login');
+
 
 //Agendas
-Route::post('/agendas/{agenda}','AgendaController@store')->name('agendas.store')->middleware('auth');
+Route::post('/agendas/{agenda}','AgendaController@store')->name('agendas.store');
+
+
+
+});
+//Auth
+
+
+Route::get('/changePassword','HomeController@showChangePasswordForm')->middleware('auth');
+
+Route::get('/regularizar_situacao/','AssociadoController@regularizar_situacao')
+    ->name('associado.regularizar_situacao')
+    ->middleware('auth');
+
+Auth::routes();
+
+//Login Marcar consulta
+Route::get('agendar_consulta', 'MarcacaoController@login')->name('marcacao.login');
