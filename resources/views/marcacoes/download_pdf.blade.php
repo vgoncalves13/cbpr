@@ -86,7 +86,7 @@
     <tbody>
     <tr>
         <td style="width: 233px;" class="text-left align-middle">
-            <img width="140px" height="80px" src="{{asset('storage/images/logo_cbpr.png')}}"><br>
+            <img width="140px" height="80px" src="{{asset('storage/fotos/logo_cbpr.png')}}"><br>
             <h3>R. Carlos de Oliveira, 156 - Abolição, Rio de Janeiro - RJ, 20755-200</h3>
             <h3>Telefone: +55 21 98841-1190</h3>
         </td>
