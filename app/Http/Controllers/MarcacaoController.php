@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Laratrust\Laratrust;
 
 class MarcacaoController extends Controller
@@ -183,16 +184,23 @@ class MarcacaoController extends Controller
         $marcacao->save();
 
         if ($marcacao){
+            $associado = Associado::findOrFail(Session::get('associado_id'));
+            if (!$associado->hasCellphone($associado)){
+                Session::flash('warning','Identificamos que você não possui um celular cadastrado conosco!');
+            }
             \session()->forget([
                 'especialidade_id',
                 'medico_id',
-                'associado_id',
                 'paciente_id',
                 'tipo_paciente',
                 'dia_consulta',
             ]);
-            return redirect(route('marcacao.show',$marcacao->id))
-                ->with('message', 'Consulta marcada com sucesso! Você pode baixar o comprovante de agendamento clicando no botão "Download PDF"');
+            $message = "Consulta marcada com sucesso! Você pode baixar o comprovante de agendamento clicando no botão Download PDF";
+            return redirect()
+                ->route('marcacao.show',$marcacao->id)
+                ->with(['message' => $message,
+                    'telefone_celular' => $associado->telefone_celular
+                ]);
         }
     }
 

@@ -67,7 +67,8 @@ Route::get('/lista_associados/',function(){
 
     return view('associados.resultado_busca');
 })->name('associados.lista')->middleware('auth');
-Route::get('/criar-username-legado','AssociadoController@CriacaoUsuariosLegado')->name('criar.username.legado');
+//Route::get('/criar-username-legado','AssociadoController@CriacaoUsuariosLegado')->name('criar.username.legado');
+Route::put('associados/{associado_id}/updateCellphone','AssociadoController@updateCellphone')->name('associados.update_cellphone');
 
 //Dependentes
 Route::get('/dependentesData','DependenteController@dependentesData')->name('dependentes.datatables.data');

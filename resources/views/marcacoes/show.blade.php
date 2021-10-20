@@ -11,6 +11,22 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="box-body table-responsive">
+                            @if(session()->has('associado_id'))
+                                <div class="col-12">
+                                    <form class="form-inline" novalidate action="{{route('associados.update_cellphone',session()->get('associado_id'))}}" method="POST" enctype="multipart/form-data">
+                                        {{csrf_field()}}
+                                        <input type="hidden" name="_method" value="PUT">
+                                        <div class="form-group"> <!-- Celular-->
+                                            <label for="telefone_celular" class="control-label">Celular</label>
+                                            <input type="text" class="form-control" id="telefone_celular" name="telefone_celular" placeholder="Telefone Celular"
+                                                   value="@if(session()->has('telefone_celular')){{session()->get('telefone_celular')}}@else{{old('telefone_celular')}}@endif">
+                                        </div>
+                                        <div class="form-group"> <!-- Botão atualizar -->
+                                            <button type="submit" class="btn btn-primary btn-flat">Atualizar <i class="fa fa-save"></i></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            @endif
                             <table class="table">
                                 <tbody>
                                 <tr>

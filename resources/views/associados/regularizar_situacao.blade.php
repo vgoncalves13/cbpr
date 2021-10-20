@@ -7,7 +7,9 @@
             <div class="box box-danger">
                 <div class="box-header with-border">
                 <h3>Atenção {{$associado->nome_completo}}!</h3>
-                    <p>Entre em contato conosco para regularizar sua situação. <strong>Telefone: 21 98841-1190</strong></p>
+                    <p>Favor entrar em contato com a administração do CBPR,  Telefones:
+                        (21) 98841-1190 / (21) 3899-7771 ou (21) 3899-7104
+                    </p>
             </div>
             <div class="box-body">
 

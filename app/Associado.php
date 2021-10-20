@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\True_;
 
 class Associado extends Model
 {
@@ -74,6 +76,20 @@ class Associado extends Model
     public function isTheOwner($user)
     {
         return $this->user_id === $user->id;
+    }
+
+    public function updateCellphone(Request $request, Associado $associado)
+    {
+        $associado->telefone_celular = $request->telefone_celular;
+        $associado->save();
+    }
+
+    public function hasCellphone(Associado $associado)
+    {
+        if ($associado->telefone_celular == null){
+            return false;
+        }
+        return true;
     }
 
     //Accessors

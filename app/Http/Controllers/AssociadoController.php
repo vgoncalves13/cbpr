@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Laracsv\Export;
+use MongoDB\Driver\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -206,6 +207,7 @@ class AssociadoController extends Controller
             $endereco->cep = $request->cep;
             $endereco->save();
 
+            \session()->forget('associado_id');
             return redirect("associados/$id")->with('message', 'Associado atualizado com sucesso.');
         }
         return Redirect::back()->withErrors(['message', 'Erro ao atualizar']);
@@ -377,6 +379,14 @@ class AssociadoController extends Controller
     {
         $associado = $request->user()->associado;
         return view('associados.regularizar_situacao')->with(compact('associado'));
+    }
+
+    public function updateCellphone(Request $request, $associado_id)
+    {
+        $associado = Associado::findOrFail($associado_id);
+        $this->associado->updateCellphone($request, $associado);
+        \session()->forget('associado_id');
+        return back()->with('message','Telefone cadastrado!');
     }
 
 }
