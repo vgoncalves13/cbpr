@@ -281,7 +281,6 @@ class AssociadoController extends Controller
 
     public function exportarCsv(Request $request)
     {
-        Report::displayReport($request);
 
         $associados = Associado::with('endereco')->orderBy('nome_completo','asc')->get();
         $fields = [
