@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="box box-danger">
                 <div class="box-header with-border">
-                    <h3>Cadastrar novo médico</h3>
+                    <h3>Cadastrar nova especialidade</h3>
                 </div>
                 <div class="box-body">
                     <form novalidate action="{{route('especialidades.store')}}" method="POST" enctype="multipart/form-data">

@@ -21,7 +21,7 @@
                         <tr>
                             <td>{{$especialidade->nome}}</td>
                             <td>
-                                <a href="{{route('especialidades.edit',$especialidade->id)}}" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i>Editar</a>
+                                <a href="{{route('especialidades.edit',$especialidade)}}" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i>Editar</a>
                             </td>
                         </tr>
                     @endforeach

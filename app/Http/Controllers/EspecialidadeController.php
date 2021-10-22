@@ -57,11 +57,10 @@ class EspecialidadeController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Especialidade  $especialidade
-     * @return \Illuminate\Http\Response
      */
     public function edit(Especialidade $especialidade)
     {
-        //
+        return view('especialidades.edit')->with(compact('especialidade'));
     }
 
     /**
@@ -69,11 +68,12 @@ class EspecialidadeController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Especialidade  $especialidade
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Especialidade $especialidade)
     {
-        //
+        $especialidade->nome = $request->nome;
+        $especialidade->save();
+        return redirect("especialidades")->with('message', 'Especialidade atualizada com sucesso.');
     }
 
     /**
