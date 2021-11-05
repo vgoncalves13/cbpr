@@ -8,13 +8,11 @@ use App\Endereco;
 use App\Http\Requests\BuscaAssociadoRequest;
 use App\Http\Requests\StoreAssociadoRequest;
 use App\Http\Requests\UpdateAssociadoRequest;
-use App\Report;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Laracsv\Export;
-use MongoDB\Driver\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -308,9 +306,9 @@ class AssociadoController extends Controller
 
     public function associadosData()
     {
-        $associado = Associado::get();
+        $associado = Associado::with(['dependente','endereco','usuario']);
 
-        return DataTables::of($associado)
+        return DataTables::eloquent($associado)
             ->addColumn('action', function ($associado) {
                 return '
                 <a href="associados/'.$associado->id.'" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Exibir</a>

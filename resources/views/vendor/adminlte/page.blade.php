@@ -293,37 +293,6 @@
             minimumInputLength: 3,
             multiple: false
         });
-
-        $(function() {
-            $('#associados-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{!! route('associados.datatables.data') !!}',
-                columns: [
-                    { data: 'nome_completo', name: 'nome_completo' },
-                    { data: 'classe', name: 'classe' },
-                    { data: 'data_nascimento', name: 'data_nascimento' },
-                    { data: 'cpf', name: 'cpf' },
-                    { data: 'status', name: 'status' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false}
-                ]
-            });
-        });
-        $(function() {
-            $('#dependentes-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{!! route('dependentes.datatables.data') !!}',
-                columns: [
-                    { data: 'nome_completo', name: 'nome_completo' },
-                    { data: 'grau_parentesco', name: 'grau_parentesco' },
-                    { data: 'data_nascimento', name: 'data_nascimento' },
-                    { data: 'associado_id', name: 'associado_id' },
-                    { data: 'status', name: 'status' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false}
-                ]
-            });
-        });
     </script>
     @stack('js')
     @yield('js')

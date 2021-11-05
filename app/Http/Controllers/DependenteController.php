@@ -158,15 +158,15 @@ class DependenteController extends Controller
 
     public function dependentesData()
     {
-        $dependente = Dependente::with('associado')->get();
+        $dependente = Dependente::with('associado');
 
-        return DataTables::of($dependente)
+        return DataTables::eloquent($dependente)
             ->addColumn('action', function ($dependente) {
                 return '
                 <a href="associados/'.$dependente->associado_id.'" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Exibir</a>
                         ';
             })
-            ->addColumn('associado_id', function ($dependente) {
+            ->addColumn('associado_nome_completo', function ($dependente) {
                 return $dependente->associado->nome_completo;
             })
             ->addColumn('data_nascimento',function ($dependente) {

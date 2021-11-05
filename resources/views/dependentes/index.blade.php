@@ -22,3 +22,22 @@
                 </thead>
             </table>
 @endsection
+@section('js')
+    <script>
+        $(function() {
+            $('#dependentes-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{!! route('dependentes.datatables.data') !!}',
+                columns: [
+                    { data: 'nome_completo', name: 'nome_completo' },
+                    { data: 'grau_parentesco', name: 'grau_parentesco' },
+                    { data: 'data_nascimento', name: 'data_nascimento' },
+                    { data: 'associado_nome_completo', name: 'associado.nome_completo' },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
+        });
+    </script>
+@endsection
