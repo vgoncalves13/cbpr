@@ -157,7 +157,7 @@
         <footer class="main-footer no-print">
             <div class="pull-right hidden-xs">
             </div>
-            <strong>Copyright &copy; 2018 <a href="https://cbpr.org.br">CBPR</a>.</strong> Todos os direitos reservados.
+            <strong>Copyright &copy; {{\Carbon\Carbon::now()->year}} <a href="https://cbpr.org.br">CBPR</a>.</strong> Todos os direitos reservados.
         </footer>
         <!-- ./Footer -->
     </div>

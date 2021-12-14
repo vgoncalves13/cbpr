@@ -59,6 +59,7 @@ Route::get('/associadosData','AssociadoController@associadosData')->name('associ
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('link/associados/{id}','AssociadoController@link')->name('associados.link');
 Route::post('link/associados/','AssociadoController@link_save')->name('associados.link_save');
+Route::delete('/link/{associado}/destroy','AssociadoController@destroy_link')->name('associados.destroy_link');
 //Rota responsável pelo ajax do select2
 Route::get('/associados/load/select2', 'AssociadoController@associado_load_select2');
 

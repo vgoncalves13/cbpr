@@ -111,7 +111,6 @@
                 </div>
                 <div class="box-footer">
                     <h4 class="card-title">Associados linkados</h4>
-
                     <div class="box-body">
                         <div class="row">
                             <div class=" col-md-12">
@@ -123,6 +122,7 @@
                                             <th>CPF</th>
                                             <th>Matrícula Nova</th>
                                             <th>Data nascimento</th>
+                                            <th>Ações</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -132,6 +132,23 @@
                                                 <td>{{$associado_linkado->cpf}}</td>
                                                 <td>{{$associado_linkado->matricula_nova}}</td>
                                                 <td>{{\Carbon\Carbon::parse($associado_linkado->data_nascimento)->format('d/m/Y')}}</td>
+                                                <td>
+                                                    <a href="#"
+                                                       onclick="
+                                                    var result = confirm('Tem certeza que deseja remover o link deste associado?');
+                                                        if (result){
+                                                        event.preventDefault();
+                                                        document.getElementById('delete-linked-associado-form').submit();
+                                                    } "
+                                                       data-original-title="Excluir este associado" data-toggle="tooltip" type="button"
+                                                       class="btn btn-danger"><i class="fa fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                                <form id="delete-linked-associado-form" action="{{route('associados.destroy_link',$associado_linkado)}}" method="POST"
+                                                      style="display: none;">
+                                                    <input type="hidden" name="_method" value="delete">
+                                                    {{csrf_field()}}
+                                                </form>
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -140,9 +157,7 @@
                             </div>
                         </div>
                     </div>
-
                     <h4 class="card-title">Dependentes</h4>
-
                     <div class="box-body table-responsive">
                         <div class="row">
                             <div class=" col-md-12">
@@ -201,7 +216,8 @@
                                                 document.getElementById('delete-form').submit();
                                         } "
                            data-original-title="Excluir este associado" data-toggle="tooltip" type="button"
-                           class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                           class="btn btn-danger"><i class="fa fa-trash"></i>
+                        </a>
                         <form id="delete-form" action="{{route('associados.destroy',$associado->id)}}" method="POST"
                               style="display: none;">
                             <input type="hidden" name="_method" value="delete">
@@ -214,22 +230,17 @@
                         <a href="{{route('marcacao.especialidade',$associado->id)}}" data-original-title="Marcar consulta" data-toggle="tooltip" type="button"
                            class="btn btn-info"><i class="fa fa-notes-medical"></i></a>
                         <a href="{{route('associados.link',$associado->id)}}"
-                           data-original-title="Linkar associado" data-toggle="tooltip" type="button"
-                           class="btn btn-info"><i class="fa fa-chain"></i>
+                           data-original-title="Definir um associado pai para este associado" data-toggle="tooltip" type="button"
+                           class="btn btn-info"><i class="fa fa-chain"></i> Definir um associado <strong>pai</strong> para este associado
                         </a>
                     </span>
                 </div>
             </div>
         </div>
     </div>
-
-
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
-
-
-
 @endsection
