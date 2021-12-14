@@ -343,6 +343,13 @@ class AssociadoController extends Controller
 
     }
 
+    public function destroy_link(Associado $associado)
+    {
+        $associado->parent_id = null;
+        $associado->save();
+        return redirect()->back()->with('message','Link associado removido com sucesso!');
+    }
+
     /**
      * Return result to populate select2
      * @param Request $request
