@@ -157,7 +157,7 @@
         <footer class="main-footer no-print">
             <div class="pull-right hidden-xs">
             </div>
-            <strong>Copyright &copy; {{\Carbon\Carbon::now()->year}} <a href="https://cbpr.org.br">CBPR</a>.</strong> Todos os direitos reservados.
+            <strong>Copyright &copy; {{\Carbon\Carbon::now()->year}} <a target="_blank" href="https://www.cbpr.org.br">CBPR</a>.</strong> Todos os direitos reservados.
         </footer>
         <!-- ./Footer -->
     </div>

@@ -28,17 +28,24 @@ class MarcacaoController extends Controller
 
     public function index()
     {
-        $marcacoes = Marcacao::with(['medico','especialidade'])
+
+        $marcacoes_passadas = Marcacao::with(['medico','especialidade'])
             ->orderBy('dia_consulta')
             ->orderBy('hora_consulta')
+            ->where('dia_consulta' ,'<', Carbon::today())
             ->get();
 
+        $marcacoes_futuras = Marcacao::with(['medico','especialidade'])
+            ->orderBy('dia_consulta')
+            ->orderBy('hora_consulta')
+            ->where('dia_consulta' ,'>=', Carbon::today())
+            ->get();
 
         if (!Auth::user()->hasRole(['superadmin', 'admin'])){
             $marcacoes = $marcacoes->where('associado_id',Auth::user()->associado->id);
             return view('marcacoes.index')->with(compact('marcacoes'));
         }
-        return view('marcacoes.index')->with(compact('marcacoes'));
+        return view('marcacoes.index')->with(compact('marcacoes_passadas', 'marcacoes_futuras'));
     }
 
     public function show(Marcacao $marcacao)
