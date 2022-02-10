@@ -71,27 +71,34 @@ class Marcacao extends Model implements Ownable
         return $array_dias_semana;
     }
 
-
-    public function getSecondsFromTime($time)
+    public function getHorarios($medico_id)
     {
-        $timeInSeconds = strtotime($time) - strtotime('TODAY');
+        $horas = array();
 
-        return $timeInSeconds;
-    }
+        //$medico = Medico::findOrFail(\session()->get('medico_id'));
+        $medico = Medico::findOrFail($medico_id);
+        $agenda = $medico->agenda;
 
-    public function horasRange($lower = 0, $upper = 86400, $step = 3600, $format = '')
-    {
-        $times = array();
-        if (empty($format)){
-            $format = 'H:i';
+        if ($agenda['configs']['horarios']['manha']['inicio'] != null){
+            $horario_inicio = new Carbon($agenda['configs']['horarios']['manha']['inicio']);
+            $horario_final = new Carbon($agenda['configs']['horarios']['manha']['final']);
+
+            $step = $horario_inicio;
+            while ($step != $horario_final) {
+                $horas[] =  $step->format('H:i');
+                $step = $horario_inicio->addMinutes($agenda['configs']['intervalo']);
+            }
         }
-        foreach (range($lower, $upper, $step) as $increment) {
-            $increment = gmdate('H:i', $increment);
-            list($hour, $minutes) = explode(':', $increment);
-            $date = new \DateTime($hour . ':' . $minutes);
-            $times[(string) $increment] = $date->format($format);
-        }
-        return $times;
-    }
+        if ($agenda['configs']['horarios']['tarde']['inicio'] != null){
+            $horario_inicio = new Carbon($agenda['configs']['horarios']['tarde']['inicio']);
+            $horario_final = new Carbon($agenda['configs']['horarios']['tarde']['final']);
 
+            $step = $horario_inicio;
+            while ($step != $horario_final) {
+                $horas[] =  $step->format('H:i');
+                $step = $horario_inicio->addMinutes($agenda['configs']['intervalo']);
+            }
+        }
+        return $horas;
+    }
 }

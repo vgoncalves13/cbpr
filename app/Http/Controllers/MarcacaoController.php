@@ -111,7 +111,7 @@ class MarcacaoController extends Controller
         return redirect(route('marcacao.medico'));
     }
 
-    public function medico(Request $request)
+    public function medico()
     {
         $especialidade = Especialidade::findOrFail(\session()->get('especialidade_id'));
         $medicos = $especialidade->medicos()
@@ -130,13 +130,9 @@ class MarcacaoController extends Controller
         $medico = Medico::findOrFail($medico_id);
         $agenda = Agenda::where('medico_id',$medico_id)->first();
 
-        $horarios = $this->marcacao->horasRange(
-            $this->marcacao->getSecondsFromTime($agenda->configs['horarios']['manha']['inicio']),
-            $this->marcacao->getSecondsFromTime($agenda->configs['horarios']['tarde']['final']),
-            60*15
-        );
+        $horarios = $this->marcacao->getHorarios($medico_id);
 
-        $dias_marcacao = $this->marcacao->getDiasMarcacao(15);
+        $dias_marcacao = $this->marcacao->getDiasMarcacao(30);
         $dias_semana = $this->marcacao->getDiasDaSemana($dias_marcacao);
         return view('marcacoes.dias')->with(compact('medico','dias_semana','horarios'));
 
@@ -145,22 +141,10 @@ class MarcacaoController extends Controller
 
     public function horarios($dia)
     {
-        $horas = ['09:00','09:15','09:30','09:45',
-            '10:00','10:15','10:30','10:45',
-            '11:00','11:15','11:30','11:45',
-            '12:00','12:15','12:30','12:45',
-            '13:00','13:15','13:30','13:45',
-            '14:00','14:15','14:30','14:45',
-            '15:00','15:15','15:30','15:45',
-            '16:00','16:15','16:30','16:45',
-            '17:00',
-        ];
         $horarios_marcados = Marcacao::where('medico_id',\session()->get('medico_id'))
             ->where('dia_consulta',$dia)
             ->get(['hora_consulta']);
         \session()->put(['dia_consulta' => $dia]);
-        //return view('marcacoes.horarios')->with(compact('horas','horarios_marcados'));
-        //$horas_json = json_encode($horarios_marcados);
         return response()->json($horarios_marcados);
     }
     public function store(Request $request)
@@ -180,6 +164,10 @@ class MarcacaoController extends Controller
         $marcacao->dia_consulta = \session()->get('dia_consulta');
         $marcacao->pacienteable_type = \session()->get('tipo_paciente');
         $marcacao->pacienteable_id = \session()->get('paciente_id');
+
+        //Pega o intervalo da marcação da agenda do médico para definir o tempo final da consulta
+        $medico = Medico::findOrfail(\session()->get('medico_id'));
+        $marcacao->intervalo_consulta = (int)$medico->agenda->configs['intervalo'];
 
         $marcacao->save();
 
@@ -213,15 +201,23 @@ class MarcacaoController extends Controller
             ->whereBetween('data_hora_consulta', [$from, $to])
             ->where('medico_id', $request->medico_id)
             ->get();
+
         $arr_marcacoes = [];
         foreach ($marcacoes as $key => $value){
             $arr_marcacoes[$key]['title'] = 'Paciente ' . $value->pacienteable->nome_completo;
             $arr_marcacoes[$key]['start'] = $value->data_hora_consulta->toIso8601String();
-            $arr_marcacoes[$key]['end'] = $value->data_hora_consulta->addMinutes(15)->toIso8601String();
+            $arr_marcacoes[$key]['end'] = $value->data_hora_consulta->addMinutes($value->intervalo_consulta)->toIso8601String();
 
         }
 
         return response()->json($arr_marcacoes);
+    }
+
+    public function getHorarios(Request $request)
+    {
+        $horarios = $this->marcacao->getHorarios($request->medico_id);
+
+        return response()->json($horarios);
     }
 
     public function login()
