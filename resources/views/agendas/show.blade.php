@@ -78,6 +78,35 @@
                                                value="ambos">
                                         <label for="ambos" class="control-label">Manhã/Tarde</label>
                                     </div>
+                                    <label class="control-label">Dias de atendimento:</label>
+                                    <div class="form-check">
+                                        <input type="checkbox" name="dias_semana[]" value="0" {{  (in_array('0',$agenda['configs']['dias_semana']) ? ' checked' : '') }} class="form-check-input" id="dia-0">
+                                        <label for="dia-0" class="control-label">Domingo</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" name="dias_semana[]" value="1" {{  (in_array('1',$agenda['configs']['dias_semana']) ? ' checked' : '') }} class="form-check-input" id="dia-1">
+                                        <label for="dia-1" class="control-label">Segunda</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" name="dias_semana[]" value="2" {{  (in_array('2',$agenda['configs']['dias_semana']) ? ' checked' : '') }} class="form-check" id="dia-2">
+                                        <label for="dia-2" class="control-label">Terça</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" name="dias_semana[]" value="3" {{  (in_array('3',$agenda['configs']['dias_semana']) ? ' checked' : '') }} class="form-check" id="dia-3">
+                                        <label for="dia-3" class="control-label">Quarta</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" name="dias_semana[]" value="4" {{  (in_array('4',$agenda['configs']['dias_semana']) ? ' checked' : '') }} class="form-check" id="dia-4">
+                                        <label for="dia-4" class="control-label">Quinta</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" name="dias_semana[]" value="5" {{  (in_array('5',$agenda['configs']['dias_semana']) ? ' checked' : '') }} class="form-check" id="dia-5">
+                                        <label for="dia-5" class="control-label">Sexta</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" name="dias_semana[]" value="6" {{  (in_array('6',$agenda['configs']['dias_semana']) ? ' checked' : '') }} class="form-check" id="dia-6">
+                                        <label for="dia-6" class="control-label">Sábado</label>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group"> <!-- Estado Civil -->

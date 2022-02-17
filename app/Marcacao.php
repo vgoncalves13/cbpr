@@ -47,16 +47,15 @@ class Marcacao extends Model implements Ownable
         return $this->belongsTo('App\Especialidade');
     }
 
-    public function getDiasMarcacao($quantidade_dias)
+    public function getDiasMarcacao($quantidade_dias, $dias_semana)
     {
-        //Periodo 15 dias para ser exibido
         $periodo = CarbonPeriod::create(Carbon::tomorrow(),Carbon::today()->addDay($quantidade_dias));
-        $dias = [];
         foreach ($periodo as $data){
-            if ($data->dayOfWeek != Carbon::SATURDAY && $data->dayOfWeek != Carbon::SUNDAY){
-                $dias[] = $data->format('Y-m-d');
+            if (in_array($data->dayOfWeek,$dias_semana)){
+                $dias[] = $data->format(('Y-m-d'));
             }
         }
+        $dias = array_slice($dias,0, 10);
         return $dias;
     }
     public function getDiasDaSemana($dias)
