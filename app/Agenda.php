@@ -96,17 +96,29 @@ class Agenda extends Model
         return $json;
     }
 
+    public function getDiasSemanaJSON(Request $request)
+    {
+        $dias_semana = [];
+        $dias_semana['dias_semana'] = $request->dias_semana;
+
+        $json = json_encode($dias_semana, true);
+
+        return $json;
+    }
+
     public function saveAgendaConfigs(Request $request, Agenda $agenda)
     {
         $horarios = $this->getHorariosJSON($request);
         $periodo = $this->getPeriodoJSON($request);
         $intervalo = $this->getIntervaloJSON($request);
+        $dias_semana = $this->getDiasSemanaJSON($request);
 
         $json_merged =
             array_merge(
-               json_decode($horarios, true),
-               json_decode($periodo, true),
-               json_decode($intervalo, true)
+                json_decode($horarios, true),
+                json_decode($periodo, true),
+                json_decode($intervalo, true),
+                json_decode($dias_semana, true)
             );
 
         $agenda->configs = $json_merged;

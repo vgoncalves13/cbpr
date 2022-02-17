@@ -135,16 +135,14 @@ class MarcacaoController extends Controller
             'medico_id' => $medico_id
             ]);
         $medico = Medico::findOrFail($medico_id);
-        $agenda = Agenda::where('medico_id',$medico_id)->first();
 
         $horarios = $this->marcacao->getHorarios($medico_id);
 
-        $dias_marcacao = $this->marcacao->getDiasMarcacao(30);
+        $dias_marcacao = $this->marcacao->getDiasMarcacao(180, $medico->agenda->configs['dias_semana']);
         $dias_semana = $this->marcacao->getDiasDaSemana($dias_marcacao);
         return view('marcacoes.dias')->with(compact('medico','dias_semana','horarios'));
 
     }
-
 
     public function horarios($dia)
     {
