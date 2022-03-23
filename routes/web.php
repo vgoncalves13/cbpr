@@ -121,8 +121,12 @@ Route::post('/changePassword','HomeController@changePassword')->name('changePass
 //Agendas
 Route::post('/agendas/{agenda}','AgendaController@store')->name('agendas.store');
 
-
-
+//Auto cadastro
+Route::get('auto_cadastro','AutoAssociadoController@index')->name('auto_cadastro.index');
+Route::get('auto_cadastro/show/{associado_id}','AutoAssociadoController@show')->name('auto_cadastro.show');
+Route::get('auto_cadastro/{associado_id}/approve','AutoAssociadoController@approve')->name('auto_cadastro.approve');
+Route::post('auto_cadastro/store','AutoAssociadoController@store')->name('auto_cadastro.store');
+Route::delete('auto_cadastro/{associado_id}/destroy','AutoAssociadoController@destroy')->name('auto_cadastro.destroy');
 });
 //Auth
 
@@ -137,3 +141,8 @@ Auth::routes();
 
 //Login Marcar consulta
 Route::get('agendar_consulta', 'MarcacaoController@login')->name('marcacao.login');
+//Auto cadastro associado
+
+//Route::resource('auto_cadastro','AutoAssociadoController');
+
+Route::get('auto_cadastro/create','AutoAssociadoController@create')->name('auto_cadastro.create');

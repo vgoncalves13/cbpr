@@ -75,13 +75,10 @@ class AssociadoController extends Controller
      */
     public function store(StoreAssociadoRequest $request)
     {
-
         $foto[] = null;
         if ($request->hasFile('foto')) {
             $foto['foto'] = $this->saveProfilePhoto($request);
         }
-
-
         $datas = [
             'data_nascimento' => Carbon::now()
                 ->createFromFormat('d/m/Y', $request->get('data_nascimento'))
@@ -91,28 +88,17 @@ class AssociadoController extends Controller
                 ->toDateString(),
         ];
 
-        if ($associado = Associado::create(array_merge($request->all(), $datas, $foto))) {
+        $associado = Associado::create(array_merge($request->all(), $datas, $foto));
+        //Cria usuário e senha para associado acessar plataforma
+        $user = $this->associado->criarUsername($associado->cpf);
+        $associado->user_id = $user->id;
+        $associado->save();
+        //Cria endereço
+        $associado->endereco()->create($request->all());
 
 
-            $endereco = new Endereco();
-            $endereco->associado_id = $associado->id;
-            $endereco->logradouro = $request->logradouro;
-            $endereco->numero = $request->numero;
-            $endereco->complemento = $request->complemento;
-            $endereco->bairro = $request->bairro;
-            $endereco->cep = $request->cep;
-            $endereco->save();
 
-            $cpf_limpo = $this->associado->limparCpfUsuario($associado->cpf);
-            $user = $this->associado->criarUsername($cpf_limpo);
-            $user->attachRole('associado');
-            $associado->user_id = $user->id;
-            $associado->save();
-
-
-            return redirect("associados/$associado->id")->with('message', 'Associado cadastrado com sucesso.');
-        }
-        return Redirect::back()->withErrors(['message', 'Erro ao cadastrar']);
+        return redirect("associados/$associado->id")->with('message', 'Associado cadastrado com sucesso.');
     }
 
     /**
