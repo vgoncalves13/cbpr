@@ -8,6 +8,14 @@ class Endereco extends Model
 {
     protected $table = 'enderecos';
 
+    protected $fillable = [
+        'logradouro',
+        'numero',
+        'complemento',
+        'bairro',
+        'cep'
+    ];
+
     public function associado(){
         return $this->belongsTo('App\Associado','endereco_id','id');
     }

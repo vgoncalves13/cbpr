@@ -134,6 +134,12 @@ return [
             'permission'  => 'create-dependente',
         ],
         [
+            'text'        => 'Associados para aprovar',
+            'url'         => 'auto_cadastro',
+            'icon'        => 'check',
+            'permission'  => 'create-dependente',
+        ],
+        [
             'text'    => 'Médicos',
             'submenu' => [
                 [
