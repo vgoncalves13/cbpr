@@ -149,41 +149,20 @@ class AssociadoController extends Controller
             $this->updateFoto($request,$id);
         }
 
-        $data_nascimento = Carbon::now()
-            ->createFromFormat('d/m/Y', $request->input('data_nascimento'))
-            ->toDateString();
-        $admissao = Carbon::now()
-            ->createFromFormat('d/m/Y', $request->input('admissao'))
-            ->toDateString();
+        $datas = [
+            'data_nascimento' => Carbon::now()
+                ->createFromFormat('d/m/Y', $request->get('data_nascimento'))
+                ->toDateString(),
+            'admissao' => Carbon::now()
+                ->createFromFormat('d/m/Y', $request->get('admissao'))
+                ->toDateString(),
+        ];
 
-        $associado->update(
-            [
-                'id' => $id,
-                'matricula_antiga' => $request->input('matricula_antiga'),
-                'matricula_nova' => $request->input('matricula_nova'),
-                'graduacao' => $request->input('graduacao'),
-                'classe' => $request->input('classe'),
-                'status' => $request->input('status'),
-                'nome_completo' => $request->input('nome_completo'),
-                'nome_mae' => $request->input('nome_mae'),
-                'nome_pai' => $request->input('nome_pai'),
-                'naturalidade' => $request->input('naturalidade'),
-                'estado_civil' => $request->input('estado_civil'),
-                'cpf' => $request->input('cpf'),
-                'telefone_trabalho' => $request->input('telefone_trabalho'),
-                'telefone_casa' => $request->input('telefone_casa'),
-                'telefone_celular' => $request->input('telefone_celular'),
-                'email' => $request->input('email'),
-                'observacoes' => $request->input('observacoes'),
-                'data_nascimento' => $data_nascimento,
-                'admissao' => $admissao,
-            ]
-        );
+        $associado->update(array_merge($request->all(), $datas));
 
         if ($associado) {
 
             $endereco = Endereco::where('associado_id',$id)->first();
-            //$endereco->associado_id = $id;
             $endereco->logradouro = $request->logradouro;
             $endereco->numero = $request->numero;
             $endereco->complemento = $request->complemento;

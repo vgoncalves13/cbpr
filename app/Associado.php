@@ -29,7 +29,8 @@ class Associado extends Model
         'telefone_celular',
         'email',
         'observacoes',
-        'foto'
+        'foto',
+        'status'
     ];
 
     protected $guarded = ['id', 'logradouro', 'numero', 'complemento', 'bairro', 'cep'];
