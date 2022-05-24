@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/marcacoes','MarcacaoController@getMarcacoes')->name('marcacoes.getMarcacoes');
+Route::get('/agenda/horarios/{medico_id}','MarcacaoController@getHorarios')->name('marcacoes.horarios');

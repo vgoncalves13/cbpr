@@ -14,6 +14,12 @@ class Agenda extends Model
     const INICIO_HORARIO_TARDE = '13:00';
     const FINAL_HORARIO_TARDE = '17:00';
 
+    //Constantes intervalo consultas
+    const CADA_15_MINUTOS = 15;
+    const CADA_30_MINUTOS = 30;
+    const CADA_60_MINUTOS = 60;
+    const CADA_120_MINUTOS = 120;
+
 
     protected $casts = [
         'configs' => 'array'
@@ -30,14 +36,15 @@ class Agenda extends Model
             'periodo' => 'ambos',
             'horarios' => [
                 'manha' => [
-                    'inicio' => '08:00',
-                    'final' => '12:00'
+                    'inicio' => self::INICIO_HORARIO_MANHA,
+                    'final' => self::FINAL_HORARIO_MANHA
                 ],
                 'tarde' => [
-                    'inicio' => '13:00',
-                    'final' => '17:00'
+                    'inicio' => self::INICIO_HORARIO_TARDE,
+                    'final' => self::FINAL_HORARIO_TARDE
                 ]
-            ]
+            ],
+            'intervalo' => self::CADA_60_MINUTOS
         ];
         $this->configs = $arr;
 
@@ -53,14 +60,7 @@ class Agenda extends Model
                 $dias[] = $data->format('Y-m-d');
             }
         }
-
-        dd($dias);
         return $dias;
-    }
-
-    public function getHorarios($periodo, $horarios)
-    {
-
     }
 
     public function getHorariosJSON(Request $request)
@@ -86,27 +86,42 @@ class Agenda extends Model
         return $json;
     }
 
-    protected function joinJsons($json_a, $json_b)
+    public function getIntervaloJSON(Request $request)
     {
+        $intervalo = [];
+        $intervalo['intervalo'] = $request->intervalo_consultas;
 
-        $json_a = json_decode($json_a, true);
-        $json_b = json_decode($json_b, true);
+        $json = json_encode($intervalo, true);
 
+        return $json;
+    }
 
-        $new_json['horarios'] = $json_a['horarios'];
-        $new_json['periodo'] = $json_b['periodo'];
+    public function getDiasSemanaJSON(Request $request)
+    {
+        $dias_semana = [];
+        $dias_semana['dias_semana'] = $request->dias_semana;
 
-        return $new_json;
+        $json = json_encode($dias_semana, true);
+
+        return $json;
     }
 
     public function saveAgendaConfigs(Request $request, Agenda $agenda)
     {
-        $horarios = $this->getHorariosJSON($request, $agenda);
-        $periodo = $this->getPeriodoJSON($request, $agenda);
+        $horarios = $this->getHorariosJSON($request);
+        $periodo = $this->getPeriodoJSON($request);
+        $intervalo = $this->getIntervaloJSON($request);
+        $dias_semana = $this->getDiasSemanaJSON($request);
 
-        $json = $this->joinJsons($horarios, $periodo);
+        $json_merged =
+            array_merge(
+                json_decode($horarios, true),
+                json_decode($periodo, true),
+                json_decode($intervalo, true),
+                json_decode($dias_semana, true)
+            );
 
-        $agenda->configs = $json;
+        $agenda->configs = $json_merged;
         $agenda->save();
 
     }

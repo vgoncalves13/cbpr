@@ -11,11 +11,31 @@ class Associado extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = [
+        'matricula_antiga',
+        'matricula_nova',
+        'admissao',
+        'graduacao',
+        'classe',
+        'nome_completo',
+        'nome_mae',
+        'nome_pai',
+        'naturalidade',
+        'estado_civil',
+        'data_nascimento',
+        'cpf',
+        'telefone_trabalho',
+        'telefone_casa',
+        'telefone_celular',
+        'email',
+        'observacoes',
+        'foto',
+        'status'
+    ];
+
     protected $guarded = ['id', 'logradouro', 'numero', 'complemento', 'bairro', 'cep'];
 
     protected $dates = ['data_nascimento', 'admissao'];
-
-    protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $table = 'associados';
 
@@ -64,12 +84,15 @@ class Associado extends Model
         $cpf_limpo = preg_replace('/\D/', '', $cpf);
         return $cpf_limpo;
     }
-    public function criarUsername($username)
+    public function criarUsername($cpf)
     {
+        $cpf_limpo = $this->limparCpfUsuario($cpf);
+
         $user = User::create([
-            'username' => $username,
-            'password' => bcrypt(substr($username,0,6))
+            'username' => $cpf_limpo,
+            'password' => bcrypt(substr($cpf_limpo,0,6))
         ]);
+        $user->attachRole('associado');
         return $user;
     }
 

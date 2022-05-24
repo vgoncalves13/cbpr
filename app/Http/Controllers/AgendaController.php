@@ -15,27 +15,6 @@ class AgendaController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-//        $dias = $this->agenda->criarPeriodoDias(10);
-//        dd($dias);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -43,6 +22,22 @@ class AgendaController extends Controller
      */
     public function store(Request $request, Agenda $agenda)
     {
+
+        $request->validate([
+            'inicio_horario_manha' => [
+                'required_unless:agenda_periodo_atendimento,tarde'
+            ],
+            'final_horario_manha' => [
+                'required_unless:agenda_periodo_atendimento,tarde'
+            ],
+            'inicio_horario_tarde' => [
+                'required_unless:agenda_periodo_atendimento,manha'
+            ],
+            'final_horario_tarde' => [
+                'required_unless:agenda_periodo_atendimento,manha'
+            ],
+        ]);
+
         $this->agenda->saveAgendaConfigs($request, $agenda);
         return redirect(route('agendas.show',$agenda->id))->with('message','Configurações atualizadas com sucesso');
     }
@@ -55,39 +50,5 @@ class AgendaController extends Controller
     public function show(Agenda $agenda)
     {
         return view("agendas.show",compact('agenda'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Agenda  $agenda
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Agenda $agenda)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Agenda  $agenda
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Agenda $agenda)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Agenda  $agenda
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Agenda $agenda)
-    {
-        //
     }
 }

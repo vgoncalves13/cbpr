@@ -59,6 +59,7 @@ Route::get('/associadosData','AssociadoController@associadosData')->name('associ
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('link/associados/{id}','AssociadoController@link')->name('associados.link');
 Route::post('link/associados/','AssociadoController@link_save')->name('associados.link_save');
+Route::delete('/link/{associado}/destroy','AssociadoController@destroy_link')->name('associados.destroy_link');
 //Rota responsável pelo ajax do select2
 Route::get('/associados/load/select2', 'AssociadoController@associado_load_select2');
 
@@ -120,8 +121,12 @@ Route::post('/changePassword','HomeController@changePassword')->name('changePass
 //Agendas
 Route::post('/agendas/{agenda}','AgendaController@store')->name('agendas.store');
 
-
-
+//Auto cadastro
+Route::get('auto_cadastro','AutoAssociadoController@index')->name('auto_cadastro.index');
+Route::get('auto_cadastro/show/{associado_id}','AutoAssociadoController@show')->name('auto_cadastro.show');
+Route::get('auto_cadastro/{associado_id}/approve','AutoAssociadoController@approve')->name('auto_cadastro.approve');
+Route::post('auto_cadastro/store','AutoAssociadoController@store')->name('auto_cadastro.store');
+Route::delete('auto_cadastro/{associado_id}/destroy','AutoAssociadoController@destroy')->name('auto_cadastro.destroy');
 });
 //Auth
 
@@ -136,3 +141,8 @@ Auth::routes();
 
 //Login Marcar consulta
 Route::get('agendar_consulta', 'MarcacaoController@login')->name('marcacao.login');
+//Auto cadastro associado
+
+//Route::resource('auto_cadastro','AutoAssociadoController');
+
+Route::get('auto_cadastro/create','AutoAssociadoController@create')->name('auto_cadastro.create');
