@@ -100,7 +100,6 @@ class MarcacaoController extends Controller
             $dependentes = Dependente::where('associado_id',$associado_id)
             ->where('status',1)
             ->get();
-            dd($dependentes);
             session()->put('associado_id', $associado_id);
             $associado = Associado::findOrFail($associado_id);
         }else{
