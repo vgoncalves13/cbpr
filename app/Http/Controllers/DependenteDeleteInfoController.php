@@ -75,4 +75,21 @@ class DependenteDeleteInfoController extends Controller
 
     }
 
+    public function restaurar(Request $request, $dependente_id)
+    {
+        //Procura pelo dependente
+        $dependente = Dependente::with('associado')->findOrFail($dependente_id);
+        //Salva o id do associado atrelado ao dependente que queremos deletar para usar posteriormente no redirect da rota
+        $associado_id = $dependente->associado->id;
+        //Seta o valor da coluna status para 1 (ativado)
+        $dependente->status = 1;
+        //Salva o valor
+        $dependente->save();
+
+        $dependente_info = DependenteDeleteInfo::where('dependente_id', $dependente_id)->first();
+        $dependente_info->delete();
+
+        return redirect("associados/$associado_id")->with('message','Dependente restaurado com sucesso!');
+    }
+
 }

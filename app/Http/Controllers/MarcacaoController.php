@@ -97,7 +97,10 @@ class MarcacaoController extends Controller
     {
         $especialidades = Especialidade::all(['id','nome']);
         if (isset($associado_id)){
-            $dependentes = Dependente::where('associado_id',$associado_id)->get();
+            $dependentes = Dependente::where('associado_id',$associado_id)
+            ->where('status',1)
+            ->get();
+            dd($dependentes);
             session()->put('associado_id', $associado_id);
             $associado = Associado::findOrFail($associado_id);
         }else{

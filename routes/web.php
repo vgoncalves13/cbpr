@@ -85,6 +85,7 @@ Route::get('dependentes/pre_delete/{dependente_id}',function ($dependente_id){
 })->name('dependentes.pre_delete');
 
 Route::post('dependentes/delete/{dependente_id}','DependenteDeleteInfoController@excluir')->name('dependentes_info.excluir');
+Route::get('dependentes/restaurar/{dependente_id}','DependenteDeleteInfoController@restaurar')->name('dependentes_info.restaurar');
 Route::get('dependentes/delete/info/{associado_id}',function ($associado_id){
         $dependentes = App\Dependente::with('dependente_delete_info')
             ->where('associado_id',$associado_id)
