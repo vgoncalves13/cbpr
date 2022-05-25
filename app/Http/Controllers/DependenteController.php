@@ -169,8 +169,12 @@ class DependenteController extends Controller
             ->addColumn('associado_nome_completo', function ($dependente) {
                 return $dependente->associado->nome_completo;
             })
-            ->addColumn('data_nascimento',function ($dependente) {
-                return Carbon::parse($dependente->data_nascimento)->format('d/m/Y');
+            ->addColumn('associado_status',function ($dependente) {
+                if ($dependente->associado->status == 1){
+                    return 'ADIMPLENTE';
+                }else{
+                    return 'INADIMPLENTE';
+                }
             })
             ->addColumn('status',function ($dependente) {
                 if ($dependente->status == 1){

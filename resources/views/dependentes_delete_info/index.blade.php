@@ -14,8 +14,8 @@
                             <th>Nome do dependente</th>
                             <th>Data da exclusão</th>
                             <th>Observação</th>
+                            <th>Restaurar</th>
                             <th>Documento</th>
-                            <!--<th>Ver mais</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -24,12 +24,12 @@
                                 <td>{{$dependente->nome_completo}}</td>
                                 <td>{{\Carbon\Carbon::parse($dependente->dependente_delete_info->data_solicitacao)->format('d/m/Y')}}</td>
                                 <td>{{$dependente->dependente_delete_info->observacao}}</td>
+                                <td><a href="{{route('dependentes_info.restaurar',$dependente->id)}}" data-original-title="Restaurar" data-toggle="tooltip" type="button"
+                                   class="btn btn-warning text-light"><i class="fa fa-rotate-left"></i></a>
+                                </td>
                                 <td><a target="_blank" href="{{\Storage::url($dependente->dependente_delete_info->documento_comprovante)}}">
                                         Download <i class="fa fa-download"></i></a></td>
-                            <!--<td><a href="{{route('dependentes.pre_delete',$dependente->id)}}" data-original-title="Ver mais" data-toggle="tooltip" type="button"
-                                   class="btn btn-danger text-light"><i class="fas fa-trash-alt"></i></a>
 
-                            </td>-->
                             </tr>
                         @endforeach
                         </tbody>
