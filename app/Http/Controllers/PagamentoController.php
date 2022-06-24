@@ -58,6 +58,7 @@ class PagamentoController extends Controller
      */
     public function show($associado_id)
     {
+
         $associado = Associado::find($associado_id);
         $pagamentos = Pagamento::where('associado_id', $associado_id)->orderBy('ano','ASC')->get();
         return view('pagamentos.show')->with(compact('pagamentos','associado_id','associado'));
@@ -87,18 +88,18 @@ class PagamentoController extends Controller
 
         $pagamento = Pagamento::with('associado')->findOrFail($id);
         $pagamento->id = $id;
-        $pagamento->janeiro = $request->janeiro;
-        $pagamento->fevereiro = $request->fevereiro;
-        $pagamento->marco = $request->marco;
-        $pagamento->abril = $request->abril;
-        $pagamento->maio = $request->maio;
-        $pagamento->junho = $request->junho;
-        $pagamento->julho = $request->julho;
-        $pagamento->agosto = $request->agosto;
-        $pagamento->setembro = $request->setembro;
-        $pagamento->outubro = $request->outubro;
-        $pagamento->novembro = $request->novembro;
-        $pagamento->dezembro = $request->dezembro;
+        $pagamento->janeiro = $request->janeiro == '0.00' ? null : $request->janeiro;
+        $pagamento->fevereiro = $request->fevereiro == '0.00' ? null : $request->fevereiro;
+        $pagamento->marco = $request->marco == '0.00' ? null : $request->marco;
+        $pagamento->abril = $request->abril == '0.00' ? null : $request->abril;
+        $pagamento->maio = $request->maio == '0.00' ? null : $request->maio;
+        $pagamento->junho = $request->junho == '0.00' ? null : $request->junho;
+        $pagamento->julho = $request->julho == '0.00' ? null : $request->julho;
+        $pagamento->agosto = $request->agosto == '0.00' ? null : $request->agosto;
+        $pagamento->setembro = $request->setembro == '0.00' ? null : $request->setembro;
+        $pagamento->outubro = $request->outubro == '0.00' ? null : $request->outubro;
+        $pagamento->novembro = $request->novembro == '0.00' ? null : $request->novembro;
+        $pagamento->dezembro = $request->dezembro == '0.00' ? null : $request->dezembro;
 
         //Atualiza os dados
         if($pagamento->save()){
