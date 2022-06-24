@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -113,6 +114,35 @@ class Associado extends Model
             return false;
         }
         return true;
+    }
+
+    public static function disableAssociado($associado)
+    {
+        $associado->status = 0;
+        $associado->save();
+    }
+
+    public static function enableAssociado($associado)
+    {
+        $associado->status = 1;
+        $associado->save();
+    }
+
+    /**
+     * @return bool
+     * Verifica se o associado tem pagamento para o mês passado, se não tiver, ele é considerado como não pagante e tem o status 0, ficando inadimplente
+     */
+    public static function checkAssociadoPayment()
+    {
+        $associados = Associado::all();
+        foreach ($associados as $associado) {
+            if (Pagamento::checkPayment($associado)) {
+                self::enableAssociado($associado);
+            }else{
+                self::disableAssociado($associado);
+            }
+        }
+
     }
 
     //Accessors

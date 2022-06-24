@@ -57,23 +57,23 @@
                             <td>@if(isset($pagamento->dezembro))R$ {{$pagamento->dezembro}}@else{{'-'}}@endif</td>
                             <td>
                                 <a href="{{route('pagamentos.edit',$pagamento->id)}}" data-original-title="Editar Histórico"
-                                   data-toggle="tooltip"
-                                   type="submit"
-                                   class="d-print-none btn btn-flat btn-xs btn-primary">
+                                data-toggle="tooltip"
+                                type="submit"
+                                class="d-print-none btn btn-flat btn-xs btn-primary">
                                     EDITAR <i class="fa fa-edit"></i>
                                 </a>
                                 <a href="#"
-                                   onclick="
-                                           var result = confirm('Tem certeza que deseja deletar este histórico?');
-                                           if (result){
-                                           event.preventDefault();
-                                           document.getElementById('delete-form{{$pagamento->id}}').submit();
-                                           } "
-                                   data-original-title="Deletar Histórico" data-toggle="tooltip" type="submit"
-                                   class="d-print-none btn btn-flat btn-xs btn-danger">DELETAR <i class="fa fa-trash"></i>
+                                onclick="
+                                        var result = confirm('Tem certeza que deseja deletar este histórico?');
+                                        if (result){
+                                        event.preventDefault();
+                                        document.getElementById('delete-form{{$pagamento->id}}').submit();
+                                        } "
+                                data-original-title="Deletar Histórico" data-toggle="tooltip" type="submit"
+                                class="d-print-none btn btn-flat btn-xs btn-danger">DELETAR <i class="fa fa-trash"></i>
                                 </a>
                                 <form method="POST" action="{{route('pagamentos.destroy',$pagamento->id)}}" accept-charset="UTF-8"
-                                      id="delete-form{{$pagamento->id}}">
+                                    id="delete-form{{$pagamento->id}}">
                                     <input name="_token" type="hidden" value="{{csrf_token()}}">
                                     <input name="_method" type="hidden" value="DELETE">
                                 </form>
@@ -92,12 +92,4 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
 @endsection
