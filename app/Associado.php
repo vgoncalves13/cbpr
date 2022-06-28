@@ -12,6 +12,11 @@ class Associado extends Model
 {
     use SoftDeletes;
 
+    const CIVIL = 'CIVIL';
+    const PMERJ = 'PMERJ';
+    const CBMERJ = 'CBMERJ';
+    const PENSIONISTA = 'PENSIONISTA';
+
     protected $fillable = [
         'matricula_antiga',
         'matricula_nova',
@@ -130,11 +135,11 @@ class Associado extends Model
 
     /**
      * @return bool
-     * Verifica se o associado tem pagamento para o mês passado, se não tiver, ele é considerado como não pagante e tem o status 0, ficando inadimplente
+     * Verifica apenas os associados classe Associado::CIVIL tem pagamento para o mês passado, se não tiver, ele é considerado como não pagante e tem o status 0, ficando inadimplente
      */
     public static function checkAssociadoPayment()
     {
-        $associados = Associado::all();
+        $associados = Associado::where('classe', Associado::CIVIL)->get();
         foreach ($associados as $associado) {
             if (Pagamento::checkPayment($associado)) {
                 self::enableAssociado($associado);

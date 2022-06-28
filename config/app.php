@@ -212,6 +212,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Agenda' => \App\Agenda::class,
+        'Associado' => \App\Associado::class,
 
     ],
 
