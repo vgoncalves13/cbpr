@@ -48,26 +48,25 @@
                             </div>
                             <label>Categoria</label><!-- Categoria -->
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="classe" value="PMERJ" id="pmerj"
-                                       @if(old('classe')=="PMERJ") checked @endif>
+                                <input class="form-check-input" type="radio" name="classe" value="{{Associado::PMERJ}}" id="pmerj"
+                                       @if(old('classe')==Associado::PMERJ) checked @endif>
                                 <label class="form-check-label" for="pmerj">
                                     PMERJ
                                 </label>
 
-                                <input class="form-check-input" type="radio" name="classe" value="CBMERJ" id="cbmerj"
-                                       @if(old('classe')=="CBMERJ") checked @endif>
+                                <input class="form-check-input" type="radio" name="classe" value="{{Associado::CBMERJ}}" id="cbmerj"
+                                       @if(old('classe')==Associado::CBMERJ) checked @endif>
                                 <label class="form-check-label" for="cbmerj">
                                     CBMERJ
                                 </label>
-                                <input class="form-check-input" type="radio" name="classe" value="PENSIONISTA"
-                                       id="pensionista"
-                                       @if(old('classe')=="PENSIONISTA") checked @endif>
+                                <input class="form-check-input" type="radio" name="classe" value="{{Associado::PENSIONISTA}}" id="pensionista"
+                                       @if(old('classe')==Associado::PENSIONISTA) checked @endif>
                                 <label class="form-check-label" for="pensionista">
                                     PENSIONISTA
                                 </label>
-                                <input class="form-check-input" type="radio" name="classe" value="CIVIL" id="socio"
-                                       @if(old('classe')=="CIVIL") checked @endif>
-                                <label class="form-check-label" for="socio">
+                                <input class="form-check-input" type="radio" name="classe" value="{{Associado::CIVIL}}" id="civil"
+                                       @if(old('classe')==Associado::CIVIL) checked @endif>
+                                <label class="form-check-label" for="civil">
                                     SÓCIO CIVIL
                                 </label>
                             </div>
