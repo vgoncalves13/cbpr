@@ -93,7 +93,7 @@
                     var select = document.createElement("select");
                     select.name = "hora_consulta";
                     select.id = "hora_consulta"
-                    select.setAttribute('class','form-select')
+                    select.setAttribute('class','form-control color-select-horario');
 
                     for (const val of getHorarios())
                     {

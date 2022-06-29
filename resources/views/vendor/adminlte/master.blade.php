@@ -15,6 +15,8 @@
     <!--<link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/font-awesome/css/font-awesome.min.css') }}"> -->
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
+    <!-- CSS Compiled Laravel-Mix -->
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <!-- Full Calendar -->
     <link rel="stylesheet" href="{{asset('css/full-calendar/main.min.css')}}"
     @if(config('adminlte.plugins.select2'))
