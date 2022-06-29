@@ -150,9 +150,12 @@ class MarcacaoController extends Controller
             ]);
         $medico = Medico::findOrFail($medico_id);
 
-        $horarios = $this->marcacao->getHorarios($medico_id);
-
-        $dias_marcacao = $this->marcacao->getDiasMarcacao(180, $medico->agenda->configs['dias_semana']);
+        try {
+            $horarios = $this->marcacao->getHorarios($medico_id);
+            $dias_marcacao = $this->marcacao->getDiasMarcacao(180, $medico->agenda->configs['dias_semana']);
+        } catch (\Exception $e) {
+            return redirect()->route('marcacao.index')->with('error', $e->getMessage());
+        }
         $dias_semana = $this->marcacao->getDiasDaSemana($dias_marcacao);
         return view('marcacoes.dias')->with(compact('medico','dias_semana','horarios'));
 
@@ -187,6 +190,10 @@ class MarcacaoController extends Controller
         //Pega o intervalo da marcação da agenda do médico para definir o tempo final da consulta
         $medico = Medico::findOrfail(\session()->get('medico_id'));
         $marcacao->intervalo_consulta = (int)$medico->agenda->configs['intervalo'];
+        if (empty($marcacao->intervalo_consulta)){
+            Session::flash('error', 'O médico não possui intervalo de consulta definido');
+            return redirect()->back();
+        }
 
         $marcacao->save();
 

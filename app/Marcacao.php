@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Laratrust\Contracts\Ownable;
 
@@ -49,6 +50,9 @@ class Marcacao extends Model implements Ownable
 
     public function getDiasMarcacao($quantidade_dias, $dias_semana)
     {
+        if ($dias_semana == null) {
+            throw new Exception('Nenhum dia configurado na agenda do médico');
+        }
         $periodo = CarbonPeriod::create(Carbon::tomorrow(),Carbon::today()->addDay($quantidade_dias));
         foreach ($periodo as $data){
             if (in_array($data->dayOfWeek,$dias_semana)){
@@ -74,9 +78,11 @@ class Marcacao extends Model implements Ownable
     {
         $horas = array();
 
-        //$medico = Medico::findOrFail(\session()->get('medico_id'));
         $medico = Medico::findOrFail($medico_id);
         $agenda = $medico->agenda;
+        if ($agenda['configs']['intervalo'] == null){
+            throw new Exception('Nenhum intervalo de agenda configurado para o médico');
+        }
 
         if ($agenda['configs']['horarios']['manha']['inicio'] != null){
             $horario_inicio = new Carbon($agenda['configs']['horarios']['manha']['inicio']);
