@@ -54,6 +54,8 @@ Route::middleware(['auth', 'consultorio','inadimplente'])->group(function () {
 
 //Associados
 Route::put('associados/foto/{id}','AssociadoController@updateFoto');
+Route::patch('associados/cpf/{associado_id}','AssociadoController@updateCpf')->name('associados.updateCpf');
+
 //Rota para ajax da tabela index
 Route::get('/associadosData','AssociadoController@associadosData')->name('associados.datatables.data');
 Route::get('/home', 'HomeController@index')->name('home');

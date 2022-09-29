@@ -358,4 +358,15 @@ class AssociadoController extends Controller
         return back()->with('message','Telefone cadastrado!');
     }
 
+    public function updateCpf(Request $request, $associado_id)
+    {
+        $associado = Associado::findOrFail($associado_id);
+        if (Associado::isValidCpf($request->cpf)){
+            $associado->cpf = $request->cpf;
+            $associado->save();
+            return back()->with('message','CPF atualizado!');
+        }
+        return back()->with('error','CPF inválido!');
+    }
+
 }

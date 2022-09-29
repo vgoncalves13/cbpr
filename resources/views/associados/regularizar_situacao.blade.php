@@ -11,9 +11,6 @@
                         (21) 98841-1190 / (21) 3899-7771 ou (21) 3899-7104
                     </p>
             </div>
-            <div class="box-body">
-
-            </div>
         </div>
     </div>
 @endsection

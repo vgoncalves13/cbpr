@@ -95,6 +95,7 @@ class MarcacaoController extends Controller
 
     public function especialidade($associado_id = null)
     {
+
         $especialidades = Especialidade::all(['id','nome']);
         if (isset($associado_id)){
             $dependentes = Dependente::where('associado_id',$associado_id)
@@ -102,8 +103,15 @@ class MarcacaoController extends Controller
             ->get();
             session()->put('associado_id', $associado_id);
             $associado = Associado::findOrFail($associado_id);
+            if (!$associado->isValidCpf($associado->cpf)){
+            return view('associados.update_cpf')->with([
+                'error' => 'O seu CPF não é válido, favor atualizar!',
+                'associado' => $associado
+            ]);
+        }
+         //Se não tiver associado, procura no usuário autenticado
         }else{
-            $dependentes = Dependente::where('associado_id',Auth::user()->associado->id)->get();
+            $dependentes = Dependente::where('associado_id', Auth::user()->associado->id)->get();
             session()->put('associado_id', Auth::user()->associado->id);
             $associado = Auth::user()->associado;
         }
